@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.xhtt.hiddendangermaster"
+    tools:ignore="GoogleAppIndexingWarning,AllowBackup,InnerclassSeparator,ProtectedPermissions,UnusedAttribute">
+
+    <!-- **** 本APP相关权限 **** -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 在SDCard中写入文件权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 在SDCard中读取文件权限 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 上网权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 查看网络状态权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- BugView所需权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" /> <!-- 获取最近任务权限 -->
+    <uses-permission android:name="android.permission.NFC" /> <!-- NFC -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 相机 -->
+    <!-- **** 二维码扫描 **** -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 许可振动 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" /> <!-- 打开闪光灯 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 许可使用照相机 -->
+    <uses-feature android:name="android.hardware.camera" /> <!-- 许可调用相机硬件 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 许可调用相机自动对焦 -->
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- **** 语音识别模块 **** -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- **** 高德地图模块 **** -->
+    <!-- 允许程序打开网络套接字 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许程序设置内置sd卡的写权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 用于访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 用于写入缓存数据到扩展存储卡 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <!-- 添加可以向外拨打电话的权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true" />
+
+    <application
+        android:name=".application.MyApplication"
+        android:allowBackup="true"
+        android:icon="${APP_LOGO}"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+
+        <!-- 文件查看界面 -->
+        <activity android:name=".ui.activity.hiddendanger.common.FileReadActivity" />
+        <!-- 签字界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.SignActivity" />
+        <!-- 服务提交界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.ServiceSubmitActivity" />
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.HiddenDangerBaseActivity" /> <!-- 隐患库界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CheckTableDetailActivity" /> <!-- 选择企业界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CompanySelectorActivity" /> <!-- 检查表列表界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CheckTableListActivity" /> <!-- 隐患排查单次服务列表界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.HiddenDangerOnceListActivity" /> <!-- 服务记录界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.RecordListActivity" /> <!-- 随拍随记界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.FreeTakeActivity" /> <!-- 隐患排查界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.HiddenDangerDetailActivity" /> <!-- 隐患排查列表界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.HiddenDangerListActivity" /> <!-- 企业基本信息界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CompanyDetailActivity" /> <!-- 企业信息界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CompanyListActivity" /> <!-- 主界面 -->
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CheckTableChangeCompanyListActivity" />
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CompanyDetailOnlyNameActivity" />
+        <activity android:name=".ui.activity.hiddendanger.hiddendanger.CompanySelectorForFreeTakeActivity" />
+        <activity android:name=".ui.activity.hiddendanger.common.AreaSelectorActivity" />
+
+        <!-- 详情界面 -->
+        <activity android:name=".ui.activity.knowledgebase.accidentcase.AccidentCaseDetailActivity" /> <!-- MSDS界面 -->
+        <activity android:name=".ui.activity.knowledgebase.msds.MSDSDetailActivity" /> <!-- 危化品信息界面 -->
+        <activity android:name=".ui.activity.knowledgebase.dangerproduct.DangerProductDetailActivity" /> <!-- 详情界面 -->
+        <activity android:name=".ui.activity.knowledgebase.common.FileDetailActivity" /> <!-- MSDS界面 -->
+        <activity android:name=".ui.activity.knowledgebase.msds.MSDSActivity" /> <!-- 危化品安全信息界面 -->
+        <activity android:name=".ui.activity.knowledgebase.dangerproduct.DangerProductActivity" /> <!-- 法律法规界面 -->
+        <activity android:name=".ui.activity.knowledgebase.laws.LawsActivity" /> <!-- 技术标准界面 -->
+        <activity android:name=".ui.activity.knowledgebase.technologystandard.TechnologyStandardActivity" /> <!-- 主界面 -->
+        <activity android:name=".ui.activity.knowledgebase.main.KnowledgeBaseActivity" />
+        <activity
+            android:name=".ui.activity.knowledgebase.plugin.PlayVideoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+
+        <!-- 关于我们界面 -->
+        <activity android:name=".ui.activity.profile.AboutUsActivity" />
+        <!-- 修改密码界面 -->
+        <activity android:name=".ui.activity.profile.AlterPasswordActivity" /> <!-- 清理缓存界面 -->
+        <activity android:name=".ui.activity.profile.CacheClearActivity" /> <!-- 注册界面 -->
+        <activity android:name=".ui.activity.register.RegisterActivity" /> <!-- 登录界面 -->
+        <activity android:name=".ui.activity.login.LoginActivity" />
+        <activity android:name=".ui.activity.law.LawActivity" />
+
+        <!-- 主界面 -->
+        <activity android:name=".ui.activity.main.MainActivity" />
+        <activity android:name=".ui.activity.index.IndexActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- **** 高德地图 **** -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="${AMapKey}" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <meta-data
+            android:name="APP_CHANNEL_KEY"
+            android:value="${APP_CHANNEL_VALUE}" />
+        <meta-data
+            android:name="APP_IP_KEY"
+            android:value="${APP_IP_VALUE}" />
+        <meta-data
+            android:name="APP_PORT_KEY"
+            android:value="${APP_PORT_VALUE}" />
+
+    </application>
+
+</manifest>

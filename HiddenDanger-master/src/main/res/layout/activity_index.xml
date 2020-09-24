@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_body_color"
+    android:orientation="vertical">
+
+    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
+        android:id="@+id/commonTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.hg.hollowgoods.widget.HGStatusLayout
+        android:id="@+id/hgStatusLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 主体内容在此填写 -->
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.jaredrummler.android.widget.AnimatedSvgView
+                    android:id="@+id/animatedSvgView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    app:animatedSvgFillColors="@array/google_glyph_colors"
+                    app:animatedSvgFillStart="1000"
+                    app:animatedSvgFillTime="2000"
+                    app:animatedSvgGlyphStrings="@array/google_glyph_strings"
+                    app:animatedSvgImageSizeX="400"
+                    app:animatedSvgImageSizeY="400"
+                    app:animatedSvgTraceTime="2000"
+                    app:animatedSvgTraceTimePerGlyph="1000" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/bg_index" />
+
+                <TextView
+                    android:id="@+id/gotoNext"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ball_half_white"
+                    android:gravity="center"
+                    android:text="跳过"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_searchBarMarginLeft="16dp"
+            app:floatingSearch_searchBarMarginRight="16dp"
+            app:floatingSearch_searchBarMarginTop="16dp"
+            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_suggestionsListAnimDuration="250"
+            app:floatingSearch_viewTextColor="#323232" />
+
+    </com.hg.hollowgoods.widget.HGStatusLayout>
+
+</LinearLayout>

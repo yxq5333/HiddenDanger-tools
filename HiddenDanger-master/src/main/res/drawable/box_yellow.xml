@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:angle="270"
+        android:centerColor="@color/yellow_label_button_color_c"
+        android:endColor="@color/yellow_label_button_color_e"
+        android:startColor="@color/yellow_label_button_color_s" />
+
+    <corners android:radius="20dp" />
+
+</shape>

@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">隐患排查</string>
+    <string name="app_base_dir">HiddenDanger</string>
+    <string name="update_app_already_new">当前已是最新版本</string>
+    <string name="network_error">网络连接失败</string>
+    <string name="avoid_law_tips">《免责声明》</string>
+
+    <string name="province">省</string>
+    <string name="city">市</string>
+    <string name="district">区</string>
+    <string name="town">镇</string>
+    <string name="sure">确定</string>
+    <string name="please_choose_province">请选择省</string>
+    <string name="please_choose_city">请选择市</string>
+    <string name="please_choose_district">请选择区</string>
+    <string name="please_choose_town">请选择镇</string>
+
+    <string name="BottomHideBehavior">com.xhtt.hiddendangermaster.view.BottomHideBehavior</string>
+    <string name="RightHideBehavior">com.xhtt.hiddendangermaster.view.RightHideBehavior</string>
+
+    <string name="title_fragment_company_map">企业地图</string>
+    <string name="title_activity_register">注册</string>
+    <string name="title_activity_profile">我的</string>
+    <string name="title_activity_alter_password">修改密码</string>
+    <string name="title_activity_about_us">关于我们</string>
+
+    <string name="title_activity_technology_standard">技术标准</string>
+    <string name="title_activity_laws">法律法规</string>
+    <string name="title_activity_danger_product">危化品安全信息</string>
+    <string name="title_activity_msds">MSDS</string>
+    <string name="title_activity_file_detail">详情</string>
+    <string name="title_activity_danger_product_detail">危化品信息</string>
+    <string name="title_activity_msdsdetail">MSDS</string>
+    <string name="title_activity_accident_case_detail">详情</string>
+
+    <string name="title_activity_company_list">企业信息</string>
+    <string name="title_activity_company_detail">企业基本信息</string>
+    <string name="title_activity_hidden_danger_list">隐患排查列表</string>
+    <string name="title_activity_free_take">随拍随记</string>
+    <string name="title_activity_record_list">检查记录</string>
+    <string name="title_activity_hidden_danger_once_list">隐患排查单次检查列表</string>
+    <string name="title_activity_check_table_list">检查表列表</string>
+    <string name="title_activity_company_selector">选择企业</string>
+    <string name="title_activity_check_table_detail">检查内容</string>
+    <string name="title_fragment_statistics">统计报表</string>
+    <string name="title_activity_service_submit">检查提交</string>
+
+</resources>

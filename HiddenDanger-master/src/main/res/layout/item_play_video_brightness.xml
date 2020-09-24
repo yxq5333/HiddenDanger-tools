@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/play_video_progress_dialog_bg"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="@string/brightness"
+            android:textColor="@color/white" />
+
+        <com.hg.hollowgoods.widget.RingProgressBar
+            android:id="@+id/brightnessProgressBar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+            app:max="100"
+            app:ringColor="@color/white"
+            app:ringPadding="1dp"
+            app:ringProgressColor="@color/white"
+            app:ringWidth="1dp"
+            app:style="FILL"
+            app:textColor="@color/txt_color_dark"
+            app:textIsShow="false"
+            app:textSize="12sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

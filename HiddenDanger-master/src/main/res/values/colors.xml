@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4699F9</color>
+    <color name="colorPrimaryDark">#4699F9</color>
+    <color name="colorAccent">#4699F9</color>
+
+    <color name="btn_main_p">#3B7CC9</color>
+
+    <color name="accident_case_run_text_label">#D50000</color>
+
+    <color name="main_body_color">#EEEEEE</color>
+
+    <color name="yellow_label_button_color_s">#FECB04</color>
+    <color name="yellow_label_button_color_c">#FBC031</color>
+    <color name="yellow_label_button_color_e">#F7B55B</color>
+
+    <color name="blue_label_button_color_s">#07C2FC</color>
+    <color name="blue_label_button_color_c">#24B2F7</color>
+    <color name="blue_label_button_color_e">#3CA5F4</color>
+
+    <color name="green_label_button_color_s">#01CB67</color>
+    <color name="green_label_button_color_c">#12C382</color>
+    <color name="green_label_button_color_e">#20BD97</color>
+    <color name="green_label_button_color">#53B582</color>
+
+    <color name="purple_label_button_color_s">#6633FB</color>
+    <color name="purple_label_button_color_c">#6633B4</color>
+    <color name="purple_label_button_color_e">#663367</color>
+
+    <color name="orange_label_button_color_s">#FC6300</color>
+    <color name="orange_label_button_color_c">#E44B00</color>
+    <color name="orange_label_button_color_e">#CD3400</color>
+
+    <color name="img_bg_color">#EEEFF2</color>
+
+    <color name="btn_green_p">#007E55</color>
+    <color name="btn_green_u">#009966</color>
+
+    <color name="statistics_card_color_green">#37C6D4</color>
+    <color name="statistics_card_color_blue">#4999F7</color>
+
+    <color name="statistics_service_company_bar_chart_color_start">#339BFD</color>
+    <color name="statistics_service_company_bar_chart_color_end">#38CCCC</color>
+    <color name="statistics_service_company_item_bg">#F3F9FF</color>
+    <color name="statistics_ring_bg_color">#F2F2F2</color>
+    <color name="statistics_ring_progress_color">#00CCBC</color>
+    <color name="statistics_hidden_bar_chart_color_start">#6634FF</color>
+    <color name="statistics_hidden_bar_chart_color_end">#6A99FE</color>
+    <color name="statistics_hidden_line_chart_color_unchanged">#FDCA01</color>
+    <color name="statistics_hidden_line_chart_color_changed">#33CB67</color>
+    <color name="statistics_hidden_change_progress_color">#FF6633</color>
+    <color name="statistics_hidden_item_bg">#F8F8FF</color>
+
+    <color name="bg_go_to_top">#594675</color>
+
+    <color name="grey_bg">#DDDDDD</color>
+
+</resources>

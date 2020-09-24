@@ -1,0 +1,175 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_body_color"
+    android:orientation="vertical">
+
+    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
+        android:id="@+id/commonTitleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.hg.hollowgoods.widget.HGStatusLayout
+        android:id="@+id/hgStatusLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bg_login" />
+
+        <LinearLayout
+            android:id="@+id/view_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 主体内容在此填写 -->
+
+            <TextView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="60dp"
+                android:text="欢迎使用隐患排查"
+                android:textColor="@color/white"
+                android:textSize="26sp" />
+
+            <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:hint="用户名/手机号"
+                    android:inputType="text"
+                    android:textSize="14sp"
+                    app:met_baseColor="@color/white"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/white"
+                    app:met_singleLineEllipsis="true"
+                    app:met_textColor="@color/white"
+                    app:met_textColorHint="@color/white"
+                    app:met_underlineColor="@color/white" />
+
+            </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+
+            <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:hint="密码"
+                    android:inputType="textPassword"
+                    android:textSize="14sp"
+                    app:met_baseColor="@color/white"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="@color/white"
+                    app:met_singleLineEllipsis="true"
+                    app:met_textColor="@color/white"
+                    app:met_textColorHint="@color/white"
+                    app:met_underlineColor="@color/white" />
+
+            </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+
+            <Button
+                android:id="@+id/btn_login"
+                style="@style/MainButton"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:text="登录" />
+
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="新用户注册"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_forgetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="忘记密码"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_avoidLawTips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/avoid_law_tips"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+            android:id="@+id/floating_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:floatingSearch_close_search_on_keyboard_dismiss="true"
+            app:floatingSearch_leftActionMode="showSearch"
+            app:floatingSearch_menu="@menu/menu_activity_ip_config_list"
+            app:floatingSearch_searchBarMarginLeft="16dp"
+            app:floatingSearch_searchBarMarginRight="16dp"
+            app:floatingSearch_searchBarMarginTop="16dp"
+            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_showSearchKey="true"
+            app:floatingSearch_suggestionsListAnimDuration="250"
+            app:floatingSearch_viewTextColor="#323232" />
+
+    </com.hg.hollowgoods.widget.HGStatusLayout>
+
+</LinearLayout>

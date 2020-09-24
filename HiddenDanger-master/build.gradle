@@ -1,0 +1,208 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    signingConfigs {
+        keyData {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+    }
+    compileSdkVersion configs.compileSdkVersion
+    buildToolsVersion configs.buildToolsVersion
+    defaultConfig {
+        applicationId "com.xhtt.hiddendangermaster"
+        minSdkVersion configs.minSdkVersion
+        targetSdkVersion configs.targetSdkVersion
+        versionCode configs.versionCode
+        versionName configs.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        ndk {
+            // 设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"/*, "x86","x86_64"*/
+        }
+        buildConfigField('String', 'AMapAndroidKey', configs.AMapAndroidKey)
+        buildConfigField('String', 'WXAndroidKey', configs.WXAndroidKey)
+        buildConfigField('String', 'MetaDataKeyChannel', configs.MetaDataKeyChannel)
+        buildConfigField('String', 'MetaDataKeyIP', configs.MetaDataKeyIP)
+        buildConfigField('String', 'MetaDataKeyPORT', configs.MetaDataKeyPORT)
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.keyData
+        }
+        debug {
+            signingConfig signingConfigs.keyData
+        }
+    }
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['jniLibs']
+        }
+    }
+    buildFeatures {
+        dataBinding = true
+        // for view binding :
+//        viewBinding = true
+    }
+    compileOptions {
+        // JDK8兼容扩展库
+        coreLibraryDesugaringEnabled true
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+    flavorDimensions "default"
+
+    productFlavors {
+        // 欣华天泰——知识库风格
+        XHTT {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "XHTT",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo",
+                    APP_IP_VALUE     : "218.93.5.75",
+                    APP_PORT_VALUE   : "8022",
+            ]
+            dimension = 'default'
+        }
+        // 欣华天泰——企业地图风格
+        XHTT_Map {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "XHTT_Map",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo_azx",
+                    APP_IP_VALUE     : "218.93.5.75",
+                    APP_PORT_VALUE   : "8012",
+            ]
+            dimension = 'default'
+        }
+        // 福清8004蓝色图标
+        Fuqing8004 {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "Fuqing8004",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo_fuqing",
+                    APP_IP_VALUE     : "47.114.190.13",
+                    APP_PORT_VALUE   : "8004",
+            ]
+            dimension = 'default'
+        }
+        // 福清9004蓝色图标
+        Fuqing9004 {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "Fuqing9004",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo_fuqing",
+                    APP_IP_VALUE     : "47.114.190.13",
+                    APP_PORT_VALUE   : "9004",
+            ]
+            dimension = 'default'
+        }
+        // 福清8006
+        Fuqing8006 {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "Fuqing8006",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo",
+                    APP_IP_VALUE     : "47.114.190.13",
+                    APP_PORT_VALUE   : "8006",
+            ]
+            dimension = 'default'
+        }
+        // 杭州宏欣安全
+        HangzhouHongXinAnQuan {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "HangzhouHongXinAnQuan",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo",
+                    APP_IP_VALUE     : "125.124.203.6",
+                    APP_PORT_VALUE   : "8004",
+            ]
+            dimension = 'default'
+        }
+    }
+
+    // 打包APK重命名
+    applicationVariants.all { variant ->
+        def stringsXmlAppName = getAppNameByStringsXml(project)
+        variant.outputs.all {
+            String temp = outputFileName
+            String channelName = temp.substring(temp.indexOf("HiddenDanger-master") + 20, temp.lastIndexOf("-"))
+            String appTypeName = AppTypeName[channelName]
+            String buildTypeName = variant.buildType.name
+
+            def version = "V${versionName}"
+            def apkName = stringsXmlAppName
+            def fileName = "${apkName}-${appTypeName}-${version}-${buildTypeName}-${releaseTime()}.apk"
+            // 修改打包路径
+            if (buildTypeName == "release") {
+                variant.packageApplicationProvider.get().outputDirectory = new File("D:/APK/安代保-隐患排查/${buildTypeName}/")
+            }
+            outputFileName = fileName
+        }
+    }
+}
+
+static def getAppNameByStringsXml(Project project) {
+
+    String projectPath = project.projectDir.getAbsolutePath()
+    def xmlFile = new File("${projectPath}/src/main/res/values/strings.xml")
+    def xml = new XmlParser().parse(xmlFile)
+    def stringsXmlAppName = project.name
+
+    xml.each {
+        def stringName = it.attribute("name")
+        if (stringName == "app_name") {
+            def stringValue = it.value()
+            stringsXmlAppName = stringValue[0]
+        }
+    }
+
+    return stringsXmlAppName
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy.MM.dd_HH.mm.ss", TimeZone.getDefault())
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // JDK8兼容扩展库
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+
+    implementation libs.HollowGoodsV5
+    implementation libs.HollowGoodsV5_Widget
+
+
+    implementation 'com.amap.api:3dmap:6.8.0'
+    implementation 'com.amap.api:location:4.8.0'
+    implementation 'com.amap.api:search:7.1.0'
+
+    implementation "com.ycjiang:VideoPlayModule:2.1.85"
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.4'
+}

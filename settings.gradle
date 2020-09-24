@@ -1,0 +1,2 @@
+include ':HiddenDanger-master'
+rootProject.name = "HiddenDanger-tools"

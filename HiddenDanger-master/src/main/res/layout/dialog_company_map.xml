@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_companyName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="企业名称" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_companyAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:textColor="@color/txt_color_light"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_companyName"
+        tools:text="企业地址" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_contactName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:textColor="@color/txt_color_normal"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_companyName"
+        tools:text="联系人" />
+
+    <LinearLayout
+        android:id="@+id/ll_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_contactName">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/ic_phone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contactPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/txt_color_light"
+            android:textSize="12sp"
+            tools:text="联系方式" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_serviceCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_phone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="服务次数："
+            android:textColor="@color/txt_color_dark"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_serviceCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/txt_color_dark"
+            android:textSize="20sp"
+            tools:text="0/3" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_clearServiceCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/google_red"
+        android:src="@drawable/ic_export"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/fab_addServiceCount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_serviceCount" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_addServiceCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_constraintEnd_toStartOf="@id/fab_guide"
+        app:layout_constraintStart_toEndOf="@id/fab_clearServiceCount"
+        app:layout_constraintTop_toBottomOf="@id/ll_serviceCount" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/google_green"
+        android:src="@drawable/ic_guide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fab_addServiceCount"
+        app:layout_constraintTop_toBottomOf="@id/ll_serviceCount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="清空次数"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/fab_clearServiceCount"
+        app:layout_constraintStart_toStartOf="@id/fab_clearServiceCount"
+        app:layout_constraintTop_toBottomOf="@id/fab_clearServiceCount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_addServiceCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="增加次数"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/fab_addServiceCount"
+        app:layout_constraintStart_toStartOf="@id/fab_addServiceCount"
+        app:layout_constraintTop_toBottomOf="@id/fab_addServiceCount" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="导航"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/fab_guide"
+        app:layout_constraintStart_toStartOf="@id/fab_guide"
+        app:layout_constraintTop_toBottomOf="@id/fab_guide" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_addServiceCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="fab_addServiceCount,tv_addServiceCount" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

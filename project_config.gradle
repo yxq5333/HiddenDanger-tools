@@ -1,0 +1,37 @@
+ext {
+    configs = [
+            compileSdkVersion      : 28,
+            buildToolsVersion      : '29.0.2',
+            minSdkVersion          : 21,
+            targetSdkVersion       : 28,
+            versionCode            : 11024,
+            versionName            : '1.1.024',
+            AMapAndroidKey         : '"20ca774166dc68834ad6280bbd8c72a6"',
+            AMapAndroidKey4Manifest: '20ca774166dc68834ad6280bbd8c72a6',
+            WXAndroidKey           : '"wx88888888"',
+            MetaDataKeyChannel     : '"APP_CHANNEL_KEY"',
+            MetaDataKeyIP          : '"APP_IP_KEY"',
+            MetaDataKeyPORT        : '"APP_PORT_KEY"',
+    ]
+    AppTypeName = [
+            XHTT                 : '欣华天泰——知识库风格',
+            XHTT_Map             : '欣华天泰——企业地图风格',
+            Fuqing8004           : '福清8004蓝色图标',
+            Fuqing9004           : '福清9004蓝色图标',
+            Fuqing8006           : '福清8006',
+            HangzhouHongXinAnQuan: '杭州宏欣安全',
+    ]
+
+    Version = '-SNAPSHOT'
+//    Version = ''
+    HollowGoodsV5 = "5.4.8${Version}"
+    HollowGoodsV5_Widget = "1.0.4-SNAPSHOT"
+    HollowGoodsV5_Recorder = "1.0.2-SNAPSHOT"
+
+    libs = [
+            HollowGoodsV5         : "com.hg.hollowgoods:HollowGoodsV5:$HollowGoodsV5",
+            HollowGoodsV5_Widget  : "com.hg.hollowgoods:HollowGoodsV5-Widget:$HollowGoodsV5_Widget",
+            HollowGoodsV5_Recorder: "com.hg.hollowgoods:HollowGoodsV5-Recorder:$HollowGoodsV5_Recorder",
+    ]
+
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_bg"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/tv_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:gravity="center"
+        android:text="序号"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_companyName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:text="企业名称"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_totalAll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="累计检查"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_totalNowYear"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="本年检查"
+        android:textColor="@color/txt_color_dark"
+        android:textSize="10sp" />
+
+</LinearLayout>
