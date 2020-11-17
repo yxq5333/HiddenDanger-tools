@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hg.hollowgoods.Constant.HGCommonResource;
 import com.hg.hollowgoods.UI.Base.BaseMVPActivity;
 import com.hg.hollowgoods.UI.Base.Click.OnRecyclerViewItemClickListener;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.hg.hollowgoods.Widget.SmartRefreshLayout.constant.RefreshState;
+import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.xhtt.hiddendanger.Adapter.HiddenDanger.RecordListAdapter;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Record;
-import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.Constant.ParamKey;
+import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.R;
 
 import java.util.ArrayList;

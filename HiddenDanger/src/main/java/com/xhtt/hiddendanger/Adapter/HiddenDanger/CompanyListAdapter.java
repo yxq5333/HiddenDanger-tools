@@ -3,10 +3,10 @@ package com.xhtt.hiddendanger.Adapter.HiddenDanger;
 import android.content.Context;
 import android.view.View;
 
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.hg.hollowgoods.Adapter.BaseRecyclerView.CommonAdapter;
 import com.hg.hollowgoods.UI.Base.Click.OnRecyclerViewItemClickListener;
 import com.hg.hollowgoods.UI.Base.Click.OnViewClickListener;
+import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.R;
 

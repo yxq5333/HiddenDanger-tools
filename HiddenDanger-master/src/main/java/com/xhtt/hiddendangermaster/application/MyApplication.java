@@ -4,8 +4,10 @@ import android.app.Application;
 
 import com.hg.hollowgoods.application.BaseApplication;
 import com.hg.hollowgoods.bean.eventbus.HGEvent;
+import com.hg.hollowgoods.constant.HGSystemConfig;
 import com.hg.hollowgoods.util.ip.IPConfig;
 import com.hg.hollowgoods.util.ip.IPConfigHelper;
+import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
 import com.xhtt.hiddendangermaster.BuildConfig;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.constant.AppStyle;
@@ -50,6 +52,9 @@ public class MyApplication extends BaseApplication {
         IPConfigHelper.create().initIPConfigs(new IPConfig().setIp(defaultIP).setPort(String.valueOf(defaultPort)));
 
         LoginUtils.initUser();
+
+        HGSystemConfig.IS_DEVELOPMENT_MODE = true;
+        DevelopmentUpdateAPPUtils.loadDevelopmentCheckAppUpdateIp();
     }
 
     public static MyApplication createApplication() {

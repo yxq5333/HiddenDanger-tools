@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.bumptech.glide.request.RequestOptions;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.hg.hollowgoods.Adapter.BaseRecyclerView.CommonAdapter;
 import com.hg.hollowgoods.Bean.AppFile;
 import com.hg.hollowgoods.Constant.HGCommonResource;
@@ -13,6 +12,7 @@ import com.hg.hollowgoods.UI.Base.Click.OnRecyclerViewItemClickListener;
 import com.hg.hollowgoods.UI.Base.Click.OnViewClickListener;
 import com.hg.hollowgoods.Util.Glide.GlideOptions;
 import com.hg.hollowgoods.Util.StringUtils;
+import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.HiddenDanger;
 import com.xhtt.hiddendanger.R;
 

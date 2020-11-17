@@ -157,7 +157,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
                 switch (code) {
                     case 10:
                         // 企业名称
-                        value = backData.getString(HGParamKey.InputValue.toString(), "");
+                        value = backData.getData(HGParamKey.InputValue, "");
                         parentData.setCompanyName(value);
                         break;
                 }

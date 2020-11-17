@@ -33,21 +33,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_companyName"
         tools:text="企业地址" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_contactName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:textColor="@color/txt_color_normal"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_companyName"
-        tools:text="联系人" />
-
     <LinearLayout
-        android:id="@+id/ll_phone"
+        android:id="@+id/ll_phone1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -55,9 +42,123 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_contactName">
+        app:layout_constraintTop_toBottomOf="@id/tv_companyAddress">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:text="企业负责人"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_masterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp"
+            tools:text="企业负责人" />
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_icon1"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/ic_phone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_masterPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/txt_color_light"
+            android:textSize="12sp"
+            tools:text="联系方式" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_phone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_phone1">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:text="企业安管员"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_saferName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp"
+            tools:text="企业安管员" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_icon2"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/ic_phone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_saferPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/txt_color_light"
+            android:textSize="12sp"
+            tools:text="联系方式" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_phone3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_phone2">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:gravity="center"
+            android:text="企业联系人"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_contactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:textColor="@color/txt_color_normal"
+            android:textSize="12sp"
+            tools:text="企业联系人" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_icon3"
             android:layout_width="25dp"
             android:layout_height="25dp"
             app:srcCompat="@drawable/ic_phone" />
@@ -82,7 +183,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ll_phone">
+        app:layout_constraintTop_toBottomOf="@id/ll_phone3">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"

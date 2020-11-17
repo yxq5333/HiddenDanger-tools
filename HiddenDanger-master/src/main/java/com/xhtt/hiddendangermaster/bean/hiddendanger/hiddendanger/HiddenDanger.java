@@ -86,6 +86,54 @@ public class HiddenDanger extends CommonBean<HiddenDanger> {
     @SerializedName("userName")
     private String checkPeople;// 检查人
 
+    @SerializedName("dangerLat")
+    private String typeFirst;// 隐患大类
+
+    @SerializedName("categorySub")
+    private String typeSecond;// 细分类型
+
+    @SerializedName("departRect")
+    private String changeDepartment;// 整改部门
+
+    @SerializedName("personLia")
+    private String dutyPeople;// 责任人
+
+    public String getTypeFirst() {
+        return typeFirst;
+    }
+
+    public HiddenDanger setTypeFirst(String typeFirst) {
+        this.typeFirst = typeFirst;
+        return this;
+    }
+
+    public String getTypeSecond() {
+        return typeSecond;
+    }
+
+    public HiddenDanger setTypeSecond(String typeSecond) {
+        this.typeSecond = typeSecond;
+        return this;
+    }
+
+    public String getChangeDepartment() {
+        return changeDepartment;
+    }
+
+    public HiddenDanger setChangeDepartment(String changeDepartment) {
+        this.changeDepartment = changeDepartment;
+        return this;
+    }
+
+    public String getDutyPeople() {
+        return dutyPeople;
+    }
+
+    public HiddenDanger setDutyPeople(String dutyPeople) {
+        this.dutyPeople = dutyPeople;
+        return this;
+    }
+
     public long getCompanyId() {
         return companyId;
     }

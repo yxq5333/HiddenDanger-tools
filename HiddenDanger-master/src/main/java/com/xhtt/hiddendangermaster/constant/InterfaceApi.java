@@ -55,6 +55,8 @@ public enum InterfaceApi {
     HiddenDangerLevel("api-danger/check/cfgdict/getHiddenDangerLevel"),
     GetArea("api-danger/check/cfgarea/listByParentId"),
     GetAreaAllInOne("api-danger/check/cfgarea/selfDetailList"),
+    GetHiddenDangerFirstType("api-danger/check/cfgdict/type/danger"),
+    GetHiddenDangerSecondType("api-danger/check/cfgdict/name"),
 
     GetPDF("api-danger/danger/exportWord"),
 

@@ -12,6 +12,7 @@ import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
 import com.hg.hollowgoods.ui.base.message.toast.t;
 import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
 import com.hg.hollowgoods.util.ip.IPConfigHelper;
+import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.User;
@@ -70,6 +71,11 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
         } else {
             new UpdateAPPUtils(baseUI.getBaseContext()).checkUpdate(false);
         }
+    }
+
+    @Override
+    public void initViewDelay() {
+        new DevelopmentUpdateAPPUtils(baseUI.getBaseContext()).checkUpdate();
     }
 
     @Override

@@ -66,4 +66,14 @@ public class HiddenDangerDetailPresenter extends BasePresenter<HiddenDangerDetai
     public void getUserData() {
         mModel.getUserData();
     }
+
+    @Override
+    public void getHiddenDangerFirstType() {
+        mModel.getHiddenDangerFirstType();
+    }
+
+    @Override
+    public void getHiddenDangerSecondType(String firstType) {
+        mModel.getHiddenDangerSecondType(firstType);
+    }
 }

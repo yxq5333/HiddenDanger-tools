@@ -28,12 +28,12 @@ public class FileDetailAdapter extends CommonAdapter<AppFile> {
     @Override
     protected void convert(ViewHolder viewHolder, AppFile item, int position) {
 
-        viewHolder.setImageResource(R.id.iv_icon, fileSelectorUtils.getFileIcon(item.getOldUrl()));
+        viewHolder.setImageResource(R.id.iv_icon, fileSelectorUtils.getFileIcon(item.getGenerateName()));
 
         TextView name = viewHolder.getView(R.id.tv_name);
         StringBuilder sb = new StringBuilder();
         sb.append("<u>");
-        sb.append(item.getOldName());
+        sb.append(item.getOriginalName());
         sb.append("</u>");
         name.setText(Html.fromHtml(sb.toString()));
 

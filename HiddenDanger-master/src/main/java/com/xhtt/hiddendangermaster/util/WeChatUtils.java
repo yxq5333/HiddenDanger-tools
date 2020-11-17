@@ -25,6 +25,8 @@ import com.xhtt.hiddendangermaster.BuildConfig;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 
+import java.io.File;
+
 /**
  * Created by Hollow Goods on 2019-07-25.
  */
@@ -175,8 +177,8 @@ public class WeChatUtils {
 
         // 用 WXTextObject 对象初始化一个 WXMediaMessage 对象
         WXMediaMessage msg = new WXMediaMessage(fileObject);
-        msg.title = title;
-        msg.description = describe;
+        msg.title = new File(filepath).getName();
+        msg.description = "文件分享";
         msg.thumbData = FormatUtils.bitmap2Bytes(BitmapFactory.decodeResource(context.getResources(), APPUtils.getAppLogoResId(MyApplication.createApplication())));
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();

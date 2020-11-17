@@ -8,6 +8,7 @@ import android.view.View;
 import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
 import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
 import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
+import com.hg.hollowgoods.adapter.fast.callback.OnSystemProxyEventFinishListenerAdapter;
 import com.hg.hollowgoods.bean.eventbus.HGEvent;
 import com.hg.hollowgoods.bean.file.AppFile;
 import com.hg.hollowgoods.constant.HGParamKey;
@@ -16,6 +17,7 @@ import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
 import com.hg.hollowgoods.ui.base.message.toast.t;
 import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
 import com.hg.hollowgoods.util.BeanUtils;
+import com.hg.hollowgoods.util.ChoiceItemBuilder;
 import com.hg.hollowgoods.util.StringUtils;
 import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.hg.hollowgoods.widget.validatorinput.validator.ValidatorFactory;
@@ -25,6 +27,7 @@ import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerChange;
+import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerType;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenLevel;
 import com.xhtt.hiddendangermaster.constant.Constants;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
@@ -209,6 +212,28 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
+        hiddenDangerData.add(new HGFastItem2.Builder(200, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+                .setLabel("隐患大类")
+                .setContentHint("请选择")
+                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeFirst()) ? null : new ChoiceItem(parentData.getTypeFirst()))
+                .setNotEmpty(false)
+                .setOnlyRead(isOnlyRead)
+                .setRightIconRes(R.drawable.ic_my_arrow_right)
+                .setPackageField("dangerLat")
+                .build()
+        );
+
+        hiddenDangerData.add(new HGFastItem2.Builder(201, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+                .setLabel("细分类别")
+                .setContentHint("请选择")
+                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeSecond()) ? null : new ChoiceItem(parentData.getTypeSecond()))
+                .setNotEmpty(false)
+                .setOnlyRead(isOnlyRead)
+                .setRightIconRes(R.drawable.ic_my_arrow_right)
+                .setPackageField("categorySub")
+                .build()
+        );
+
         hiddenDangerData.add(new HGFastItem2.Builder(50, HGFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("参考依据")
                 .setContentHint("请输入")
@@ -226,6 +251,28 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .setNotEmpty(false)
                 .setOnlyRead(isOnlyRead)
                 .setRightIconRes(R.drawable.ic_my_arrow_right)
+                .build()
+        );
+
+        hiddenDangerData.add(new HGFastItem2.Builder(202, HGFastItem2.ITEM_TYPE_INPUT)
+                .setLabel("整改部门")
+                .setContentHint("请输入")
+                .setContent(parentData.getChangeDepartment())
+                .setNotEmpty(false)
+                .setOnlyRead(isOnlyRead)
+                .setRightIconRes(R.drawable.ic_my_arrow_right)
+                .setPackageField("departRect")
+                .build()
+        );
+
+        hiddenDangerData.add(new HGFastItem2.Builder(203, HGFastItem2.ITEM_TYPE_INPUT)
+                .setLabel("责任人")
+                .setContentHint("请输入")
+                .setContent(parentData.getDutyPeople())
+                .setNotEmpty(false)
+                .setOnlyRead(isOnlyRead)
+                .setRightIconRes(R.drawable.ic_my_arrow_right)
+                .setPackageField("personLia")
                 .build()
         );
 
@@ -265,6 +312,11 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     }
 
     @Override
+    public void initViewDelay() {
+        mPresenter.getHiddenDangerFirstType();
+    }
+
+    @Override
     public void setListener() {
 
         // 隐患描述
@@ -291,6 +343,20 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
             }
         });
 
+        hiddenDangerAdapter.addOnSystemProxyEventFinishListener(new OnSystemProxyEventFinishListenerAdapter() {
+            @Override
+            public void onSingleChoiceFinish(int itemId, ChoiceItem choiceItem) {
+                if (itemId == 200) {
+                    hiddenDangerAdapter.findItemById(201).setSingleCheckedItem(null)
+                            .setContent("")
+                            .setChoiceItems(null);
+                    hiddenDangerAdapter.processData();
+
+                    mPresenter.getHiddenDangerSecondType(choiceItem.getItem() + "");
+                }
+            }
+        });
+
         baseUI.baseDialog.addOnDialogClickListener((code, result, data) -> {
 
             if (result) {
@@ -300,27 +366,27 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 switch (code) {
                     case 5:
                         // 整改说明
-                        strValue = data.getString(HGParamKey.InputValue.toString(), "");
+                        strValue = data.getData(HGParamKey.InputValue, "");
                         change.setChangeDescribe(strValue);
                         break;
                     case 10:
                         // 检查日期
-                        longValue = data.getLong(HGParamKey.DateTimeInMillis.toString(), 0);
+                        longValue = data.getData(HGParamKey.DateTimeInMillis, 0);
                         parentData.setCheckDateShow(longValue + "");
                         break;
                     case 20:
                         // 隐患地点
-                        strValue = data.getString(HGParamKey.InputValue.toString(), "");
+                        strValue = data.getData(HGParamKey.InputValue, "");
                         parentData.setHiddenLocation(strValue);
                         break;
                     case 30:
                         // 隐患描述
-                        strValue = data.getString(HGParamKey.InputValue.toString(), "");
+                        strValue = data.getData(HGParamKey.InputValue, "");
                         parentData.setHiddenDescribe(strValue);
                         break;
                     case 40:
                         // 隐患等级
-                        int levelPosition = data.getInt(HGParamKey.Position.toString(), -1);
+                        int levelPosition = data.getData(HGParamKey.Position, -1);
                         if (levelPosition != -1) {
                             hiddenLevelChecked = Constants.HIDDEN_LEVEL.get(levelPosition);
                             parentData.setHiddenLevel(hiddenLevelChecked.getLevelName());
@@ -332,16 +398,16 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                         break;
                     case 50:
                         // 参考依据
-                        strValue = data.getString(HGParamKey.InputValue.toString(), "");
+                        strValue = data.getData(HGParamKey.InputValue, "");
                         parentData.setReference(strValue);
                         break;
                     case 60:
                         // 整改措施
-                        strValue = data.getString(HGParamKey.InputValue.toString(), "");
+                        strValue = data.getData(HGParamKey.InputValue, "");
                         parentData.setChangeFunction(strValue);
                         break;
                     case DIALOG_CODE_SUBMIT:
-                        int position = data.getInt(HGParamKey.Position.toString(), -1);
+                        int position = data.getData(HGParamKey.Position, -1);
 
                         if (position != -1) {
                             baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
@@ -576,6 +642,45 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     public void getUserDataSuccess(User user) {
         this.user = user;
         parentData.setCheckPeople(user == null ? "" : user.getName());
+    }
+
+    @Override
+    public void getHiddenDangerFirstTypeSuccess(List<HiddenDangerType> tempData) {
+
+        HGFastItem2 item2 = hiddenDangerAdapter.findItemById(200);
+        item2.setChoiceItems(ChoiceItemBuilder.build(tempData));
+
+        if (!BeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null) {
+            for (ChoiceItem t : item2.getChoiceItems()) {
+                if (TextUtils.equals(t.getItem() + "", item2.getSingleCheckedItem().getItem() + "")) {
+                    item2.setSingleCheckedItem(t);
+                    break;
+                }
+            }
+
+            if (hiddenDangerAdapter.findItemById(201).getSingleCheckedItem() != null) {
+                hiddenDangerAdapter.findItemById(201).getSingleCheckedItem().setTag(true);
+                mPresenter.getHiddenDangerSecondType(item2.getContent());
+            }
+        }
+    }
+
+    @Override
+    public void getHiddenDangerSecondTypeSuccess(List<HiddenDangerType> tempData) {
+
+        HGFastItem2 item2 = hiddenDangerAdapter.findItemById(201);
+        item2.setChoiceItems(ChoiceItemBuilder.build(tempData));
+
+        if (!BeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null && item2.getSingleCheckedItem().getTag() != null) {
+            item2.getSingleCheckedItem().setTag(null);
+
+            for (ChoiceItem t : item2.getChoiceItems()) {
+                if (TextUtils.equals(t.getItem() + "", item2.getSingleCheckedItem().getItem() + "")) {
+                    item2.setSingleCheckedItem(t);
+                    break;
+                }
+            }
+        }
     }
 
     private void initParentData() {

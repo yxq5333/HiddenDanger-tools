@@ -26,8 +26,8 @@ import com.xhtt.hiddendanger.Bean.HiddenDanger.CheckTableContent;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.HiddenDanger;
 import com.xhtt.hiddendanger.Constant.EventActionCode;
-import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.Constant.ParamKey;
+import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.Constant.WorkType;
 import com.xhtt.hiddendanger.R;
 

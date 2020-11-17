@@ -6,7 +6,10 @@ import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerDetailRequest;
+import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerType;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+
+import java.util.List;
 
 /**
  * 隐患排查协议层
@@ -24,6 +27,10 @@ public class HiddenDangerDetailContract {
         void submitData(HiddenDangerDetailRequest request);
 
         void getUserData();
+
+        void getHiddenDangerFirstType();
+
+        void getHiddenDangerSecondType(String firstType);
     }
 
     public interface View extends IBaseView {
@@ -39,12 +46,24 @@ public class HiddenDangerDetailContract {
         default void getUserDataSuccess(User user) {
 
         }
+
+        default void getHiddenDangerFirstTypeSuccess(List<HiddenDangerType> tempData) {
+
+        }
+
+        default void getHiddenDangerSecondTypeSuccess(List<HiddenDangerType> tempData) {
+
+        }
     }
 
     public interface Presenter {
         void submitData(HiddenDanger hiddenDanger, Company company, WorkType workType, long lastServiceId);
 
         void getUserData();
+
+        void getHiddenDangerFirstType();
+
+        void getHiddenDangerSecondType(String firstType);
     }
 
 }

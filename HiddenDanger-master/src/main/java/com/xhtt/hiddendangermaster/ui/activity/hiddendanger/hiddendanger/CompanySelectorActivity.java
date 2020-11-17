@@ -145,7 +145,7 @@ public class CompanySelectorActivity extends BaseMVPActivity<CompanySelectorPres
                 if (result) {
                     switch (code) {
                         case DIALOG_CODE_INPUT:
-                            inputKey = bundle.getString(HGParamKey.InputValue.toString(), "");
+                            inputKey = bundle.getData(HGParamKey.InputValue, "");
                             backStringData();
                             break;
                     }

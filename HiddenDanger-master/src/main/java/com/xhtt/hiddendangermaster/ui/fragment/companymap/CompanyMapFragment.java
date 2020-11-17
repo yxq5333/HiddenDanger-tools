@@ -7,6 +7,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -37,13 +39,13 @@ import com.hg.hollowgoods.ui.fragment.proxy.ProxyHelper;
 import com.hg.hollowgoods.util.BeanUtils;
 import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.xhtt.hiddendangermaster.R;
-import com.xhtt.hiddendangermaster.util.CallPhoneUtils;
-import com.xhtt.hiddendangermaster.util.GuideUtils;
-import com.xhtt.hiddendangermaster.util.LocationChangeUtils;
 import com.xhtt.hiddendangermaster.adapter.companymap.MapCompanyListAdapter;
 import com.xhtt.hiddendangermaster.bean.CompanyMap;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.contract.CompanyMapContract;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.presenter.CompanyMapPresenter;
+import com.xhtt.hiddendangermaster.util.CallPhoneUtils;
+import com.xhtt.hiddendangermaster.util.GuideUtils;
+import com.xhtt.hiddendangermaster.util.LocationChangeUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.xutils.view.annotation.ViewInject;
@@ -102,7 +104,7 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     public void initView(View view, Bundle savedInstanceState) {
 
         baseUI.setCommonTitleStyleAutoBackground(R.string.title_fragment_company_map);
-        baseUI.setCommonRightTitleText("导出");
+//        baseUI.setCommonRightTitleText("导出");
         baseUI.initSearchView(refreshLayout, true);
 
         mMapView = baseUI.findViewById(R.id.map);
@@ -334,9 +336,22 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
 
         AppCompatTextView companyName = dialog.findViewById(R.id.tv_companyName);
 //            AppCompatTextView companyAddress = dialog.findViewById(R.id.tv_companyAddress);
-        AppCompatTextView contactName = dialog.findViewById(R.id.tv_contactName);
-        AppCompatTextView contactPhone = dialog.findViewById(R.id.tv_contactPhone);
-        View phoneLayout = dialog.findViewById(R.id.ll_phone);
+
+        TextView masterName = dialog.findViewById(R.id.tv_masterName);
+        TextView masterPhone = dialog.findViewById(R.id.tv_masterPhone);
+        ImageView icon1 = dialog.findViewById(R.id.iv_icon1);
+        View phoneLayout1 = dialog.findViewById(R.id.ll_phone1);
+
+        TextView saferName = dialog.findViewById(R.id.tv_saferName);
+        TextView saferPhone = dialog.findViewById(R.id.tv_saferPhone);
+        ImageView icon2 = dialog.findViewById(R.id.iv_icon2);
+        View phoneLayout2 = dialog.findViewById(R.id.ll_phone2);
+
+        TextView contactName = dialog.findViewById(R.id.tv_contactName);
+        TextView contactPhone = dialog.findViewById(R.id.tv_contactPhone);
+        ImageView icon3 = dialog.findViewById(R.id.iv_icon3);
+        View phoneLayout3 = dialog.findViewById(R.id.ll_phone3);
+
         serviceCount = dialog.findViewById(R.id.tv_serviceCount);
 //            FloatingActionButton export = dialog.findViewById(R.id.fab_clearServiceCount);
         FloatingActionButton addServiceCount = dialog.findViewById(R.id.fab_addServiceCount);
@@ -344,10 +359,51 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
         addServiceCountGroup = dialog.findViewById(R.id.group_addServiceCount);
 
         companyName.setText(clickCompanyMap.getCompanyName());
+
+        masterName.setText(clickCompanyMap.getEnterpriseLead());
+        masterPhone.setText(clickCompanyMap.getEnterpriseLeadPhone());
+
+        saferName.setText(clickCompanyMap.getEnterpriseSafe());
+        saferPhone.setText(clickCompanyMap.getEnterpriseSafePhone());
+
         contactName.setText(clickCompanyMap.getCompanyContactsName());
         contactPhone.setText(clickCompanyMap.getCompanyContactsPhone());
+
 //            companyAddress.setText(clickCompanyMap.getCompanyAddress());
         serviceCount.setText(clickCompanyMap.getServiceNowCount() + "/" + clickCompanyMap.getServiceTotalCount());
+
+        if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseLead())
+                && TextUtils.isEmpty(clickCompanyMap.getEnterpriseLeadPhone())
+        ) {
+            phoneLayout1.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseLead())) {
+            masterName.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseLeadPhone())) {
+            masterPhone.setVisibility(View.GONE);
+            icon1.setVisibility(View.GONE);
+        }
+
+        if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseSafe())
+                && TextUtils.isEmpty(clickCompanyMap.getEnterpriseSafePhone())
+        ) {
+            phoneLayout2.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseSafe())) {
+            saferName.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getEnterpriseSafePhone())) {
+            saferPhone.setVisibility(View.GONE);
+            icon2.setVisibility(View.GONE);
+        }
+
+        if (TextUtils.isEmpty(clickCompanyMap.getCompanyContactsName())
+                && TextUtils.isEmpty(clickCompanyMap.getCompanyContactsPhone())
+        ) {
+            phoneLayout3.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getCompanyContactsName())) {
+            contactName.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(clickCompanyMap.getCompanyContactsPhone())) {
+            contactPhone.setVisibility(View.GONE);
+            icon3.setVisibility(View.GONE);
+        }
 
         switch (clickCompanyMap.getServiceNowCount()) {
             case 1:
@@ -405,7 +461,37 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             }
         });
 
-        phoneLayout.setOnClickListener(new OnViewClickListener(false) {
+        phoneLayout1.setOnClickListener(new OnViewClickListener(false) {
+            @Override
+            public void onViewClick(View view, int id) {
+                ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()
+                        .setPermissions(new String[]{Manifest.permission.CALL_PHONE})
+                        .setRequestCode(3344)
+                        .setOnProxyRequestPermissionsResult((isAgreeAll, requestCode, permissions, isAgree) -> {
+                            if (isAgreeAll) {
+                                CallPhoneUtils.callPhone(baseUI.getBaseContext(), clickCompanyMap.getEnterpriseLeadPhone());
+                            }
+                        })
+                );
+            }
+        });
+
+        phoneLayout2.setOnClickListener(new OnViewClickListener(false) {
+            @Override
+            public void onViewClick(View view, int id) {
+                ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()
+                        .setPermissions(new String[]{Manifest.permission.CALL_PHONE})
+                        .setRequestCode(3344)
+                        .setOnProxyRequestPermissionsResult((isAgreeAll, requestCode, permissions, isAgree) -> {
+                            if (isAgreeAll) {
+                                CallPhoneUtils.callPhone(baseUI.getBaseContext(), clickCompanyMap.getEnterpriseSafePhone());
+                            }
+                        })
+                );
+            }
+        });
+
+        phoneLayout3.setOnClickListener(new OnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()

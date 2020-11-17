@@ -2,8 +2,8 @@ package com.xhtt.hiddendanger.Adapter.HiddenDanger;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.hg.hollowgoods.Adapter.BaseRecyclerView.CommonAdapter;
+import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.R;
 

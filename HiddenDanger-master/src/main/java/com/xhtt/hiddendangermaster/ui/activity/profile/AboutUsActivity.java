@@ -22,6 +22,8 @@ public class AboutUsActivity extends BaseActivity {
 
     private Button update;
 
+    private UpdateAPPUtils updateAPPUtils;
+
     @Override
     public int bindLayout() {
         return R.layout.activity_about_us;
@@ -40,6 +42,8 @@ public class AboutUsActivity extends BaseActivity {
         version.append(HGSystemConfig.IS_DEBUG_MODEL ? "debug" : "release");
         version.append(" ");
         version.append("2019");
+
+        updateAPPUtils = new UpdateAPPUtils(baseUI.getBaseContext());
     }
 
     @Override
@@ -47,7 +51,7 @@ public class AboutUsActivity extends BaseActivity {
         update.setOnClickListener(new OnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                new UpdateAPPUtils(baseUI.getBaseContext()).checkUpdate(true);
+                updateAPPUtils.checkUpdate(true);
             }
         });
     }

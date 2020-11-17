@@ -16,13 +16,13 @@ import com.hg.hollowgoods.UI.Base.BaseMVPActivity;
 import com.hg.hollowgoods.UI.Base.Click.OnRecyclerViewItemClickListener;
 import com.hg.hollowgoods.UI.Base.Click.OnViewClickListener;
 import com.hg.hollowgoods.UI.Base.Message.Toast.t;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.hg.hollowgoods.Widget.SmartRefreshLayout.constant.RefreshState;
+import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.xhtt.hiddendanger.Adapter.HiddenDanger.CompanyListAdapter;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.Constant.EventActionCode;
-import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.Constant.ParamKey;
+import com.xhtt.hiddendanger.Constant.SystemConfig;
 import com.xhtt.hiddendanger.Constant.WorkType;
 import com.xhtt.hiddendanger.R;
 

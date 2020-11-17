@@ -18,6 +18,23 @@ public class CompanyMap {
     private String companyName;// 企业名称
     private String companyAddress;// 企业地址
 
+    /**
+     * 企业负责人
+     */
+    private String enterpriseLead;
+    /**
+     * 企业负责人电话
+     */
+    private String enterpriseLeadPhone;
+    /**
+     * 企业安管员
+     */
+    private String enterpriseSafe;
+    /**
+     * 企业安管员电话
+     */
+    private String enterpriseSafePhone;
+
     @SerializedName("companyContacts")
     private String companyContactsName;// 企业联系人
 
@@ -72,6 +89,22 @@ public class CompanyMap {
         return companyContactsPhone;
     }
 
+    public String getEnterpriseLead() {
+        return enterpriseLead;
+    }
+
+    public String getEnterpriseLeadPhone() {
+        return enterpriseLeadPhone;
+    }
+
+    public String getEnterpriseSafe() {
+        return enterpriseSafe;
+    }
+
+    public String getEnterpriseSafePhone() {
+        return enterpriseSafePhone;
+    }
+
     // Setter
 
 
@@ -117,6 +150,27 @@ public class CompanyMap {
 
     public CompanyMap setServiceTotalCount(int serviceTotalCount) {
         this.serviceTotalCount = serviceTotalCount;
+        return this;
+    }
+
+
+    public CompanyMap setEnterpriseLead(String enterpriseLead) {
+        this.enterpriseLead = enterpriseLead;
+        return this;
+    }
+
+    public CompanyMap setEnterpriseLeadPhone(String enterpriseLeadPhone) {
+        this.enterpriseLeadPhone = enterpriseLeadPhone;
+        return this;
+    }
+
+    public CompanyMap setEnterpriseSafe(String enterpriseSafe) {
+        this.enterpriseSafe = enterpriseSafe;
+        return this;
+    }
+
+    public CompanyMap setEnterpriseSafePhone(String enterpriseSafePhone) {
+        this.enterpriseSafePhone = enterpriseSafePhone;
         return this;
     }
 }

@@ -189,8 +189,8 @@ public class UploadFileUtils {
 
         if (webFile != null) {
             result = new AppFile();
-            result.setOldName(webFile.getFileOldName());
-            result.setOldUrl(webFile.getFileSaveName());
+            result.setOriginalName(webFile.getFileOldName());
+            result.setGenerateName(webFile.getFileSaveName());
 
             if (FileUtils2.isImageFile(webFile.getFileOldName())) {
                 result.setUrl(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()) + webFile.getFileSaveName());
@@ -227,8 +227,8 @@ public class UploadFileUtils {
 
         if (appFile != null && !TextUtils.isEmpty(appFile.getUrl())) {
             result = new WebFile();
-            result.setFileOldName(appFile.getOldName());
-            result.setFileSaveName(appFile.getOldUrl());
+            result.setFileOldName(appFile.getOriginalName());
+            result.setFileSaveName(appFile.getGenerateName());
         }
 
         return result;

@@ -83,7 +83,7 @@ android {
             ]
             dimension = 'default'
         }
-        // 欣华天泰——企业地图风格
+        // 欣华天泰——企业地图风格8012
         XHTT_Map {
             manifestPlaceholders = [
                     APP_CHANNEL_VALUE: "XHTT_Map",
@@ -91,6 +91,17 @@ android {
                     APP_LOGO         : "@mipmap/logo_azx",
                     APP_IP_VALUE     : "218.93.5.75",
                     APP_PORT_VALUE   : "8012",
+            ]
+            dimension = 'default'
+        }
+        // 欣华天泰——企业地图风格8012
+        XHTT_Map9026 {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "XHTT_Map9026",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo_azx",
+                    APP_IP_VALUE     : "218.93.5.75",
+                    APP_PORT_VALUE   : "9026",
             ]
             dimension = 'default'
         }

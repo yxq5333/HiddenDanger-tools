@@ -2,11 +2,8 @@ package com.xhtt.hiddendanger.UI.Activity.HiddenDanger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.Bean.EventBus.Event;
 import com.hg.hollowgoods.UI.Base.Message.Toast.t;
 import com.hg.hollowgoods.Util.XUtils.GetHttpDataListener;
-import com.hg.hollowgoods.Util.XUtils.XUtils;
-import com.xhtt.hiddendanger.Application.HiddenDangerApplication;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.Company;
 import com.xhtt.hiddendanger.Bean.ResponseInfo;
 import com.xhtt.hiddendanger.Constant.InterfaceApi;

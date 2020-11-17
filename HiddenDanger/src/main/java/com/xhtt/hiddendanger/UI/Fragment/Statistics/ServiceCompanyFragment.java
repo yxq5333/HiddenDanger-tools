@@ -2,11 +2,12 @@ package com.xhtt.hiddendanger.UI.Fragment.Statistics;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
-import android.view.View;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -20,9 +21,9 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.hg.hollowgoods.Constant.HGCommonResource;
 import com.hg.hollowgoods.UI.Base.BaseMVPFragment;
+import com.hg.hollowgoods.Widget.SmartRefreshLayout.constant.RefreshState;
 import com.hg.hollowgoods.widget.HGRefreshLayout;
 import com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout;
-import com.hg.hollowgoods.Widget.SmartRefreshLayout.constant.RefreshState;
 import com.xhtt.hiddendanger.Adapter.Statistics.ServiceCompanyAdapter;
 import com.xhtt.hiddendanger.Bean.Statistics.ServiceCompany;
 import com.xhtt.hiddendanger.Bean.Statistics.ServiceCompanyBase;

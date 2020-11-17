@@ -209,7 +209,7 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
                     public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
                         new SystemAppUtils().readFile(baseUI.getBaseContext(),
                                 fileData.get(position).getUrl(),
-                                fileData.get(position).getOldName()
+                                fileData.get(position).getOriginalName()
                         );
                     }
                 });

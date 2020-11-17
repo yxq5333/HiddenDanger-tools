@@ -11,6 +11,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.hg.hollowgoods.constant.HGSystemConfig;
 import com.hg.hollowgoods.ui.base.BaseActivity;
+import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.CompanyMapFragment;
@@ -80,6 +81,11 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         onTabSelected(0);
 
         new UpdateAPPUtils(baseUI.getBaseContext()).checkUpdate(false);
+    }
+
+    @Override
+    public void initViewDelay() {
+        new DevelopmentUpdateAPPUtils(baseUI.getBaseContext()).checkUpdate();
     }
 
     @Override

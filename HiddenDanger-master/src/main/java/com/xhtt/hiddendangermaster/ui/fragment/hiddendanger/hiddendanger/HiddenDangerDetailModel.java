@@ -1,6 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hg.hollowgoods.bean.eventbus.HGEvent;
 import com.hg.hollowgoods.ui.base.message.toast.t;
 import com.hg.hollowgoods.util.ip.IPConfigHelper;
@@ -11,6 +12,7 @@ import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerDetailRequest;
+import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerType;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.InterfaceApi;
 
@@ -20,6 +22,7 @@ import org.xutils.http.HttpMethod;
 import org.xutils.http.RequestParams;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 隐患排查数据层
@@ -269,6 +272,132 @@ public class HiddenDangerDetailModel implements HiddenDangerDetailContract.Model
                 if (isViewAttached()) {
                     t.error(R.string.network_error);
 
+                }
+            }
+
+            @Override
+            public void onGetLoading(long l, long l1) {
+
+            }
+
+            @Override
+            public void onGetFinish() {
+                if (isViewAttached()) {
+
+                }
+            }
+
+            @Override
+            public void onGetCancel(Callback.CancelledException e) {
+
+            }
+        }).getHttpData(params);
+    }
+
+    @Override
+    public void getHiddenDangerFirstType() {
+
+        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.GetHiddenDangerFirstType.getUrl()));
+        params.setMethod(HttpMethod.GET);
+        params.addHeader("token", MyApplication.createApplication().getToken());
+
+        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+            @Override
+            public void onGetSuccess(String result) {
+
+                ResponseInfo responseInfo = new Gson().fromJson(result, ResponseInfo.class);
+
+                if (isViewAttached()) {
+                    if (responseInfo.getCode() == ResponseInfo.CODE_SUCCESS) {
+                        List<HiddenDangerType> tempData = new Gson().fromJson(
+                                new Gson().toJson(responseInfo.getData()),
+                                new TypeToken<List<HiddenDangerType>>() {
+                                }.getType()
+                        );
+
+                        mView.getHiddenDangerFirstTypeSuccess(tempData);
+                    } else {
+                        if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
+                            t.error(responseInfo.getMsg());
+                        } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
+                            t.error("授权已过期，请重新登录");
+                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            EventBus.getDefault().post(event);
+                        } else {
+                            t.error(R.string.network_error);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onGetError(Throwable throwable) {
+                if (isViewAttached()) {
+                    t.error(R.string.network_error);
+                }
+            }
+
+            @Override
+            public void onGetLoading(long l, long l1) {
+
+            }
+
+            @Override
+            public void onGetFinish() {
+                if (isViewAttached()) {
+
+                }
+            }
+
+            @Override
+            public void onGetCancel(Callback.CancelledException e) {
+
+            }
+        }).getHttpData(params);
+    }
+
+    @Override
+    public void getHiddenDangerSecondType(String firstType) {
+
+        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.GetHiddenDangerSecondType.getUrl()
+                + "/" + firstType
+        ));
+        params.setMethod(HttpMethod.GET);
+        params.addHeader("token", MyApplication.createApplication().getToken());
+
+        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+            @Override
+            public void onGetSuccess(String result) {
+
+                ResponseInfo responseInfo = new Gson().fromJson(result, ResponseInfo.class);
+
+                if (isViewAttached()) {
+                    if (responseInfo.getCode() == ResponseInfo.CODE_SUCCESS) {
+                        List<HiddenDangerType> tempData = new Gson().fromJson(
+                                new Gson().toJson(responseInfo.getData()),
+                                new TypeToken<List<HiddenDangerType>>() {
+                                }.getType()
+                        );
+
+                        mView.getHiddenDangerSecondTypeSuccess(tempData);
+                    } else {
+                        if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
+                            t.error(responseInfo.getMsg());
+                        } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
+                            t.error("授权已过期，请重新登录");
+                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            EventBus.getDefault().post(event);
+                        } else {
+                            t.error(R.string.network_error);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onGetError(Throwable throwable) {
+                if (isViewAttached()) {
+                    t.error(R.string.network_error);
                 }
             }
 

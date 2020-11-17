@@ -4,12 +4,10 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.Bean.EventBus.Event;
 import com.hg.hollowgoods.UI.Base.Message.Toast.t;
 import com.hg.hollowgoods.Util.XUtils.GetHttpDataListener;
 import com.hg.hollowgoods.Util.XUtils.RequestParamsHelper;
 import com.hg.hollowgoods.Util.XUtils.XUtils2;
-import com.xhtt.hiddendanger.Application.HiddenDangerApplication;
 import com.xhtt.hiddendanger.Bean.Common.CommonChooseItem;
 import com.xhtt.hiddendanger.Bean.ResponseInfo;
 import com.xhtt.hiddendanger.Constant.InterfaceApi;

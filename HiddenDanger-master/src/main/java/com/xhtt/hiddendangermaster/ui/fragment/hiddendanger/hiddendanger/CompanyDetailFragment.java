@@ -289,23 +289,23 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 switch (code) {
                     case 20:
                         // 单位地址
-                        value = backData.getString(HGParamKey.InputValue.toString(), "");
+                        value = backData.getData(HGParamKey.InputValue, "");
                         parentData.setAddress(value);
                         break;
                     case 30:
                         // 主要联系人
-                        value = backData.getString(HGParamKey.InputValue.toString(), "");
+                        value = backData.getData(HGParamKey.InputValue, "");
                         parentData.setMainPeople(value);
                         break;
                     case 40:
                         // 主要联系人联系电话
-                        value = backData.getString(HGParamKey.InputValue.toString(), "");
+                        value = backData.getData(HGParamKey.InputValue, "");
                         parentData.setMainPeoplePhone(value);
                         break;
                     case 50:
                         // 行业
                         if (!isOnlyRead) {
-                            businessCheckedPosition = backData.getInt(HGParamKey.Position.toString(), -1);
+                            businessCheckedPosition = backData.getData(HGParamKey.Position, -1);
                             if (businessCheckedPosition != -1) {
                                 parentData.setBusiness(Constants.BUSINESS[businessCheckedPosition]);
                             } else {
@@ -315,7 +315,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                         break;
                     case 60:
                         // 规模情况
-                        proportionCheckedPosition = backData.getInt(HGParamKey.Position.toString(), -1);
+                        proportionCheckedPosition = backData.getData(HGParamKey.Position, -1);
                         if (proportionCheckedPosition != -1) {
                             parentData.setProportion(Constants.PROPORTION[proportionCheckedPosition]);
                         } else {
@@ -324,7 +324,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                         break;
                     case 70:
                         // 人员数量
-                        value = backData.getString(HGParamKey.InputValue.toString(), "");
+                        value = backData.getData(HGParamKey.InputValue, "");
                         parentData.setPeopleCount(value);
                         break;
                 }

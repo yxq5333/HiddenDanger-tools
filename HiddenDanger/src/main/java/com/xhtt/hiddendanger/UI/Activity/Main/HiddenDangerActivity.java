@@ -2,13 +2,13 @@ package com.xhtt.hiddendanger.UI.Activity.Main;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.hg.hollowgoods.Constant.HGCommonResource;
 import com.hg.hollowgoods.UI.Base.BaseMVPActivity;
 import com.hg.hollowgoods.Util.LogUtils;
-import com.xhtt.hiddendanger.Application.HiddenDangerApplication;
 import com.xhtt.hiddendanger.R;
 
 /**

@@ -13,7 +13,6 @@ import com.hg.hollowgoods.UI.Base.Message.Toast.t;
 import com.hg.hollowgoods.Util.FileUtils;
 import com.hg.hollowgoods.Util.XUtils.UploadListener;
 import com.hg.hollowgoods.Util.XUtils.XUtils2;
-import com.xhtt.hiddendanger.Application.HiddenDangerApplication;
 import com.xhtt.hiddendanger.Bean.ResponseInfo;
 import com.xhtt.hiddendanger.Constant.EventActionCode;
 import com.xhtt.hiddendanger.Constant.InterfaceApi;

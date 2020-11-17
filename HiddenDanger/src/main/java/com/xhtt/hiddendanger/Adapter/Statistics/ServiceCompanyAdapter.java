@@ -2,8 +2,8 @@ package com.xhtt.hiddendanger.Adapter.Statistics;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.hg.hollowgoods.Adapter.BaseRecyclerView.CommonAdapter;
+import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
 import com.xhtt.hiddendanger.Bean.Statistics.ServiceCompany;
 import com.xhtt.hiddendanger.R;
 

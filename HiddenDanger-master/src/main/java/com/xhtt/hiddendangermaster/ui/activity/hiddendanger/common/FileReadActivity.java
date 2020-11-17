@@ -78,7 +78,7 @@ public class FileReadActivity extends BaseActivity {
         ShareWeChatConfig config = new ShareWeChatConfig(DIALOG_CODE_SHARE);
         config.setFilepath(filepath);
 
-        baseUI.baseDialog.showCustomizeDialog(config, new ShareWeChatDialog());
+        baseUI.baseDialog.showCustomizeDialog(config, new ShareWeChatDialog(config));
     }
 
     @Override
@@ -110,7 +110,7 @@ public class FileReadActivity extends BaseActivity {
                 @Override
                 public void onDownloadSuccess(File file) {
                     filepath = file.getAbsolutePath();
-                    baseUI.setCommonRightTitleText("下载");
+                    baseUI.setCommonRightTitleText("分享");
                     readFile();
                 }
 

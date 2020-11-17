@@ -18,6 +18,10 @@ public class ShareWeChatDialog extends HGDialogFragment2<ShareWeChatConfig> {
     private View friend;
     private View moments;
 
+    public ShareWeChatDialog(ShareWeChatConfig config) {
+        mConfig = config;
+    }
+
     @Override
     public int bindLayout() {
         return R.layout.dialog_share_we_chat;

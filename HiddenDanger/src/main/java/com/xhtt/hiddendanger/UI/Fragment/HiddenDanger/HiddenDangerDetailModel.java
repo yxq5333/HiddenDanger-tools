@@ -1,16 +1,12 @@
 package com.xhtt.hiddendanger.UI.Fragment.HiddenDanger;
 
 import com.google.gson.Gson;
-import com.hg.hollowgoods.Bean.EventBus.Event;
 import com.hg.hollowgoods.UI.Base.Message.Toast.t;
 import com.hg.hollowgoods.Util.XUtils.GetHttpDataListener;
-import com.hg.hollowgoods.Util.XUtils.XUtils;
-import com.xhtt.hiddendanger.Application.HiddenDangerApplication;
 import com.xhtt.hiddendanger.Bean.HiddenDanger.HiddenDangerDetailRequest;
 import com.xhtt.hiddendanger.Bean.ResponseInfo;
 import com.xhtt.hiddendanger.Constant.InterfaceApi;
 import com.xhtt.hiddendanger.R;
-import com.xhtt.usermanage.Application.UserManageApplication;
 
 import org.greenrobot.eventbus.EventBus;
 import org.xutils.common.Callback;
