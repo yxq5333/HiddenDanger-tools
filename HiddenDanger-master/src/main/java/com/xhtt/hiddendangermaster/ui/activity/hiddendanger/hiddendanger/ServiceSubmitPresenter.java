@@ -2,7 +2,7 @@ package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.ServiceSubmit;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by Hollow Goods on 2019-05-22
  */
 
-public class ServiceSubmitPresenter extends BasePresenter<ServiceSubmitContract.View, ServiceSubmitContract.Model> implements ServiceSubmitContract.Presenter {
+public class ServiceSubmitPresenter extends ZBasePresenter<ServiceSubmitContract.View, ServiceSubmitContract.Model> implements ServiceSubmitContract.Presenter {
 
     public ServiceSubmitPresenter(Context mContext) {
         super(mContext);

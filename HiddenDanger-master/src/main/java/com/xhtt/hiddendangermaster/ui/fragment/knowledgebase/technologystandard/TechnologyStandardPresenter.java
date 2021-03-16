@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.technologystandard;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class TechnologyStandardPresenter extends BasePresenter<TechnologyStandardContract.View, TechnologyStandardContract.Model> implements TechnologyStandardContract.Presenter {
+public class TechnologyStandardPresenter extends ZBasePresenter<TechnologyStandardContract.View, TechnologyStandardContract.Model> implements TechnologyStandardContract.Presenter {
 
     @Override
     public void afterAttachView() {

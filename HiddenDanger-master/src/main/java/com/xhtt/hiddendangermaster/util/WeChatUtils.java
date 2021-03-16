@@ -1,6 +1,5 @@
 package com.xhtt.hiddendangermaster.util;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -11,9 +10,9 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.APPUtils;
-import com.hg.hollowgoods.util.FormatUtils;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZAppUtils;
+import com.hg.zero.util.ZFormatUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXFileObject;
@@ -45,23 +44,18 @@ public class WeChatUtils {
 
         if (instance == null) {
             instance = new WeChatUtils();
+            instance.init();
         }
 
         return instance;
     }
 
     private IWXAPI api;
-    private Context context;
 
-    public WeChatUtils init(Context context) {
-
-        this.context = context;
-
-        api = WXAPIFactory.createWXAPI(context, BuildConfig.WXAndroidKey, true);
+    private void init() {
+        api = WXAPIFactory.createWXAPI(MyApplication.createApplication(), BuildConfig.WXAndroidKey, true);
         // 将应用的appid注册到微信
         api.registerApp(BuildConfig.WXAndroidKey);
-
-        return instance;
     }
 
     public void doWeChatLogin() {
@@ -71,7 +65,7 @@ public class WeChatUtils {
             req.state = "walk_more";
             api.sendReq(req);
         } else {
-            t.warning("请先安装微信");
+            Zt.warning("请先安装微信");
         }
     }
 
@@ -100,7 +94,7 @@ public class WeChatUtils {
 
             downloadThumbImgFromUrl();
         } else {
-            t.warning("请先安装微信");
+            Zt.warning("请先安装微信");
         }
     }
 
@@ -115,7 +109,7 @@ public class WeChatUtils {
         WXMediaMessage msg = new WXMediaMessage(webPage);
         msg.title = title;
         msg.description = describe;
-        msg.thumbData = thumbImgBytes != null ? thumbImgBytes : FormatUtils.bitmap2Bytes(BitmapFactory.decodeResource(context.getResources(), R.mipmap.logo));
+        msg.thumbData = thumbImgBytes != null ? thumbImgBytes : ZFormatUtils.bitmap2Bytes(BitmapFactory.decodeResource(MyApplication.createApplication().getResources(), R.mipmap.logo));
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = "" + System.currentTimeMillis();
@@ -129,7 +123,7 @@ public class WeChatUtils {
 
         if (thumbImgUrl instanceof String) {
 
-            Glide.with(context)
+            Glide.with(MyApplication.createApplication().getTopActivity())
                     .asBitmap()
                     .load((String) thumbImgUrl)
                     .into(new CustomTarget<Bitmap>() {
@@ -137,7 +131,7 @@ public class WeChatUtils {
                         @Override
                         public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                             try {
-                                doWeChatShare(FormatUtils.bitmap2Bytes(resource));
+                                doWeChatShare(ZFormatUtils.bitmap2Bytes(resource));
                             } catch (Exception e) {
                                 doWeChatShare(null);
                             }
@@ -156,8 +150,8 @@ public class WeChatUtils {
                     });
         } else {
             new Thread(() -> {
-                Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), (int) thumbImgUrl);
-                doWeChatShare(FormatUtils.bitmap2Bytes(bitmap));
+                Bitmap bitmap = BitmapFactory.decodeResource(MyApplication.createApplication().getResources(), (int) thumbImgUrl);
+                doWeChatShare(ZFormatUtils.bitmap2Bytes(bitmap));
             }).start();
         }
     }
@@ -169,24 +163,27 @@ public class WeChatUtils {
      * @param filepath String 文件路径
      */
     public void shareFile(int scene, String filepath) {
+        if (api.isWXAppInstalled()) {
+            this.scene = scene;
 
-        this.scene = scene;
+            WXFileObject fileObject = new WXFileObject();
+            fileObject.filePath = filepath;
 
-        WXFileObject fileObject = new WXFileObject();
-        fileObject.filePath = filepath;
+            // 用 WXTextObject 对象初始化一个 WXMediaMessage 对象
+            WXMediaMessage msg = new WXMediaMessage(fileObject);
+            msg.title = new File(filepath).getName();
+            msg.description = "文件分享";
+            msg.thumbData = ZFormatUtils.bitmap2Bytes(BitmapFactory.decodeResource(MyApplication.createApplication().getResources(), ZAppUtils.getAppLogoResId(MyApplication.createApplication())));
 
-        // 用 WXTextObject 对象初始化一个 WXMediaMessage 对象
-        WXMediaMessage msg = new WXMediaMessage(fileObject);
-        msg.title = new File(filepath).getName();
-        msg.description = "文件分享";
-        msg.thumbData = FormatUtils.bitmap2Bytes(BitmapFactory.decodeResource(context.getResources(), APPUtils.getAppLogoResId(MyApplication.createApplication())));
-
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = "" + System.currentTimeMillis();
-        req.message = msg;
-        req.scene = scene == 1 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-        // 调用api接口，发送数据到微信
-        api.sendReq(req);
+            SendMessageToWX.Req req = new SendMessageToWX.Req();
+            req.transaction = "" + System.currentTimeMillis();
+            req.message = msg;
+            req.scene = scene == 1 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+            // 调用api接口，发送数据到微信
+            api.sendReq(req);
+        } else {
+            Zt.warning("请先安装微信");
+        }
     }
 
 }

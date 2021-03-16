@@ -9,15 +9,15 @@ import android.widget.Button;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CompanyDetailFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerDetailFragment;
 
@@ -27,7 +27,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenD
  * @author HG
  */
 
-public class FreeTakeActivity extends BaseMVPActivity<FreeTakePresenter> implements FreeTakeContract.View {
+public class FreeTakeActivity extends HDBaseMVPActivity<FreeTakePresenter> implements FreeTakeContract.View {
 
     public static final int ACTION_SUBMIT_ONLY = 1;
     public static final int ACTION_SUBMIT_AND_RESTART = 2;
@@ -48,8 +48,8 @@ public class FreeTakeActivity extends BaseMVPActivity<FreeTakePresenter> impleme
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_free_take);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_free_take);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -90,7 +90,7 @@ public class FreeTakeActivity extends BaseMVPActivity<FreeTakePresenter> impleme
 
         new Handler().postDelayed(() -> {
 
-            submit.setOnClickListener(new OnViewClickListener(false) {
+            submit.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     if (companyDetailFragment.checkNotEmptyItems()) {
@@ -106,7 +106,7 @@ public class FreeTakeActivity extends BaseMVPActivity<FreeTakePresenter> impleme
                 }
             });
 
-            submitAndRestart.setOnClickListener(new OnViewClickListener(false) {
+            submitAndRestart.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     if (companyDetailFragment.checkNotEmptyItems()) {
@@ -122,7 +122,7 @@ public class FreeTakeActivity extends BaseMVPActivity<FreeTakePresenter> impleme
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 

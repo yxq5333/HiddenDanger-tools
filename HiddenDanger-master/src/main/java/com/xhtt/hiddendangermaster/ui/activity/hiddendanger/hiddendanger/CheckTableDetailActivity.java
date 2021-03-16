@@ -9,17 +9,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGConstants;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.CheckTableDetailAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CheckTable;
@@ -30,6 +29,7 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,11 +41,11 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPresenter> implements CheckTableDetailContract.View {
+public class CheckTableDetailActivity extends HDBaseMVPActivity<CheckTableDetailPresenter> implements CheckTableDetailContract.View {
 
     private final int DIALOG_CODE_SUBMIT = 1000;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private TextView checkDate;
     private TextView checkTableName;
     private Button submit;
@@ -70,6 +70,7 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
     @Override
     public void initParamData() {
 
+        super.initParamData();
         grandData = baseUI.getParam(ParamKey.GrandData, null);
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
@@ -85,12 +86,12 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_check_table_detail);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_check_table_detail);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
-            refreshLayout = findViewById(R.id.hgRefreshLayout);
+            refreshLayout = findViewById(R.id.ZRefreshLayout);
             checkDate = findViewById(R.id.tv_checkDate);
             checkTableName = findViewById(R.id.tv_checkTableName);
             submit = findViewById(R.id.btn_submit);
@@ -102,7 +103,7 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
             }
 
             checkDate.setText("检查日期:");
-            checkDate.append(TextUtils.isEmpty(parentData.getCheckDate()) ? StringUtils.getDateTimeString(System.currentTimeMillis(), StringUtils.DateFormatMode.LINE_YMD) : parentData.getCheckDate());
+            checkDate.append(TextUtils.isEmpty(parentData.getCheckDate()) ? ZDateTimeUtils.getDateTimeString(System.currentTimeMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD) : parentData.getCheckDate());
             checkTableName.setText("检查表名称:");
             checkTableName.append(TextUtils.isEmpty(parentData.getCheckTableName()) ? "" : parentData.getCheckTableName());
 
@@ -120,7 +121,7 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
 
             refreshLayout.getRefreshLayout().setOnRefreshListener(refreshLayout -> doRefresh());
 
-            adapter.setOnStatusChangedListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnStatusChangedListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -140,16 +141,19 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
                 }
             });
 
-            submit.setOnClickListener(new OnViewClickListener(false) {
+            submit.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     checkItems();
                 }
             });
 
-            freeTake.setOnClickListener(new OnViewClickListener(false) {
+            freeTake.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
+
+                    grandData.setCheckItemId(null);
+
                     baseUI.startMyActivity(HiddenDangerDetailActivity.class,
                             new Enum[]{ParamKey.WorkType, ParamKey.GrandData},
                             new Object[]{WorkType.AddFreeTake, grandData}
@@ -157,13 +161,13 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
                 }
             });
 
-            adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
                     if (data.get(position).getStatus() != null && data.get(position).getStatus() == CheckTableContent.STATUS_NO) {
                         if (data.get(position).getHiddenDanger() == null) {
-                            t.info("没有添加隐患");
+                            Zt.info("没有添加隐患");
                         } else {
                             baseUI.startMyActivity(HiddenDangerDetailActivity.class,
                                     new Enum[]{ParamKey.GrandData, ParamKey.WorkType, ParamKey.ParentData},
@@ -174,7 +178,7 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -184,7 +188,7 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.HIDDEN_DANGER_SUBMIT) {
             HiddenDanger hiddenDanger = item.getObj(ParamKey.Company, null);
 
@@ -237,16 +241,16 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
 
     @Override
     public void changeContentStatusSuccess() {
-        HGEvent event = new HGEvent(EventActionCode.CHANGE_CHECK_TABLE_CONTENT_STATUS);
+        ZEvent event = new ZEvent(EventActionCode.CHANGE_CHECK_TABLE_CONTENT_STATUS);
         EventBus.getDefault().post(event);
     }
 
     @Override
     public void submitDataSuccess() {
 
-        t.success("保存成功");
+        Zt.success("保存成功");
 
-        HGEvent event = new HGEvent(EventActionCode.CHECK_TABLE_SUBMIT);
+        ZEvent event = new ZEvent(EventActionCode.CHECK_TABLE_SUBMIT);
         EventBus.getDefault().post(event);
 
         finishMyActivity();
@@ -284,17 +288,17 @@ public class CheckTableDetailActivity extends BaseMVPActivity<CheckTableDetailPr
         }
 
         if (TextUtils.isEmpty(sb)) {
-            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                    .setText("保存中，请稍候……")
+            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                    .setContent("保存中，请稍候……")
             );
             mPresenter.submitData(parentData.getId());
         } else {
             sb.append("\n\n");
             sb.append("请全部检查完成后再提交");
 
-            baseUI.baseDialog.showWarningDialog(new DialogConfig.WarningConfig(HGConstants.DEFAULT_CODE)
-                    .setTitle(R.string.tips_best)
-                    .setText(sb.toString())
+            baseUI.baseDialog.showWarningDialog(new ZDialogConfig.WarningConfig(ZConstants.DEFAULT_CODE)
+                    .setTitle(R.string.z_tips_best)
+                    .setContent(sb.toString())
                     .setPositiveButtonTxt("知道了")
             );
         }

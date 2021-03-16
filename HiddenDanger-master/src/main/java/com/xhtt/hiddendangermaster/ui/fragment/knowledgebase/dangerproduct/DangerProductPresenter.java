@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.dangerproduct;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class DangerProductPresenter extends BasePresenter<DangerProductContract.View, DangerProductContract.Model> implements DangerProductContract.Presenter {
+public class DangerProductPresenter extends ZBasePresenter<DangerProductContract.View, DangerProductContract.Model> implements DangerProductContract.Presenter {
 
     @Override
     public void afterAttachView() {

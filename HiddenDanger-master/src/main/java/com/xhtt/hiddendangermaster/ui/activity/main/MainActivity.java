@@ -9,11 +9,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
+import com.hg.zero.config.ZSystemConfig;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.CompanyMapFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.statistics.StatisticsFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.main.KnowledgeBaseFragment;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 /**
  * 主界面
  */
-public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class MainActivity extends HDBaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     @ViewInject(value = R.id.bottom_navigation_bar)
     private BottomNavigationBar bottomNavigationBar;
@@ -61,6 +60,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         );
         switch (SystemConfig.APP_STYLE) {
             case XHTT_Map:
+            case XHTT_Map9026:
                 bottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.ic_main_map_c, "地图")
                         .setInactiveIconResource(R.drawable.ic_main_map_u)
                 );
@@ -81,11 +81,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         onTabSelected(0);
 
         new UpdateAPPUtils(baseUI.getBaseContext()).checkUpdate(false);
-    }
-
-    @Override
-    public void initViewDelay() {
-        new DevelopmentUpdateAPPUtils(baseUI.getBaseContext()).checkUpdate();
     }
 
     @Override
@@ -130,6 +125,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 if (fragment3 == null) {
                     switch (SystemConfig.APP_STYLE) {
                         case XHTT_Map:
+                        case XHTT_Map9026:
                             fragment3 = new CompanyMapFragment();
                             break;
                         default:
@@ -179,7 +175,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public void onBackPressed() {
 
-        if (HGSystemConfig.IS_DEBUG_MODEL) {
+        if (ZSystemConfig.isDebugMode()) {
             super.onBackPressed();
         } else {
             if (baseUI.checkBackPressed()) {

@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.statistics;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class HiddenStatisticsPresenter extends BasePresenter<HiddenStatisticsContract.View, HiddenStatisticsContract.Model> implements HiddenStatisticsContract.Presenter {
+public class HiddenStatisticsPresenter extends ZBasePresenter<HiddenStatisticsContract.View, HiddenStatisticsContract.Model> implements HiddenStatisticsContract.Presenter {
 
     @Override
     public void afterAttachView() {

@@ -5,19 +5,18 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGConstants;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.validatorinput.validator.ValidatorFactory;
-import com.hg.hollowgoods.widget.validatorinput.validator.ValidatorType;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnFastItemClickListener2Adapter;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.validatorinput.validator.ZValidatorFactory;
+import com.hg.zero.widget.validatorinput.validator.ZValidatorType;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CompanyOnlyName;
@@ -25,6 +24,7 @@ import com.xhtt.hiddendangermaster.constant.Constants;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.OnFragmentWorkListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,14 +38,14 @@ import java.util.List;
  * @author HG
  */
 
-public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetailPresenter> implements CompanyDetailContract.View {
+public class CompanyDetailOnlyNameFragment extends HDBaseMVPFragment<CompanyDetailPresenter> implements CompanyDetailContract.View {
 
     private final int DIALOG_CODE_SUBMIT = 1000;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
-    private HGFastAdapter2 adapter;
-    private List<HGFastItem2> data = new ArrayList<>();
+    private ZFastAdapter2 adapter;
+    private List<ZFastItem2> data = new ArrayList<>();
     private CompanyOnlyName parentData;
     private WorkType workType;
     private Class<?> fromClass;
@@ -70,6 +70,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
         workType = baseUI.getParam(ParamKey.WorkType, null);
         fromClass = baseUI.getParam(ParamKey.FromClass, this.getClass());
@@ -111,9 +112,9 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
-        data.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("企业名称")
                 .setContentHint("请选择")
                 .setContent(parentData == null ? "" : parentData.getCompanyName())
@@ -124,7 +125,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
         );
 
         refreshLayout.initRecyclerView();
-        refreshLayout.setAdapter(adapter = new HGFastAdapter2(baseUI, data));
+        refreshLayout.setAdapter(adapter = new ZFastAdapter2(baseUI, data));
 
         //        adapter.refreshDataAllData(data);
     }
@@ -135,18 +136,20 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
         refreshLayout.setOnRefreshListener(refreshLayout -> doRefresh());
 
         // 企业名称
-        adapter.setOnHGFastItemClickListener2(10, new OnHGFastItemClickListener2Adapter() {
+        adapter.setOnFastItemClickListener2(10, new ZOnFastItemClickListener2Adapter() {
             @Override
-            public void onItemClick(int clickItemId) {
+            public boolean onItemClick(int clickItemId) {
                 if (!isOnlyRead) {
-                    DialogConfig.InputConfig configInput = new DialogConfig.InputConfig(clickItemId)
+                    ZDialogConfig.InputConfig configInput = new ZDialogConfig.InputConfig(clickItemId)
                             .setHint("请输入企业名称")
-                            .setText(parentData.getCompanyName())
+                            .setContent(parentData.getCompanyName())
                             .setMaxLines(1)
-                            .setInputType(HGConstants.INPUT_TYPE_DEFAULT)
-                            .setValidator(ValidatorFactory.getValidator(ValidatorType.MIN_LENGTH, "至少输入1个字", 1));
+                            .setInputType(ZConstants.INPUT_TYPE_NULL)
+                            .setValidator(ZValidatorFactory.getValidator(ZValidatorType.MIN_LENGTH, "至少输入1个字", 1));
                     baseUI.baseDialog.showInputDialog(configInput);
                 }
+
+                return true;
             }
         });
 
@@ -157,7 +160,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
                 switch (code) {
                     case 10:
                         // 企业名称
-                        value = backData.getData(HGParamKey.InputValue, "");
+                        value = backData.getData(ZParamKey.InputValue, "");
                         parentData.setCompanyName(value);
                         break;
                 }
@@ -175,7 +178,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.COMPANY_SELECTOR) {
             String companyName = item.getObj(ParamKey.StringData, "");
             Company company = item.getObj(ParamKey.Company, null);
@@ -198,7 +201,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
         new Handler().postDelayed(() -> refreshLayout.getRefreshLayout().finishRefresh(), 1000);
     }
 
-    public HGRefreshLayout getRefreshLayout() {
+    public ZRefreshLayout getRefreshLayout() {
         return refreshLayout;
     }
 
@@ -208,8 +211,8 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
 
     public void submitData() {
         if (checkNotEmptyItems()) {
-            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                    .setText("提交中，请稍候……")
+            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                    .setContent("提交中，请稍候……")
             );
             mPresenter.submitData(parentData, workType);
         }
@@ -218,7 +221,7 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
     @Override
     public void submitDataSuccess(Long id, Long serviceId) {
 
-        t.success("提交成功");
+        Zt.success("提交成功");
 
         if (id != null) {
             parentData.setId(id);
@@ -229,8 +232,8 @@ public class CompanyDetailOnlyNameFragment extends BaseMVPFragment<CompanyDetail
             parentData.setTimes(1);
         }
 
-        HGEvent event = new HGEvent(EventActionCode.COMPANY_SUBMIT, fromClass.getName());
-        Company company = BeanUtils.copy(parentData, Company.class);
+        ZEvent event = new ZEvent(EventActionCode.COMPANY_SUBMIT, fromClass.getName());
+        Company company = ZBeanUtils.copy(parentData, Company.class);
         event.addObj(ParamKey.Company, company);
         event.addObj(ParamKey.WorkType, workType);
         EventBus.getDefault().post(event);

@@ -6,11 +6,11 @@ import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
+import com.hg.zero.config.ZCommonResource;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CheckTableListFragment;
 
 /**
@@ -19,7 +19,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CheckTa
  * @author HG
  */
 
-public class CheckTableListActivity extends BaseActivity {
+public class CheckTableListActivity extends HDBaseActivity {
 
     private Company parentData;
 
@@ -30,13 +30,14 @@ public class CheckTableListActivity extends BaseActivity {
 
     @Override
     public void initParamData() {
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
     }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_check_table_list);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_check_table_list);
 
         CheckTableListFragment checkTableListFragment = new CheckTableListFragment();
         checkTableListFragment.setFragmentArguments(

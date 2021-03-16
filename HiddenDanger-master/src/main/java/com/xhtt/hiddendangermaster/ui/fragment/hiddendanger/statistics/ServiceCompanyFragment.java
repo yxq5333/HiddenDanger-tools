@@ -18,16 +18,16 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.statistics.ServiceCompanyAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.ServiceCompany;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.ServiceCompanyBase;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,11 +38,11 @@ import java.util.Calendar;
  * @author HG
  */
 
-public class ServiceCompanyFragment extends BaseMVPFragment<ServiceCompanyPresenter> implements ServiceCompanyContract.View {
+public class ServiceCompanyFragment extends HDBaseMVPFragment<ServiceCompanyPresenter> implements ServiceCompanyContract.View {
 
     private SmartRefreshLayout smartRefreshLayout;
     private BarChart barChart;
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private NestedScrollView nestedScrollView;
     private TextView searchYear;
     private TextView total;
@@ -70,7 +70,7 @@ public class ServiceCompanyFragment extends BaseMVPFragment<ServiceCompanyPresen
 
         smartRefreshLayout = baseUI.findViewById(R.id.smartRefreshLayout);
         barChart = baseUI.findViewById(R.id.barChart);
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
         nestedScrollView = baseUI.findViewById(R.id.nestedScrollView);
         searchYear = baseUI.findViewById(R.id.tv_searchYear);
         total = baseUI.findViewById(R.id.tv_total);
@@ -80,7 +80,7 @@ public class ServiceCompanyFragment extends BaseMVPFragment<ServiceCompanyPresen
 
         smartRefreshLayout.setEnableHeaderTranslationContent(false);
         smartRefreshLayout.setEnableAutoLoadMore(false);
-        smartRefreshLayout.setPrimaryColorsId(HGCommonResource.TITLE_BAR_RESOURCE, com.hg.hollowgoods.R.color.white);
+        smartRefreshLayout.setPrimaryColorsId(ZCommonResource.getTitleBarResource(), R.color.white);
 
         year = Calendar.getInstance().get(Calendar.YEAR);
         searchYear.setText(year + "年");
@@ -288,11 +288,11 @@ public class ServiceCompanyFragment extends BaseMVPFragment<ServiceCompanyPresen
             }
 
             if (smartRefreshLayout.getState() == RefreshState.Loading) {
-                if (smartRefreshLayout.isNoMoreData()) {
-                    smartRefreshLayout.finishLoadMoreWithNoMoreData();
-                } else {
-                    smartRefreshLayout.finishLoadMore();
-                }
+//                if (smartRefreshLayout.isNoMoreData()) {
+//                    smartRefreshLayout.finishLoadMoreWithNoMoreData();
+//                } else {
+                smartRefreshLayout.finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }

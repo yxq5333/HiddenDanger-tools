@@ -4,10 +4,10 @@ import android.content.Context;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.util.file.FileSelectorUtils;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.file.ZFileSelectorUtils;
 import com.xhtt.hiddendangermaster.R;
 
 import java.util.List;
@@ -16,17 +16,17 @@ import java.util.List;
  * 文件详情适配器
  * Created by Hollow Goods on 2019-04-03.
  */
-public class FileDetailAdapter extends CommonAdapter<AppFile> {
+public class FileDetailAdapter extends ZCommonAdapter<ZAppFile> {
 
-    private FileSelectorUtils fileSelectorUtils;
+    private ZFileSelectorUtils fileSelectorUtils;
 
-    public FileDetailAdapter(Context context, int layoutId, List<AppFile> data) {
+    public FileDetailAdapter(Context context, int layoutId, List<ZAppFile> data) {
         super(context, layoutId, data);
-        fileSelectorUtils = new FileSelectorUtils();
+        fileSelectorUtils = new ZFileSelectorUtils();
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, AppFile item, int position) {
+    protected void convert(ZViewHolder viewHolder, ZAppFile item, int position) {
 
         viewHolder.setImageResource(R.id.iv_icon, fileSelectorUtils.getFileIcon(item.getGenerateName()));
 

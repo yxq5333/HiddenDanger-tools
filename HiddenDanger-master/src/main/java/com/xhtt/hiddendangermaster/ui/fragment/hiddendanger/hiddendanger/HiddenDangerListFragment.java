@@ -9,17 +9,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZSystemConfig;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.HiddenDangerListAdapter;
 import com.xhtt.hiddendangermaster.application.MyApplication;
@@ -32,6 +31,7 @@ import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.common.FileReadActivity;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.HiddenDangerDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 
@@ -41,12 +41,12 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
+public class HiddenDangerListFragment extends HDBaseMVPFragment<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
 
     private final int DIALOG_CODE_ASK_DELETE_DATA = 1000;
     private final int DIALOG_CODE_DELETE_DATA = 1001;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
     private HiddenDangerListAdapter adapter;
     private ArrayList<HiddenDanger> data = new ArrayList<>();
@@ -72,6 +72,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
     @Override
     public void initParamData() {
 
+        super.initParamData();
         status = baseUI.getParam(ParamKey.Status, HiddenDanger.STATUS_UNCHANGED);
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
@@ -85,7 +86,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
         baseUI.initSearchView(refreshLayout, true);
         baseUI.setSearchHint("隐患描述");
@@ -99,7 +100,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
     @Override
     public void setListener() {
 
-        adapter.setOnButtonClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnButtonClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -139,7 +140,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
                     }
                 } else if (view.getId() == R.id.btn_ledger || view.getId() == R.id.btn_ledger2) {
                     // 隐患台账
-                    String url = IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.GetPDF.getUrl())
+                    String url = ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.GetPDF.getUrl())
                             + "?token=" + MyApplication.createApplication().getToken()
                             + "&exportType=2"
                             + "&isPdf=true"
@@ -152,7 +153,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
                     );
                 } else if (view.getId() == R.id.btn_changeFile || view.getId() == R.id.btn_changeFile2) {
                     // 整改文件
-                    String url = IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.GetPDF.getUrl())
+                    String url = ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.GetPDF.getUrl())
                             + "?token=" + MyApplication.createApplication().getToken()
                             + "&exportType=3"
                             + "&isPdf=true"
@@ -175,12 +176,12 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
                     HiddenDanger item = data.get(position);
                     if (item.getStatus() == null || item.getStatus() == HiddenDanger.STATUS_UNCHANGED) {
                         String sb = "确定要删除该条隐患吗？";
-                        baseUI.baseDialog.showAlertDialog(new DialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
-                                .setTitle(R.string.tips_best)
-                                .setText(sb)
+                        baseUI.baseDialog.showAlertDialog(new ZDialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
+                                .setTitle(R.string.z_tips_best)
+                                .setContent(sb)
                         );
                     } else {
-                        t.error("该隐患已整改，无法删除");
+                        Zt.error("该隐患已整改，无法删除");
                     }
                 }
             }
@@ -195,8 +196,8 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
             if (result) {
                 switch (code) {
                     case DIALOG_CODE_ASK_DELETE_DATA:
-                        baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
-                                .setText("删除中，请稍候……")
+                        baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
+                                .setContent("删除中，请稍候……")
                         );
                         mPresenter.deleteData(data.get(clickPosition).getId());
                         break;
@@ -211,7 +212,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.HIDDEN_DANGER_SUBMIT) {
             HiddenDanger hiddenDanger = item.getObj(ParamKey.Company, null);
 
@@ -227,7 +228,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
                                 adapter.addData(data, 0, 1);
                                 new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
 
-                                baseUI.setStatus(HGStatusLayout.Status.Default);
+                                baseUI.setStatus(ZStatusLayout.Status.Default);
                             }
                             break;
                         case Edit:
@@ -250,7 +251,7 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
                             }
                             if (status == HiddenDanger.STATUS_CHANGED) {
                                 if (hiddenDanger.getStatus() == HiddenDanger.STATUS_CHANGED) {
-                                    baseUI.setStatus(HGStatusLayout.Status.Default);
+                                    baseUI.setStatus(ZStatusLayout.Status.Default);
 
                                     hiddenDanger.setStatus(HiddenDanger.STATUS_CHANGED);
                                     data.add(0, hiddenDanger);
@@ -337,15 +338,15 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
     @Override
     public void getDataFinish() {
 
+        if (data.size() > 0) {
+            baseUI.setStatus(ZStatusLayout.Status.Default);
+        } else {
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+        }
+
         if (isSearch && data.size() == 0) {
             TextView tips = baseUI.findViewById(R.id.tv_tips);
             tips.setText("未找到相关数据");
-        }
-
-        if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
-        } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
         }
 
         new Handler().postDelayed(() -> {
@@ -355,18 +356,18 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }
 
     @Override
     public void deleteDataSuccess() {
-        t.success("删除成功");
+        Zt.success("删除成功");
         data.remove(clickPosition);
         adapter.removeData(data, clickPosition, 1);
     }
@@ -390,15 +391,15 @@ public class HiddenDangerListFragment extends BaseMVPFragment<HiddenDangerListPr
      */
     private void readFile(Context context, String filepath, String title) {
 
-        if (!HGSystemConfig.IS_NEED_READ_OFFICE_FILE) {
+        if (!ZSystemConfig.isOpenOfficeFileReader()) {
             return;
         }
 
         Intent intent = new Intent(context, FileReadActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        intent.putExtra(HGParamKey.URL.toString(), filepath);
-        intent.putExtra(HGParamKey.Title.toString(), title);
+        intent.putExtra(ZParamKey.URL.toString(), filepath);
+        intent.putExtra(ZParamKey.Title.toString(), title);
         context.startActivity(intent);
     }
 

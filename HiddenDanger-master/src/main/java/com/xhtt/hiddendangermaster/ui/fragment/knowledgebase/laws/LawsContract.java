@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.laws;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.laws.Laws;
 import com.xhtt.hiddendangermaster.constant.LawType;
 
@@ -16,11 +16,11 @@ import java.util.Map;
 
 public class LawsContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getData(Map<String, Object> request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void getDataSuccess(ArrayList<Laws> tempData);
 
         void getDataError();

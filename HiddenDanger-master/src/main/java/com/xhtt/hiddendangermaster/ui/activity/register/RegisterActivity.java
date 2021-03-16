@@ -6,12 +6,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.util.IdentifyingCode;
 
 /**
@@ -19,7 +19,7 @@ import com.xhtt.hiddendangermaster.util.IdentifyingCode;
  *
  * @author HG
  */
-public class RegisterActivity extends BaseMVPActivity<RegisterPresenter> implements RegisterContract.View {
+public class RegisterActivity extends HDBaseMVPActivity<RegisterPresenter> implements RegisterContract.View {
 
     private final int DIALOG_CODE_REGISTER = 1000;
 
@@ -37,7 +37,7 @@ public class RegisterActivity extends BaseMVPActivity<RegisterPresenter> impleme
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_register);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_register);
 
         phone = findViewById(R.id.et_phone);
         code = findViewById(R.id.et_code);
@@ -51,14 +51,14 @@ public class RegisterActivity extends BaseMVPActivity<RegisterPresenter> impleme
     @Override
     public void setListener() {
 
-        refreshCode.setOnClickListener(new OnViewClickListener(false) {
+        refreshCode.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 refreshCode.setImageBitmap(IdentifyingCode.getInstance().createBitmap());
             }
         });
 
-        register.setOnClickListener(new OnViewClickListener(false) {
+        register.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
@@ -82,14 +82,14 @@ public class RegisterActivity extends BaseMVPActivity<RegisterPresenter> impleme
     @Override
     public void doRegisterStart() {
         baseUI.baseDialog.showProgressDialog(
-                new DialogConfig.ProgressConfig(DIALOG_CODE_REGISTER)
-                        .setText("注册中，请稍候……")
+                new ZDialogConfig.ProgressConfig(DIALOG_CODE_REGISTER)
+                        .setContent("注册中，请稍候……")
         );
     }
 
     @Override
     public void doRegisterSuccess() {
-        t.success("注册成功");
+        Zt.success("注册成功");
         finishMyActivity();
     }
 

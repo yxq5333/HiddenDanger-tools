@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">隐患排查</string>
-    <string name="app_base_dir">HiddenDanger</string>
+    <string name="z_app_base_dir">HiddenDanger</string>
     <string name="update_app_already_new">当前已是最新版本</string>
     <string name="network_error">网络连接失败</string>
     <string name="avoid_law_tips">《免责声明》</string>
@@ -14,6 +14,10 @@
     <string name="please_choose_city">请选择市</string>
     <string name="please_choose_district">请选择区</string>
     <string name="please_choose_town">请选择镇</string>
+
+    <string name="brightness">亮度</string>
+    <string name="volume">音量</string>
+    <string name="progress">进度</string>
 
     <string name="BottomHideBehavior">com.xhtt.hiddendangermaster.view.BottomHideBehavior</string>
     <string name="RightHideBehavior">com.xhtt.hiddendangermaster.view.RightHideBehavior</string>

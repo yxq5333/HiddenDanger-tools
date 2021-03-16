@@ -2,8 +2,8 @@ package com.xhtt.hiddendangermaster.adapter.knowledgebase.msds;
 
 import android.text.TextUtils;
 
-import com.hg.hollowgoods.adapter.list.common.base.ItemViewDelegate;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
+import com.hg.zero.adapter.list.common.base.ZItemViewDelegate;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.msds.MSDSDetail;
 import com.xhtt.hiddendangermaster.constant.Constants;
@@ -13,7 +13,7 @@ import com.xhtt.hiddendangermaster.constant.Constants;
  * Created by xhtt on 2017-01-23.
  */
 
-public class ItemMSDSDetail06 implements ItemViewDelegate<MSDSDetail> {
+public class ItemMSDSDetail06 implements ZItemViewDelegate<MSDSDetail> {
 
     @Override
     public int getItemViewLayoutId() {
@@ -26,7 +26,7 @@ public class ItemMSDSDetail06 implements ItemViewDelegate<MSDSDetail> {
     }
 
     @Override
-    public void convert(ViewHolder holder, MSDSDetail item, int position) {
+    public void convert(ZViewHolder holder, MSDSDetail item, int position) {
         holder.setText(R.id.tv_m1, clearFormat(item.getTexts()[0]));
     }
 

@@ -6,13 +6,8 @@
     android:background="@color/main_body_color"
     android:orientation="vertical">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
-        android:id="@+id/commonTitleView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -31,17 +26,26 @@
 
             <!-- 主体内容在此填写 -->
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="72dp"
+                android:text="您好！"
+                android:textColor="#141414"
+                android:textSize="29sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="60dp"
-                android:text="欢迎使用隐患排查"
-                android:textColor="@color/white"
-                android:textSize="26sp" />
+                android:layout_marginTop="4dp"
+                android:text="欢迎使用隐患排查。"
+                android:textColor="@color/txt_color_normal"
+                android:textSize="15sp" />
 
-            <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+            <com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -56,17 +60,17 @@
                     android:hint="用户名/手机号"
                     android:inputType="text"
                     android:textSize="14sp"
-                    app:met_baseColor="@color/white"
+                    app:met_baseColor="@color/txt_color_dark"
                     app:met_floatingLabel="highlight"
-                    app:met_primaryColor="@color/white"
+                    app:met_primaryColor="@color/colorAccent"
                     app:met_singleLineEllipsis="true"
-                    app:met_textColor="@color/white"
-                    app:met_textColorHint="@color/white"
-                    app:met_underlineColor="@color/white" />
+                    app:met_textColor="@color/colorAccent"
+                    app:met_textColorHint="@color/txt_color_light"
+                    app:met_underlineColor="@color/txt_color_light" />
 
-            </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+            </com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout>
 
-            <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+            <com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -80,22 +84,23 @@
                     android:hint="密码"
                     android:inputType="textPassword"
                     android:textSize="14sp"
-                    app:met_baseColor="@color/white"
+                    app:met_baseColor="@color/txt_color_dark"
                     app:met_floatingLabel="highlight"
-                    app:met_primaryColor="@color/white"
+                    app:met_primaryColor="@color/colorAccent"
                     app:met_singleLineEllipsis="true"
-                    app:met_textColor="@color/white"
-                    app:met_textColorHint="@color/white"
-                    app:met_underlineColor="@color/white" />
+                    app:met_textColor="@color/colorAccent"
+                    app:met_textColorHint="@color/txt_color_light"
+                    app:met_underlineColor="@color/txt_color_light" />
 
-            </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+            </com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_login"
                 style="@style/MainButton"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:layout_marginEnd="32dp"
+                android:stateListAnimator="@null"
                 android:text="登录" />
 
             <TextView
@@ -140,36 +145,36 @@
                     android:id="@+id/cb_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/white" />
+                    android:buttonTint="@color/colorAccent" />
 
                 <TextView
                     android:id="@+id/tv_avoidLawTips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/avoid_law_tips"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorAccent"
                     android:textSize="14sp" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+        <com.hg.zero.widget.floatingsearchview.ZFloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
             app:floatingSearch_close_search_on_keyboard_dismiss="true"
             app:floatingSearch_leftActionMode="showSearch"
-            app:floatingSearch_menu="@menu/menu_activity_ip_config_list"
+            app:floatingSearch_menu="@menu/z_menu_activity_ip_config_list"
             app:floatingSearch_searchBarMarginLeft="16dp"
             app:floatingSearch_searchBarMarginRight="16dp"
             app:floatingSearch_searchBarMarginTop="16dp"
-            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_searchHint="@string/z_search"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"
             app:floatingSearch_viewTextColor="#323232" />
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
 </LinearLayout>

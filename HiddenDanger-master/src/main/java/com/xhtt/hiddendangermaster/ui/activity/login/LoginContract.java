@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.login;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.LoginRequest;
 
 /**
@@ -12,11 +12,11 @@ import com.xhtt.hiddendangermaster.bean.LoginRequest;
 
 public class LoginContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void doLogin(LoginRequest request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void doLoginStart();
 
         void doLoginSuccess(String token);

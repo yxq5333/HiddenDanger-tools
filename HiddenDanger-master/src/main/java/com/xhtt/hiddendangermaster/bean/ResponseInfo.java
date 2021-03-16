@@ -1,11 +1,12 @@
 package com.xhtt.hiddendangermaster.bean;
 
+import com.hg.zero.net.callback.contract.ZResponseInfo;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.ResponseList;
 
 /**
  * Created by Hollow Goods on 2019-04-11.
  */
-public class ResponseInfo {
+public class ResponseInfo implements ZResponseInfo {
 
     /**** 请求成功 ****/
     public static final int CODE_SUCCESS = 0;
@@ -46,6 +47,16 @@ public class ResponseInfo {
 
     public Object getData() {
         return data;
+    }
+
+    @Override
+    public String getMessage() {
+        return msg;
+    }
+
+    @Override
+    public <T> T getTag() {
+        return null;
     }
 
     public void setData(Object data) {

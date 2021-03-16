@@ -8,17 +8,13 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.hg.hollowgoods.adapter.viewpager.FragmentViewPagerAdapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.widget.tablayout.CommonTabLayout;
-import com.hg.widget.tablayout.listener.CustomTabEntity;
-import com.hg.widget.tablayout.listener.OnTabSelectListener;
+import com.hg.zero.adapter.viewpager.ZFragmentViewPagerAdapter;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
@@ -27,9 +23,13 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerListContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerListFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerListPresenter;
+import com.xhtt.hiddendangermaster.view.tablayout.CommonTabLayout;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.CustomTabEntity;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.OnTabSelectListener;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -41,7 +41,7 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
+public class HiddenDangerListActivity extends HDBaseMVPActivity<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
 
     private final int DIALOG_CODE_ASK_SUBMIT = 1000;
     private final int DIALOG_CODE_SUBMIT = 1001;
@@ -53,11 +53,11 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
 
     private ArrayList<CustomTabEntity> tabBarData = new ArrayList<CustomTabEntity>() {
         {
-            add(new TabEntity("未整改", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("已整改", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
+            add(new TabEntity("未整改", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("已整改", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
         }
     };
-    private FragmentViewPagerAdapter adapter;
+    private ZFragmentViewPagerAdapter adapter;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private int nowPosition = 0;
     private HiddenDangerListFragment fragment1;
@@ -77,6 +77,7 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
         if (parentData == null) {
@@ -87,9 +88,9 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, parentData.getCompanyName());
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), parentData.getCompanyName());
         baseUI.setCommonRightTitleText("下一步");
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -116,7 +117,7 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
             );
             fragments.add(fragment2);
 
-            adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
+            adapter = new ZFragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
             viewPager.setOffscreenPageLimit(fragments.size());
             viewPager.setAdapter(adapter);
         }, SystemConfig.DELAY_TIME_INIT_VIEW);
@@ -157,7 +158,7 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
                 }
             });
 
-            add.setOnClickListener(new OnViewClickListener(false) {
+            add.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(HiddenDangerDetailActivity.class,
@@ -167,7 +168,7 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
                 }
             });
 
-            checkTable.setOnClickListener(new OnViewClickListener(false) {
+            checkTable.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(CheckTableListActivity.class,
@@ -177,13 +178,13 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
                 }
             });
 
-            baseUI.baseDialog.setOnDialogClickListener((code, result, bundle) -> {
+            baseUI.baseDialog.addOnDialogClickListener((code, result, bundle) -> {
 
                 if (result) {
                     switch (code) {
                         case DIALOG_CODE_ASK_SUBMIT:
-                            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                                    .setText("提交中，请稍候……")
+                            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                                    .setContent("提交中，请稍候……")
                             );
                             mPresenter.submitService(parentData.getServiceId());
                             break;
@@ -191,7 +192,7 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -206,11 +207,11 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
                 new Enum[]{ParamKey.ParentData},
                 new Object[]{parentData}
         );
-//        baseUI.baseDialog.showAlertDialog(R.string.tips_best, "确定要提交吗？", DIALOG_CODE_ASK_SUBMIT);
+//        baseUI.baseDialog.showAlertDialog(R.string.z_tips_best, "确定要提交吗？", DIALOG_CODE_ASK_SUBMIT);
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.getEventActionCode() == EventActionCode.SERVICE_SUBMIT) {
             finishMyActivity();
         }
@@ -219,9 +220,9 @@ public class HiddenDangerListActivity extends BaseMVPActivity<HiddenDangerListPr
     @Override
     public void submitServiceSuccess(long newServiceId) {
 
-        t.success("提交成功");
+        Zt.success("提交成功");
 
-        HGEvent event = new HGEvent(EventActionCode.SERVICE_SUBMIT);
+        ZEvent event = new ZEvent(EventActionCode.SERVICE_SUBMIT);
         event.addObj(ParamKey.BackData, newServiceId);
         EventBus.getDefault().post(event);
 

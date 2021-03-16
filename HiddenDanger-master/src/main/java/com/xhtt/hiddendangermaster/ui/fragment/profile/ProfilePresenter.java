@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.profile;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class ProfilePresenter extends BasePresenter<ProfileContract.View, ProfileContract.Model> implements ProfileContract.Presenter {
+public class ProfilePresenter extends ZBasePresenter<ProfileContract.View, ProfileContract.Model> implements ProfileContract.Presenter {
 
     @Override
     public void afterAttachView() {

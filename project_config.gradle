@@ -1,11 +1,11 @@
 ext {
     configs = [
-            compileSdkVersion      : 28,
-            buildToolsVersion      : '29.0.2',
+            compileSdkVersion      : 29,
+            buildToolsVersion      : '30.0.2',
             minSdkVersion          : 21,
-            targetSdkVersion       : 28,
-            versionCode            : 11024,
-            versionName            : '1.1.024',
+            targetSdkVersion       : 29,
+            versionCode            : 11301,
+            versionName            : '1.1.301',
             AMapAndroidKey         : '"20ca774166dc68834ad6280bbd8c72a6"',
             AMapAndroidKey4Manifest: '20ca774166dc68834ad6280bbd8c72a6',
             WXAndroidKey           : '"wx096d9126f1698653"',
@@ -14,6 +14,7 @@ ext {
             MetaDataKeyPORT        : '"APP_PORT_KEY"',
     ]
     AppTypeName = [
+            XHTT_Test            : '欣华天泰——测试',
             XHTT                 : '欣华天泰——知识库风格',
             XHTT_Map             : '欣华天泰——企业地图风格8012',
             XHTT_Map9026         : '欣华天泰——企业地图风格9026',
@@ -25,14 +26,10 @@ ext {
 
     Version = '-SNAPSHOT'
 //    Version = ''
-    HollowGoodsV5 = "5.8.6${Version}"
-    HollowGoodsV5_Widget = "1.0.4-SNAPSHOT"
-    HollowGoodsV5_Recorder = "1.0.2-SNAPSHOT"
+    Zero = "1.8.0${Version}"
 
     libs = [
-            HollowGoodsV5         : "com.hg.hollowgoods:HollowGoodsV5:$HollowGoodsV5",
-            HollowGoodsV5_Widget  : "com.hg.hollowgoods:HollowGoodsV5-Widget:$HollowGoodsV5_Widget",
-            HollowGoodsV5_Recorder: "com.hg.hollowgoods:HollowGoodsV5-Recorder:$HollowGoodsV5_Recorder",
+            Zero: "com.hg.zero:Zero:$Zero",
     ]
 
 }

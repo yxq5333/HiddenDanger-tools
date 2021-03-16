@@ -5,13 +5,13 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
+    <com.hg.zero.widget.commontitle.ZCommonTitleView
         android:id="@+id/commonTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -38,7 +38,7 @@
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/ic_phone" />
 
-                <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+                <com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -57,7 +57,7 @@
                         android:textColorHint="@color/txt_color_light"
                         android:textSize="14sp" />
 
-                </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+                </com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout>
 
             </LinearLayout>
 
@@ -81,7 +81,7 @@
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/ic_register_password" />
 
-                <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+                <com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -101,7 +101,7 @@
                         android:textColorHint="@color/txt_color_light"
                         android:textSize="14sp" />
 
-                </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+                </com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout>
 
             </LinearLayout>
 
@@ -125,7 +125,7 @@
                     android:layout_height="25dp"
                     app:srcCompat="@drawable/ic_verification_code" />
 
-                <com.hg.hollowgoods.widget.AutoShowDeleteLayout
+                <com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -144,7 +144,7 @@
                         android:textColorHint="@color/txt_color_light"
                         android:textSize="14sp" />
 
-                </com.hg.hollowgoods.widget.AutoShowDeleteLayout>
+                </com.hg.zero.widget.autoshowdeletelayout.ZAutoShowDeleteLayout>
 
                 <ImageView
                     android:id="@+id/iv_code"
@@ -171,7 +171,7 @@
 
         </LinearLayout>
 
-        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+        <com.hg.zero.widget.floatingsearchview.ZFloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -181,11 +181,11 @@
             app:floatingSearch_searchBarMarginLeft="16dp"
             app:floatingSearch_searchBarMarginRight="16dp"
             app:floatingSearch_searchBarMarginTop="16dp"
-            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_searchHint="@string/z_search"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"
             app:floatingSearch_viewTextColor="#323232" />
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
 </LinearLayout>

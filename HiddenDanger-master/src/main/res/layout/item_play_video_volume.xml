@@ -20,7 +20,7 @@
             android:text="@string/volume"
             android:textColor="@color/white" />
 
-        <com.hg.widget.enview.ENVolumeView
+        <com.xhtt.hiddendangermaster.view.enview.ENVolumeView
             android:id="@+id/volumeProgressBar"
             android:layout_width="50dp"
             android:layout_height="50dp"

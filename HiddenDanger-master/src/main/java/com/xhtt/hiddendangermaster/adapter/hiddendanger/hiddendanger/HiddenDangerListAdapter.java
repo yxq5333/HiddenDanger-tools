@@ -4,15 +4,13 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.bumptech.glide.request.RequestOptions;
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.glide.GlideOptions;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 
@@ -21,23 +19,23 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-08.
  */
-public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
+public class HiddenDangerListAdapter extends ZCommonAdapter<HiddenDanger> {
 
-    private OnRecyclerViewItemClickOldListener onButtonClickListener;
+    private ZOnRecyclerViewItemClickOldListener onButtonClickListener;
 
     public HiddenDangerListAdapter(Context context, int layoutId, List<HiddenDanger> data) {
         super(context, layoutId, data);
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, HiddenDanger item, int position) {
+    protected void convert(ZViewHolder viewHolder, HiddenDanger item, int position) {
 
         viewHolder.setText(R.id.tv_hiddenDangerDescribe, item.getHiddenDescribe());
 
         StringBuilder checkDate = new StringBuilder();
         checkDate.append("检查日期");
         checkDate.append(" ");
-        checkDate.append(StringUtils.getDateTimeString(item.getCheckDateShow(), StringUtils.DateFormatMode.LINE_YMD));
+        checkDate.append(ZDateTimeUtils.getDateTimeString(item.getCheckDateShow(), ZDateTimeUtils.DateFormatMode.LINE_YMD));
         viewHolder.setText(R.id.tv_checkDate, checkDate.toString());
 
         StringBuilder checkPeople = new StringBuilder();
@@ -57,7 +55,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             viewHolder.setSlanted(R.id.status, R.color.grey2, "未整改");
         }
 
-        List<AppFile> img = item.getAppHiddenPhotoList();
+        List<ZAppFile> img = item.getAppHiddenPhotoList();
 
         StringBuilder hiddenDangerPhotoCount = new StringBuilder();
         hiddenDangerPhotoCount.append("(");
@@ -67,15 +65,9 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
         viewHolder.setText(R.id.tv_hiddenDangerPhotoCount, hiddenDangerPhotoCount.toString());
 
         if (img == null || img.size() == 0) {
-            viewHolder.setImageResource(R.id.iv_img, HGCommonResource.IMAGE_LOAD_ERROR);
+            viewHolder.setImageResource(R.id.iv_img, ZCommonResource.getImageError());
         } else {
-            RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(HGCommonResource.IMAGE_LOADING)
-                    .error(HGCommonResource.IMAGE_LOAD_ERROR)
-                    .centerCrop();
-            GlideOptions glideOptions = new GlideOptions(img.get(img.size() - 1).getUrl(), null, GlideOptions.NORMAL_FADE_IN, requestOptions);
-
-            viewHolder.setImageByUrl(R.id.iv_img, glideOptions);
+            viewHolder.setImageByUrl(R.id.iv_img, img.get(img.size() - 1).getUrl());
         }
 
         if (item.getStatus() == null) {
@@ -99,7 +91,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         }
 
-        viewHolder.setOnClickListener(R.id.btn_edit, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_edit, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -108,7 +100,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_change, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_change, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -117,7 +109,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_detail, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_detail, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -126,7 +118,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.cv_all, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.cv_all, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -135,7 +127,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnLongClickListener(R.id.cv_all, new OnViewClickListener(false) {
+        viewHolder.setOnLongClickListener(R.id.cv_all, new ZOnViewClickListener(false) {
             @Override
             public void onViewLongClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -144,7 +136,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_ledger, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_ledger, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -153,7 +145,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_ledger2, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_ledger2, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -162,7 +154,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_changeFile, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_changeFile, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -171,7 +163,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_changeFile2, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_changeFile2, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -181,7 +173,7 @@ public class HiddenDangerListAdapter extends CommonAdapter<HiddenDanger> {
         });
     }
 
-    public void setOnButtonClickListener(OnRecyclerViewItemClickOldListener onButtonClickListener) {
+    public void setOnButtonClickListener(ZOnRecyclerViewItemClickOldListener onButtonClickListener) {
         this.onButtonClickListener = onButtonClickListener;
     }
 

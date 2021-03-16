@@ -2,8 +2,8 @@ package com.xhtt.hiddendangermaster.ui.activity.login;
 
 import android.text.TextUtils;
 
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.bean.LoginRequest;
 
 /**
@@ -12,7 +12,7 @@ import com.xhtt.hiddendangermaster.bean.LoginRequest;
  * @author HG
  */
 
-public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContract.Model> implements LoginContract.Presenter {
+public class LoginPresenter extends ZBasePresenter<LoginContract.View, LoginContract.Model> implements LoginContract.Presenter {
 
     @Override
     public void afterAttachView() {
@@ -23,12 +23,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
     public void doLogin(String username, String password) {
 
         if (TextUtils.isEmpty(username)) {
-            t.warning("请输入用户名/手机号");
+            Zt.warning("请输入用户名/手机号");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            t.warning("请输入密码");
+            Zt.warning("请输入密码");
             return;
         }
 

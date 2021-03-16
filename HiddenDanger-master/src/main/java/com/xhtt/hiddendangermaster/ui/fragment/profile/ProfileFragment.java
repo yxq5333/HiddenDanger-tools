@@ -8,23 +8,22 @@ import android.widget.Button;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
-import com.hg.hollowgoods.adapter.fast.callback.OnSystemProxyEventFinishListenerAdapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.SystemAppUtils;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
-import com.hg.hollowgoods.util.file.FileUtils2;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.itemdecoration.divider.HorizontalDividerItemDecoration;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnFastItemClickListener2Adapter;
+import com.hg.zero.adapter.fast.callback.ZOnSystemProxyEventFinishListenerAdapter;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZSystemConfig;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.file.ZFileUtils2;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
+import com.hg.zero.util.ZSystemAppUtils;
+import com.hg.zero.widget.itemdecoration.divider.ZHorizontalDividerItemDecoration;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
@@ -33,6 +32,7 @@ import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.activity.profile.AboutUsActivity;
 import com.xhtt.hiddendangermaster.ui.activity.profile.AlterPasswordActivity;
 import com.xhtt.hiddendangermaster.ui.activity.profile.CacheClearActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.util.LoginUtils;
 
 import java.util.ArrayList;
@@ -44,15 +44,15 @@ import java.util.HashMap;
  * @author HG
  */
 
-public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implements ProfileContract.View {
+public class ProfileFragment extends HDBaseMVPFragment<ProfilePresenter> implements ProfileContract.View {
 
     private final int DIALOG_CODE_LOGIN_OUT = 1000;
 
     private RecyclerView result;
     private Button loginOut;
 
-    private HGFastAdapter2 adapter;
-    private ArrayList<HGFastItem2> data = new ArrayList<>();
+    private ZFastAdapter2 adapter;
+    private ArrayList<ZFastItem2> data = new ArrayList<>();
     private User user;
     private HashMap<Integer, String> refreshTag = new HashMap<>();
 
@@ -65,7 +65,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
     public void initView(View view, Bundle savedInstanceState) {
 
         baseUI.setCommonTitleStyleAutoBackground(R.string.title_activity_profile);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -75,15 +75,15 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
             user = new User();
 
             result.setHasFixedSize(true);
-            result.setItemAnimator(new LandingAnimator());
-            result.addItemDecoration(new HorizontalDividerItemDecoration.Builder(baseUI.getBaseContext())
+            result.setItemAnimator(new ZLandingAnimator());
+            result.addItemDecoration(new ZHorizontalDividerItemDecoration.Builder(baseUI.getBaseContext())
                     .colorResId(R.color.line)
-                    .sizeResId(R.dimen.default_line_mini_size)
+                    .sizeResId(R.dimen.z_default_line_mini_size)
                     .build()
             );
             result.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
 
-            data.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("用户名")
                     .setContentHint("请输入")
                     .setOnlyRead(false)
@@ -92,7 +92,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(20, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(20, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("姓名")
                     .setContentHint("请输入")
                     .setOnlyRead(false)
@@ -101,7 +101,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(30, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(30, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("手机")
                     .setOnlyRead(true)
                     .setNotEmpty(false)
@@ -109,7 +109,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(40, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(40, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("修改密码")
                     .setOnlyRead(false)
                     .setNotEmpty(false)
@@ -117,7 +117,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(50, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(50, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("清理缓存")
                     .setOnlyRead(false)
                     .setNotEmpty(false)
@@ -125,7 +125,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(55, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(55, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("用户手册")
                     .setOnlyRead(false)
                     .setNotEmpty(false)
@@ -133,7 +133,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            data.add(new HGFastItem2.Builder(60, HGFastItem2.ITEM_TYPE_INPUT)
+            data.add(new ZFastItem2.Builder(60, ZFastItem2.ITEM_TYPE_INPUT)
                     .setLabel("关于我们")
                     .setOnlyRead(false)
                     .setNotEmpty(false)
@@ -141,8 +141,8 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                     .build()
             );
 
-            adapter = new HGFastAdapter2(baseUI, data);
-            result.setAdapter(new ScaleInAnimationAdapter(adapter));
+            adapter = new ZFastAdapter2(baseUI, data);
+            result.setAdapter(new ZScaleInAnimationAdapter(adapter));
 
 //            adapter.refreshDataAllData(data);
 
@@ -157,7 +157,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
 
         new Handler().postDelayed(() -> {
 
-            adapter.addOnSystemProxyEventFinishListener(new OnSystemProxyEventFinishListenerAdapter() {
+            adapter.addOnSystemProxyEventFinishListener(new ZOnSystemProxyEventFinishListenerAdapter() {
                 @Override
                 public void onInputFinish(int itemId, String content) {
                     if (itemId == 10) {
@@ -173,46 +173,50 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
             });
 
             // 修改密码
-            adapter.setOnHGFastItemClickListener2(40, new OnHGFastItemClickListener2Adapter() {
+            adapter.setOnFastItemClickListener2(40, new ZOnFastItemClickListener2Adapter() {
                 @Override
-                public void onItemClick(int clickItemId) {
+                public boolean onItemClick(int clickItemId) {
                     baseUI.startMyActivity(AlterPasswordActivity.class);
+                    return true;
                 }
             });
 
             // 清理缓存
-            adapter.setOnHGFastItemClickListener2(50, new OnHGFastItemClickListener2Adapter() {
+            adapter.setOnFastItemClickListener2(50, new ZOnFastItemClickListener2Adapter() {
                 @Override
-                public void onItemClick(int clickItemId) {
+                public boolean onItemClick(int clickItemId) {
                     baseUI.startMyActivity(CacheClearActivity.class);
+                    return true;
                 }
             });
 
             // 用户手册
-            adapter.setOnHGFastItemClickListener2(55, new OnHGFastItemClickListener2Adapter() {
+            adapter.setOnFastItemClickListener2(55, new ZOnFastItemClickListener2Adapter() {
                 @Override
-                public void onItemClick(int clickItemId) {
-                    new SystemAppUtils().readFile(baseUI.getBaseContext(),
-                            IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl() + "operation.pdf"),
+                public boolean onItemClick(int clickItemId) {
+                    new ZSystemAppUtils().readFile(baseUI.getBaseContext(),
+                            ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl() + "operation.pdf"),
                             "用户手册"
                     );
+                    return true;
                 }
             });
 
             // 关于我们
-            adapter.setOnHGFastItemClickListener2(60, new OnHGFastItemClickListener2Adapter() {
+            adapter.setOnFastItemClickListener2(60, new ZOnFastItemClickListener2Adapter() {
                 @Override
-                public void onItemClick(int clickItemId) {
+                public boolean onItemClick(int clickItemId) {
                     baseUI.startMyActivity(AboutUsActivity.class);
+                    return true;
                 }
             });
 
-            loginOut.setOnClickListener(new OnViewClickListener(false) {
+            loginOut.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
-                    baseUI.baseDialog.showAlertDialog(new DialogConfig.AlertConfig(DIALOG_CODE_LOGIN_OUT)
-                            .setTitle(R.string.tips_best)
-                            .setText("是否确定退出登录？")
+                    baseUI.baseDialog.showAlertDialog(new ZDialogConfig.AlertConfig(DIALOG_CODE_LOGIN_OUT)
+                            .setTitle(R.string.z_tips_best)
+                            .setContent("是否确定退出登录？")
                     );
                 }
             });
@@ -227,7 +231,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -237,7 +241,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.ClearCache) {
             refreshCache();
         }
@@ -272,7 +276,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
         if (refreshTag.get(10) != null) {
             user.setUsername(refreshTag.get(10));
             adapter.findItemById(10).setContent(user.getUsername());
-            t.info("由于修改了用户名，请重新登录！");
+            Zt.info("由于修改了用户名，请重新登录！");
             doLoginOut();
             return;
         }
@@ -301,7 +305,7 @@ public class ProfileFragment extends BaseMVPFragment<ProfilePresenter> implement
     private void refreshCache() {
         if (user != null && adapter != null) {
             new Thread(() -> baseUI.getBaseContext().runOnUiThread(() -> {
-                adapter.findItemById(50).setContent(FileUtils2.formatFileSize(FileUtils2.calcFileTotalSizeFromPath(HGSystemConfig.APP_BASE_PATH)));
+                adapter.findItemById(50).setContent(ZFileUtils2.formatFileSize(ZFileUtils2.calcFileTotalSizeFromPath(ZSystemConfig.appBaseDir())));
                 adapter.processData();
             })).start();
         }

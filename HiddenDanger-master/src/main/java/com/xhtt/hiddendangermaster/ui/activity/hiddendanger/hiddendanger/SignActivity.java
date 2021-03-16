@@ -6,17 +6,17 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatButton;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
 import com.xhtt.hiddendangermaster.view.doodleview.DoodleView;
 
@@ -32,7 +32,7 @@ import java.util.List;
  * Created by YXQ on 2020-06-23
  */
 
-public class SignActivity extends BaseMVPActivity<SignPresenter> implements SignContract.View {
+public class SignActivity extends HDBaseMVPActivity<SignPresenter> implements SignContract.View {
 
     private DoodleView mDoodleView1;
     private DoodleView mDoodleView2;
@@ -53,14 +53,9 @@ public class SignActivity extends BaseMVPActivity<SignPresenter> implements Sign
     }
 
     @Override
-    public void initParamData() {
-
-    }
-
-    @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, "确认签字");
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), "确认签字");
         baseUI.setCommonRightTitleText("跳过");
 
         mDoodleView1 = findViewById(R.id.doodle_doodleView1);
@@ -84,37 +79,37 @@ public class SignActivity extends BaseMVPActivity<SignPresenter> implements Sign
     @Override
     public void setListener() {
 
-        clear1.setOnClickListener(new OnViewClickListener(false) {
+        clear1.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 mDoodleView1.reset();
             }
         });
 
-        clear2.setOnClickListener(new OnViewClickListener(false) {
+        clear2.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 mDoodleView2.reset();
             }
         });
 
-        submit.setOnClickListener(new OnViewClickListener(false) {
+        submit.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
-                baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                        .setText("正在上传签名，请稍候……")
+                baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                        .setContent("正在上传签名，请稍候……")
                 );
 
-                List<AppFile> appFiles = new ArrayList<>();
+                List<ZAppFile> appFiles = new ArrayList<>();
 
                 String path1 = mDoodleView1.saveBitmap(mDoodleView1);
-                AppFile appFile1 = new AppFile();
+                ZAppFile appFile1 = new ZAppFile();
                 appFile1.setFile(new File(path1));
                 appFiles.add(appFile1);
 
                 String path2 = mDoodleView2.saveBitmap(mDoodleView2);
-                AppFile appFile2 = new AppFile();
+                ZAppFile appFile2 = new ZAppFile();
                 appFile2.setFile(new File(path2));
                 appFiles.add(appFile2);
 
@@ -124,16 +119,16 @@ public class SignActivity extends BaseMVPActivity<SignPresenter> implements Sign
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.isFromMe(this.getClass().getName())) {
             if (event.getEventActionCode() == EventActionCode.UPLOAD_PHOTO) {
                 boolean status = event.getObj(ParamKey.Status, false);
 
                 if (status) {
-                    ArrayList<AppFile> appFiles = event.getObj(ParamKey.BackData, null);
+                    ArrayList<ZAppFile> appFiles = event.getObj(ParamKey.BackData, null);
                     backData(appFiles);
                 } else {
-                    t.error("提交失败，请重试");
+                    Zt.error("提交失败，请重试");
                 }
             }
         }
@@ -144,12 +139,12 @@ public class SignActivity extends BaseMVPActivity<SignPresenter> implements Sign
         return new SignPresenter(this);
     }
 
-    private void backData(List<AppFile> appFiles) {
+    private void backData(List<ZAppFile> appFiles) {
 
         baseUI.baseDialog.closeDialog(DIALOG_CODE_SUBMIT);
 
-        HGEvent event = new HGEvent(EventActionCode.SIGN_BACK);
-        event.addObj(HGParamKey.RequestCode, baseUI.requestCode);
+        ZEvent event = new ZEvent(EventActionCode.SIGN_BACK);
+        event.addObj(ZParamKey.RequestCode, baseUI.requestCode);
         if (appFiles != null) {
             event.addObj(ParamKey.SignData, appFiles);
         }

@@ -3,8 +3,8 @@ package com.xhtt.hiddendangermaster.ui.dialog;
 import android.os.Bundle;
 import android.view.View;
 
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.HGDialogFragment2;
+import com.hg.zero.dialog.ZDialogFragment2;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.util.WeChatUtils;
 
@@ -13,13 +13,13 @@ import com.xhtt.hiddendangermaster.util.WeChatUtils;
  * <p>
  * Created by Hollow Goods on 2020-09-15.
  */
-public class ShareWeChatDialog extends HGDialogFragment2<ShareWeChatConfig> {
+public class ShareWeChatDialog extends ZDialogFragment2<ShareWeChatConfig> {
 
     private View friend;
     private View moments;
 
-    public ShareWeChatDialog(ShareWeChatConfig config) {
-        mConfig = config;
+    public ShareWeChatDialog(ShareWeChatConfig mConfig) {
+        super(mConfig);
     }
 
     @Override
@@ -37,17 +37,19 @@ public class ShareWeChatDialog extends HGDialogFragment2<ShareWeChatConfig> {
     @Override
     public void setListener() {
 
-        friend.setOnClickListener(new OnViewClickListener(false) {
+        friend.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                WeChatUtils.create().init(context).shareFile(WeChatUtils.SCENE_FRIEND, mConfig.getFilepath());
+                WeChatUtils.create().shareFile(WeChatUtils.SCENE_FRIEND, mConfig.getFilepath());
+                closeDialog();
             }
         });
 
-        moments.setOnClickListener(new OnViewClickListener(false) {
+        moments.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                WeChatUtils.create().init(context).shareFile(WeChatUtils.SCENE_MOMENTS, mConfig.getFilepath());
+                WeChatUtils.create().shareFile(WeChatUtils.SCENE_MOMENTS, mConfig.getFilepath());
+                closeDialog();
             }
         });
     }

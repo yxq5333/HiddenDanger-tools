@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.bean.CommonBean;
-import com.hg.hollowgoods.bean.file.AppFile;
+import com.hg.zero.bean.ZCommonBean;
+import com.hg.zero.file.ZAppFile;
 import com.xhtt.hiddendangermaster.util.uploadfile.WebFile;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-08.
  */
-public class HiddenDangerChange extends CommonBean<HiddenDangerChange> {
+public class HiddenDangerChange extends ZCommonBean<HiddenDangerChange> {
 
     public HiddenDangerChange() {
         super(-1);
@@ -26,7 +26,7 @@ public class HiddenDangerChange extends CommonBean<HiddenDangerChange> {
 
     private ArrayList<WebFile> changePhotoList;// 整改后照片
 
-    private List<AppFile> appChangePhotoList;
+    private List<ZAppFile> appChangePhotoList;
 
     public String getChangeDescribe() {
         return changeDescribe;
@@ -52,11 +52,11 @@ public class HiddenDangerChange extends CommonBean<HiddenDangerChange> {
         this.changePhoto = changePhoto;
     }
 
-    public List<AppFile> getAppChangePhotoList() {
+    public List<ZAppFile> getAppChangePhotoList() {
         return appChangePhotoList;
     }
 
-    public void setAppChangePhotoList(List<AppFile> appChangePhotoList) {
+    public void setAppChangePhotoList(List<ZAppFile> appChangePhotoList) {
         this.appChangePhotoList = appChangePhotoList;
     }
 }

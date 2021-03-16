@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.knowledgebase.dangerproduct;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 
 /**
  * 危化品信息协议层
@@ -11,11 +11,11 @@ import com.hg.hollowgoods.ui.base.mvp.IBaseView;
 
 public class DangerProductDetailContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
 
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
 
     }
 

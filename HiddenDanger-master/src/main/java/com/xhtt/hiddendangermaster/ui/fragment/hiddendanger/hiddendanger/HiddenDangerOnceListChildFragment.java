@@ -8,16 +8,16 @@ import android.widget.RadioGroup;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.ui.base.BaseFragment;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseFragment;
 
 /**
  * Created by Hollow Goods on 2019-04-09.
  */
-public class HiddenDangerOnceListChildFragment extends BaseFragment {
+public class HiddenDangerOnceListChildFragment extends HDBaseFragment {
 
     private RadioGroup status;
 
@@ -34,6 +34,7 @@ public class HiddenDangerOnceListChildFragment extends BaseFragment {
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
         if (parentData == null) {

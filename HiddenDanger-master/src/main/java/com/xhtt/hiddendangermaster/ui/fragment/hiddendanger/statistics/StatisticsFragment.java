@@ -7,16 +7,16 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.hg.hollowgoods.adapter.viewpager.FragmentViewPagerAdapter;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.widget.tablayout.CommonTabLayout;
-import com.hg.widget.tablayout.listener.CustomTabEntity;
-import com.hg.widget.tablayout.listener.OnTabSelectListener;
+import com.hg.zero.adapter.viewpager.ZFragmentViewPagerAdapter;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.TabEntity;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
+import com.xhtt.hiddendangermaster.view.tablayout.CommonTabLayout;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.CustomTabEntity;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> implements StatisticsContract.View {
+public class StatisticsFragment extends HDBaseMVPFragment<StatisticsPresenter> implements StatisticsContract.View {
 
     private CommonTabLayout tabBar;
     private ViewPager viewPager;
@@ -34,11 +34,11 @@ public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> imp
 
     private ArrayList<CustomTabEntity> tabBarData = new ArrayList<CustomTabEntity>() {
         {
-            add(new TabEntity("检查企业", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("隐患排查", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
+            add(new TabEntity("检查企业", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("隐患排查", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
         }
     };
-    private FragmentViewPagerAdapter adapter;
+    private ZFragmentViewPagerAdapter adapter;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private int nowPosition = 0;
     private ServiceCompanyFragment fragment1;
@@ -53,7 +53,7 @@ public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> imp
     public void initView(View view, Bundle savedInstanceState) {
 
         baseUI.setCommonTitleStyleAutoBackground(R.string.title_fragment_statistics);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -69,7 +69,7 @@ public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> imp
             fragment2 = new HiddenStatisticsFragment();
             fragments.add(fragment2);
 
-            adapter = new FragmentViewPagerAdapter(getChildFragmentManager(), fragments);
+            adapter = new ZFragmentViewPagerAdapter(getChildFragmentManager(), fragments);
             viewPager.setOffscreenPageLimit(fragments.size());
             viewPager.setAdapter(adapter);
         }, SystemConfig.DELAY_TIME_INIT_VIEW);
@@ -110,7 +110,7 @@ public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> imp
                 }
             });
 
-            toTop.setOnClickListener(new OnViewClickListener(false) {
+            toTop.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
 
@@ -122,7 +122,7 @@ public class StatisticsFragment extends BaseMVPFragment<StatisticsPresenter> imp
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 

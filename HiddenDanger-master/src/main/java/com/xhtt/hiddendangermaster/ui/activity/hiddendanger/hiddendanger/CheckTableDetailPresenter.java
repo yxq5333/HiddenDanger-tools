@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
-import com.hg.hollowgoods.util.StringUtils;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class CheckTableDetailPresenter extends BasePresenter<CheckTableDetailContract.View, CheckTableDetailContract.Model> implements CheckTableDetailContract.Presenter {
+public class CheckTableDetailPresenter extends ZBasePresenter<CheckTableDetailContract.View, CheckTableDetailContract.Model> implements CheckTableDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {
@@ -44,7 +44,7 @@ public class CheckTableDetailPresenter extends BasePresenter<CheckTableDetailCon
 
         Map<String, Object> request = new HashMap<>();
         request.put("id", checkTableId);
-        request.put("checkDate", StringUtils.getDateTimeString(System.currentTimeMillis(), StringUtils.DateFormatMode.LINE_YMD));
+        request.put("checkDate", ZDateTimeUtils.getDateTimeString(System.currentTimeMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD));
 
         mModel.submitData(request);
     }

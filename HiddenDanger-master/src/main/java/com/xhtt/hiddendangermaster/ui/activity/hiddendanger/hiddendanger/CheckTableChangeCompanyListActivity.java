@@ -9,20 +9,20 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnFastItemClickListener2Adapter;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZParamKey;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CheckTableListFragment;
 
 import java.util.ArrayList;
@@ -34,13 +34,13 @@ import java.util.List;
  * @author HG
  */
 
-public class CheckTableChangeCompanyListActivity extends BaseActivity {
+public class CheckTableChangeCompanyListActivity extends HDBaseActivity {
 
     private RecyclerView result;
 
     private Company parentData;
-    private HGFastAdapter2 adapter;
-    private List<HGFastItem2> data = new ArrayList<>();
+    private ZFastAdapter2 adapter;
+    private List<ZFastItem2> data = new ArrayList<>();
     private CheckTableListFragment checkTableListFragment;
 
     @Override
@@ -55,20 +55,21 @@ public class CheckTableChangeCompanyListActivity extends BaseActivity {
 
     @Override
     public void initParamData() {
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
     }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_check_table_list);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_check_table_list);
         result = findViewById(R.id.rv_result);
 
         result.setHasFixedSize(true);
-        result.setItemAnimator(new LandingAnimator());
+        result.setItemAnimator(new ZLandingAnimator());
         result.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
 
-        data.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("企业")
                 .setContentHint("请选择")
                 .setContent(parentData == null ? "" : parentData.getCompanyName())
@@ -78,8 +79,8 @@ public class CheckTableChangeCompanyListActivity extends BaseActivity {
                 .build()
         );
 
-        adapter = new HGFastAdapter2(baseUI, data);
-        result.setAdapter(new ScaleInAnimationAdapter(adapter));
+        adapter = new ZFastAdapter2(baseUI, data);
+        result.setAdapter(new ZScaleInAnimationAdapter(adapter));
 
 //        adapter.refreshDataAllData(data);
 
@@ -100,19 +101,22 @@ public class CheckTableChangeCompanyListActivity extends BaseActivity {
     public void setListener() {
 
         // 企业名称
-        adapter.setOnHGFastItemClickListener2(10, new OnHGFastItemClickListener2Adapter() {
+        adapter.setOnFastItemClickListener2(10, new ZOnFastItemClickListener2Adapter() {
             @Override
-            public void onItemClick(int clickItemId) {
+            public boolean onItemClick(int clickItemId) {
+
                 baseUI.startMyActivity(CompanySelectorActivity.class,
-                        new Enum[]{ParamKey.WorkType, HGParamKey.RequestCode},
+                        new Enum[]{ParamKey.WorkType, ZParamKey.RequestCode},
                         new Object[]{WorkType.Selector, baseUI.getBaseContext().getClass().getName()}
                 );
+
+                return true;
             }
         });
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.isFromMe(this.getClass().getName())) {
             Company company;
 

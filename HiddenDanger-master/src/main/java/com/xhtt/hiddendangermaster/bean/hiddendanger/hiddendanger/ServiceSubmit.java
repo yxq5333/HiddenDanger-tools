@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.bean.CommonBean;
-import com.hg.hollowgoods.bean.file.AppFile;
+import com.hg.zero.bean.ZCommonBean;
+import com.hg.zero.file.ZAppFile;
 import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
 import com.xhtt.hiddendangermaster.util.uploadfile.WebFile;
 
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-05-22.
  */
-public class ServiceSubmit extends CommonBean<ServiceSubmit> {
+public class ServiceSubmit extends ZCommonBean<ServiceSubmit> {
 
     private long checkDate;
 
@@ -45,7 +45,7 @@ public class ServiceSubmit extends CommonBean<ServiceSubmit> {
         return checkUserNamePhotoList;
     }
 
-    public void setCheckUserNamePhotoList(AppFile appFile) {
+    public void setCheckUserNamePhotoList(ZAppFile appFile) {
 
         WebFile webFile = UploadFileUtils.appFile2WebFile(appFile);
 
@@ -57,7 +57,7 @@ public class ServiceSubmit extends CommonBean<ServiceSubmit> {
         return chargePersonPhotoList;
     }
 
-    public void setChargePersonPhotoList(AppFile appFile) {
+    public void setChargePersonPhotoList(ZAppFile appFile) {
 
         WebFile webFile = UploadFileUtils.appFile2WebFile(appFile);
 

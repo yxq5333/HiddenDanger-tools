@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.banner;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class BannerPresenter extends BasePresenter<BannerContract.View, BannerContract.Model> implements BannerContract.Presenter {
+public class BannerPresenter extends ZBasePresenter<BannerContract.View, BannerContract.Model> implements BannerContract.Presenter {
 
     @Override
     public void afterAttachView() {

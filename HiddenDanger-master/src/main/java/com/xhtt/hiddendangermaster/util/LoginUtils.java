@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.User;
-import com.xhtt.hiddendangermaster.db.UserDBHelper;
+import com.xhtt.hiddendangermaster.db.base.DB;
 import com.xhtt.hiddendangermaster.ui.activity.login.LoginActivity;
 
 import java.util.List;
@@ -14,23 +14,23 @@ import java.util.List;
 public class LoginUtils {
 
     public static boolean isLogin() {
-        MyApplication myApplication = MyApplication.create();
+        MyApplication myApplication = MyApplication.createApplication();
         return myApplication.getUser() != null;
     }
 
     public static void initUser() {
-        MyApplication myApplication = MyApplication.create();
-        myApplication.setUser(new UserDBHelper().findFirst());
+        MyApplication myApplication = MyApplication.createApplication();
+        myApplication.setUser(DB.get().getUserDao().getUser());
     }
 
     public static void updateUser(User user) {
-        new UserDBHelper().updateAll(user);
-        MyApplication myApplication = MyApplication.create();
+        DB.get().getUserDao().updateUser(user);
+        MyApplication myApplication = MyApplication.createApplication();
         myApplication.setUser(user);
     }
 
     public static User getUser() {
-        MyApplication myApplication = MyApplication.create();
+        MyApplication myApplication = MyApplication.createApplication();
         if (myApplication.getUser() == null) {
             return new User();
         }
@@ -38,9 +38,9 @@ public class LoginUtils {
     }
 
     public static void destroyUser() {
-        MyApplication myApplication = MyApplication.create();
+        MyApplication myApplication = MyApplication.createApplication();
         myApplication.setUser(null);
-        new UserDBHelper().deleteAll();
+        DB.get().getUserDao().deleteUser();
     }
 
     public static void autoExitApp(Context context) {
@@ -53,7 +53,7 @@ public class LoginUtils {
         );
         context.startActivity(intent);
 
-        MyApplication myApplication = MyApplication.create();
+        MyApplication myApplication = MyApplication.createApplication();
         List<Activity> activities = myApplication.getAllActivity();
         for (Activity t : activities) {
             if (t.getClass() != LoginActivity.class) {

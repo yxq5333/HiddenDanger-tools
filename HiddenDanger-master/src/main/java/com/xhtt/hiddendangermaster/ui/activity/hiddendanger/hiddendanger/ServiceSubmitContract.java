@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.ServiceSubmit;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.ServiceSubmitStatistics;
 
@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class ServiceSubmitContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getData(long serviceId);
 
         void submitService(Map<String, Object> request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void getDataSuccess(ServiceSubmitStatistics tempData);
 
         void getDataError();

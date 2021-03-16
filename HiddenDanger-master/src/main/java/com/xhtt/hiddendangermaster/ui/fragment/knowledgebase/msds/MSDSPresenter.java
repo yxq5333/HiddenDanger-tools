@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.msds;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class MSDSPresenter extends BasePresenter<MSDSContract.View, MSDSContract.Model> implements MSDSContract.Presenter {
+public class MSDSPresenter extends ZBasePresenter<MSDSContract.View, MSDSContract.Model> implements MSDSContract.Presenter {
 
     @Override
     public void afterAttachView() {

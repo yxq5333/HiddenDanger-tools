@@ -5,27 +5,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnSystemProxyEventFinishListenerAdapter;
-import com.hg.hollowgoods.application.BaseApplication;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.ChoiceItem;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnSystemProxyEventFinishListenerAdapter;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.dialog.ZChoiceItem;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.ServiceSubmit;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.ServiceSubmitStatistics;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -40,19 +40,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Created by Hollow Goods on 2019-05-22
  */
 
-public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresenter> implements ServiceSubmitContract.View {
+public class ServiceSubmitActivity extends HDBaseMVPActivity<ServiceSubmitPresenter> implements ServiceSubmitContract.View {
 
     private final int DIALOG_CODE_SUBMIT = 1001;
     private final int DIALOG_CODE_ASK = 1002;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private TextView hiddenDangerNew;
     private TextView hiddenDangerChanging;
     private TextView hiddenDangerChanged;
     private Button submit;
 
-    private HGFastAdapter2 adapter;
-    private List<HGFastItem2> data = new ArrayList<>();
+    private ZFastAdapter2 adapter;
+    private List<ZFastItem2> data = new ArrayList<>();
     private ServiceSubmit parentData = new ServiceSubmit();
     private Company company;
     private int changeTimeCheckedPosition = -1;
@@ -74,15 +74,16 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
 
     @Override
     public void initParamData() {
+        super.initParamData();
         company = baseUI.getParam(ParamKey.ParentData, null);
     }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, company == null ? R.string.title_activity_service_submit : company.getCompanyName());
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), company == null ? R.string.title_activity_service_submit : company.getCompanyName());
 
-        refreshLayout = findViewById(R.id.hgRefreshLayout);
+        refreshLayout = findViewById(R.id.ZRefreshLayout);
         hiddenDangerNew = findViewById(R.id.tv_hiddenDangerNew);
         hiddenDangerChanging = findViewById(R.id.tv_hiddenDangerChanging);
         hiddenDangerChanged = findViewById(R.id.tv_hiddenDangerChanged);
@@ -91,23 +92,24 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
         parentData.setCheckDate(getNowDate());
         changeTime = parentData.getCheckDate();
 
-        data.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_DATE)
+        data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_DATE)
                 .setLabel("检查时间")
                 .setContentHint("请选择")
                 .setContent(parentData.getCheckDate() + "")
+                .setDateFormatMode(ZDateTimeUtils.DateFormatMode.LINE_YMD)
                 .setOnlyRead(true)
                 .setNotEmpty(true)
                 .build()
         );
 
-        List<ChoiceItem> choiceItems = new CopyOnWriteArrayList<>();
-        ChoiceItem choiceItem = new ChoiceItem("半个月");
-        choiceItems.add(choiceItem);
-        choiceItem = new ChoiceItem("1个月");
-        choiceItems.add(choiceItem);
-        choiceItem = new ChoiceItem("3个月");
-        choiceItems.add(choiceItem);
-        data.add(new HGFastItem2.Builder(20, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        List<ZChoiceItem> choiceItems = new CopyOnWriteArrayList<>();
+        ZChoiceItem ZChoiceItem = new ZChoiceItem("半个月");
+        choiceItems.add(ZChoiceItem);
+        ZChoiceItem = new ZChoiceItem("1个月");
+        choiceItems.add(ZChoiceItem);
+        ZChoiceItem = new ZChoiceItem("3个月");
+        choiceItems.add(ZChoiceItem);
+        data.add(new ZFastItem2.Builder(20, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("整改时间")
                 .setContentHint("请选择")
                 .setChoiceItems(choiceItems)
@@ -117,7 +119,7 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
                 .build()
         );
 
-        adapter = new HGFastAdapter2(baseUI, data);
+        adapter = new ZFastAdapter2(baseUI, data);
         refreshLayout.initRecyclerView();
         refreshLayout.setAdapter(adapter);
 
@@ -131,12 +133,12 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
     @Override
     public void setListener() {
 
-        adapter.addOnSystemProxyEventFinishListener(new OnSystemProxyEventFinishListenerAdapter() {
+        adapter.addOnSystemProxyEventFinishListener(new ZOnSystemProxyEventFinishListenerAdapter() {
             @Override
-            public void onSingleChoiceFinish(int itemId, ChoiceItem choiceItem) {
+            public void onSingleChoiceFinish(int itemId, ZChoiceItem ZChoiceItem) {
                 if (itemId == 20) {
-                    HGFastItem2 item2 = adapter.findItemById(itemId);
-                    changeTimeCheckedPosition = item2.getChoiceItems().indexOf(choiceItem);
+                    ZFastItem2 item2 = adapter.findItemById(itemId);
+                    changeTimeCheckedPosition = item2.getChoiceItems().indexOf(ZChoiceItem);
 
                     if (changeTimeCheckedPosition != -1) {
                         long nowDate = getNowDate();
@@ -158,7 +160,7 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
                                 break;
                         }
                         changeTime = calendar.getTimeInMillis();
-                        parentData.setChangeDate(StringUtils.getDateTimeString(calendar.getTimeInMillis(), StringUtils.DateFormatMode.LINE_YMD));
+                        parentData.setChangeDate(ZDateTimeUtils.getDateTimeString(calendar.getTimeInMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD));
                     }
                 }
             }
@@ -176,7 +178,7 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
             }
         });
 
-        submit.setOnClickListener(new OnViewClickListener(false) {
+        submit.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (adapter.checkNotEmptyItem()) {
@@ -197,9 +199,9 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
                     sb.append("<font color=\"#4699F9\">注：登录PC端可导出检查记录表</font>");
 
 
-                    baseUI.baseDialog.showAlertDialog(new DialogConfig.AlertConfig(DIALOG_CODE_ASK)
-                            .setTitle(R.string.tips_best)
-                            .setText(sb.toString())
+                    baseUI.baseDialog.showAlertDialog(new ZDialogConfig.AlertConfig(DIALOG_CODE_ASK)
+                            .setTitle(R.string.z_tips_best)
+                            .setContent(sb.toString())
                     );
                 }
             }
@@ -212,10 +214,10 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.getEventActionCode() == EventActionCode.SIGN_BACK) {
-            ArrayList<AppFile> appFiles = event.getObj(ParamKey.SignData, null);
-            if (!BeanUtils.isCollectionEmpty(appFiles)) {
+            ArrayList<ZAppFile> appFiles = event.getObj(ParamKey.SignData, null);
+            if (!ZBeanUtils.isCollectionEmpty(appFiles)) {
                 parentData.setCheckUserNamePhotoList(appFiles.get(0));
 
                 if (appFiles.size() > 1) {
@@ -257,9 +259,9 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
     @Override
     public void submitServiceSuccess(long newServiceId) {
 
-        t.success("提交成功");
+        Zt.success("提交成功");
 
-        HGEvent event = new HGEvent(EventActionCode.SERVICE_SUBMIT);
+        ZEvent event = new ZEvent(EventActionCode.SERVICE_SUBMIT);
         event.addObj(ParamKey.BackData, newServiceId);
         EventBus.getDefault().post(event);
 
@@ -277,17 +279,16 @@ public class ServiceSubmitActivity extends BaseMVPActivity<ServiceSubmitPresente
     }
 
     private void doSubmit() {
-        baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                .setText("提交中，请稍候……")
+        baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                .setContent("提交中，请稍候……")
         );
         mPresenter.submitService(company.getServiceId(), dayCount, parentData);
     }
 
     private long getNowDate() {
 
-        BaseApplication baseApplication = BaseApplication.create();
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(baseApplication.getNowTime());
+        calendar.setTimeInMillis(MyApplication.createApplication().getNowTime());
 
         Calendar nowDate = Calendar.getInstance();
         nowDate.set(calendar.get(Calendar.YEAR),

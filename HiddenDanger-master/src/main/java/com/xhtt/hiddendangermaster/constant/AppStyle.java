@@ -7,6 +7,7 @@ package com.xhtt.hiddendangermaster.constant;
  */
 public enum AppStyle {
 
+    XHTT_Test,// 欣华天泰——测试
     XHTT,// 欣华天泰——知识库风格
     XHTT_Map,// 欣华天泰——企业地图风格
     XHTT_Map9026,// 欣华天泰——企业地图风格

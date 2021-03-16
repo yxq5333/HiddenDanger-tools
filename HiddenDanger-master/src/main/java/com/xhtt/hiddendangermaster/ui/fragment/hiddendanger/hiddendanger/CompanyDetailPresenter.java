@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.common.CommonChooseItem;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CompanyDetailRequest;
@@ -13,7 +13,7 @@ import com.xhtt.hiddendangermaster.constant.WorkType;
  * @author HG
  */
 
-public class CompanyDetailPresenter extends BasePresenter<CompanyDetailContract.View, CompanyDetailContract.Model> implements CompanyDetailContract.Presenter {
+public class CompanyDetailPresenter extends ZBasePresenter<CompanyDetailContract.View, CompanyDetailContract.Model> implements CompanyDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {

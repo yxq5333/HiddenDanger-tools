@@ -3,12 +3,11 @@ package com.xhtt.hiddendangermaster.ui.activity.index;
 import android.os.Bundle;
 import android.view.View;
 
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.util.LogUtils;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.jaredrummler.android.widget.AnimatedSvgView;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.ui.activity.login.LoginActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 
 /**
  * 启动界面
@@ -16,7 +15,7 @@ import com.xhtt.hiddendangermaster.ui.activity.login.LoginActivity;
  * @author HG
  */
 
-public class IndexActivity extends BaseActivity {
+public class IndexActivity extends HDBaseActivity {
 
     private AnimatedSvgView animatedSvgView;
     private View gotoNext;
@@ -48,7 +47,7 @@ public class IndexActivity extends BaseActivity {
             }
         });
 
-        gotoNext.setOnClickListener(new OnViewClickListener(false) {
+        gotoNext.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 gotoNext();
@@ -61,20 +60,16 @@ public class IndexActivity extends BaseActivity {
             switch (state) {
                 case AnimatedSvgView.STATE_NOT_STARTED:
                     // 动画重新开始或者未开始
-                    LogUtils.Log("动画重新开始或者未开始");
                     break;
                 case AnimatedSvgView.STATE_TRACE_STARTED:
                     // 描边开始
-                    LogUtils.Log("描边开始");
                     break;
                 case AnimatedSvgView.STATE_FILL_STARTED:
                     // 填充开始
-                    LogUtils.Log("填充开始");
                     break;
                 case AnimatedSvgView.STATE_FINISHED:
                     // 动画结束
                     long end = System.currentTimeMillis();
-                    LogUtils.Log("动画时长", (end - start) / 1000);
                     gotoNext();
                     break;
             }

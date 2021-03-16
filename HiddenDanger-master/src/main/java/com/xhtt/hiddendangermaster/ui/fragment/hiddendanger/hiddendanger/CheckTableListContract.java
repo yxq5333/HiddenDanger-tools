@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CheckTable;
 
 import java.util.ArrayList;
@@ -15,13 +15,13 @@ import java.util.Map;
 
 public class CheckTableListContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getData(Map<String, Object> request);
 
         void deleteData(ArrayList<Long> request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         default void getDataSuccess(ArrayList<CheckTable> tempData) {
 
         }

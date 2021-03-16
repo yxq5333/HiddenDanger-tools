@@ -6,18 +6,18 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGConstants;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
-import com.hg.hollowgoods.widget.itemdecoration.sticky.PinnedHeaderItemDecoration;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.widget.itemdecoration.sticky.ZPinnedHeaderItemDecoration;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.msds.MSDSDetailAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.msds.MSDS;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.msds.MSDSDetail;
 import com.xhtt.hiddendangermaster.constant.Constants;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> implements MSDSDetailContract.View {
+public class MSDSDetailActivity extends HDBaseMVPActivity<MSDSDetailPresenter> implements MSDSDetailContract.View {
 
     private RecyclerView result;
 
@@ -42,24 +42,25 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
     @Override
     public void initParamData() {
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, new MSDS());
     }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_msdsdetail);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_msdsdetail);
 
         result = findViewById(R.id.rv_result);
 
         result.setHasFixedSize(true);
-        result.setItemAnimator(new LandingAnimator());
+        result.setItemAnimator(new ZLandingAnimator());
         result.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
-        PinnedHeaderItemDecoration.Builder builder = new PinnedHeaderItemDecoration.Builder(HGConstants.LIST_ITEM_TYPE_HEADER);
+        ZPinnedHeaderItemDecoration.Builder builder = new ZPinnedHeaderItemDecoration.Builder(ZConstants.LIST_ITEM_TYPE_STICKY);
         result.addItemDecoration(builder.create());
 
         adapter = new MSDSDetailAdapter(baseUI.getBaseContext(), data);
-        result.setAdapter(new ScaleInAnimationAdapter(adapter));
+        result.setAdapter(new ZScaleInAnimationAdapter(adapter));
 
         initData();
     }
@@ -81,7 +82,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第1部分标题
         MSDSDetail item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第1部分：化学品名称");
         temp.add(item);
 
@@ -103,7 +104,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第2部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第2部分：成分/组成信息");
         temp.add(item);
 
@@ -118,7 +119,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第3部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第3部分：危险性描述");
         temp.add(item);
 
@@ -135,7 +136,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第4部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第4部分：急救措施");
         temp.add(item);
 
@@ -153,7 +154,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第5部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第5部分：消防措施");
         temp.add(item);
 
@@ -170,7 +171,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第6部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第6部分：泄露应急处理");
         temp.add(item);
 
@@ -185,7 +186,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第7部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第7部分：操作处理与储存");
         temp.add(item);
 
@@ -201,7 +202,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第8部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第8部分：接触控制/个体防护");
         temp.add(item);
 
@@ -225,7 +226,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第9部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第9部分：理化特性");
         temp.add(item);
 
@@ -255,7 +256,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第10部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第10部分：稳定性和反应活性");
         temp.add(item);
 
@@ -270,7 +271,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第11部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第11部分：毒理学资料");
         temp.add(item);
 
@@ -286,7 +287,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第12部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第12部分：生态学资料");
         temp.add(item);
 
@@ -301,7 +302,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第13部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第13部分：废弃处置");
         temp.add(item);
 
@@ -316,7 +317,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第14部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第14部分：运输信息");
         temp.add(item);
 
@@ -335,7 +336,7 @@ public class MSDSDetailActivity extends BaseMVPActivity<MSDSDetailPresenter> imp
 
         // 第15部分标题
         item = new MSDSDetail();
-        item.setItemType(HGConstants.LIST_ITEM_TYPE_HEADER);
+        item.setItemType(ZConstants.LIST_ITEM_TYPE_STICKY);
         item.setLabel("第15部分：法规信息");
         temp.add(item);
 

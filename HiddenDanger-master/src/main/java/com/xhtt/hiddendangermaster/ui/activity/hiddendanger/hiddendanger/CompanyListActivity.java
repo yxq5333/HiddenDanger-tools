@@ -8,16 +8,15 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.CompanyListAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
@@ -25,6 +24,7 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import java.util.ArrayList;
 
@@ -34,12 +34,12 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> implements CompanyListContract.View {
+public class CompanyListActivity extends HDBaseMVPActivity<CompanyListPresenter> implements CompanyListContract.View {
 
     private final int DIALOG_CODE_ASK_DELETE_DATA = 1000;
     private final int DIALOG_CODE_DELETE_DATA = 1001;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private FloatingActionButton add;
 
     private CompanyListAdapter adapter;
@@ -64,10 +64,10 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_company_list);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_company_list);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
-        refreshLayout = findViewById(R.id.hgRefreshLayout);
+        refreshLayout = findViewById(R.id.ZRefreshLayout);
         baseUI.initSearchView(refreshLayout, true);
         baseUI.setSearchHint("企业名称");
 
@@ -93,7 +93,7 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
 
             refreshLayout.setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-            add.setOnClickListener(new OnViewClickListener(false) {
+            add.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(CompanyDetailActivity.class,
@@ -103,7 +103,7 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
                 }
             });
 
-            adapter.setOnButtonClickListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnButtonClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -141,9 +141,9 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
                         sb.append(data.get(clickPosition).getCompanyName());
                         sb.append("\"");
                         sb.append("吗？");
-                        baseUI.baseDialog.showAlertDialog(new DialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
-                                .setTitle(R.string.tips_best)
-                                .setText(sb.toString())
+                        baseUI.baseDialog.showAlertDialog(new ZDialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
+                                .setTitle(R.string.z_tips_best)
+                                .setContent(sb.toString())
                         );
                     }
                 }
@@ -154,8 +154,8 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
                 if (result) {
                     switch (code) {
                         case DIALOG_CODE_ASK_DELETE_DATA:
-                            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
-                                    .setText("删除中，请稍候……")
+                            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
+                                    .setContent("删除中，请稍候……")
                             );
                             mPresenter.deleteData(data.get(clickPosition).getId());
                             break;
@@ -184,7 +184,7 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.COMPANY_SUBMIT) {
             Company company = item.getObj(ParamKey.Company, null);
 
@@ -196,7 +196,7 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
                         case Add:
                             data.add(0, company);
                             adapter.addData(data, 0, 1);
-                            baseUI.setStatus(HGStatusLayout.Status.Default);
+                            baseUI.setStatus(ZStatusLayout.Status.Default);
                             new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
                             break;
                         case Edit:
@@ -277,15 +277,15 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
     @Override
     public void getDataFinish() {
 
+        if (data.size() > 0) {
+            baseUI.setStatus(ZStatusLayout.Status.Default);
+        } else {
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+        }
+
         if (isSearch && data.size() == 0) {
             TextView tips = baseUI.findViewById(R.id.tv_tips);
             tips.setText("未找到相关数据");
-        }
-
-        if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
-        } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
         }
 
         new Handler().postDelayed(() -> {
@@ -295,18 +295,18 @@ public class CompanyListActivity extends BaseMVPActivity<CompanyListPresenter> i
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }
 
     @Override
     public void deleteDataSuccess() {
-        t.success("删除成功");
+        Zt.success("删除成功");
         data.remove(clickPosition);
         adapter.removeData(data, clickPosition, 1);
     }

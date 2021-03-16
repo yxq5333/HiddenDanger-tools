@@ -6,20 +6,19 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.message.dialog2.ChoiceItem;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.util.xutils.RequestParamsHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnFastItemClickListener2Adapter;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.dialog.ZChoiceItem;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.net.ZRequestParamsBuilder;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -34,6 +33,7 @@ import com.xhtt.hiddendangermaster.constant.WorkType;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.common.AreaSelectorActivity;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.CompanySelectorActivity;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.CompanySelectorForFreeTakeActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.OnFragmentWorkListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -51,14 +51,14 @@ import java.util.Map;
  * @author HG
  */
 
-public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresenter> implements CompanyDetailContract.View {
+public class CompanyDetailFragment extends HDBaseMVPFragment<CompanyDetailPresenter> implements CompanyDetailContract.View {
 
     private final int DIALOG_CODE_SUBMIT = 1000;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
-    private HGFastAdapter2 adapter;
-    private List<HGFastItem2> data = new ArrayList<>();
+    private ZFastAdapter2 adapter;
+    private List<ZFastItem2> data = new ArrayList<>();
     private Company parentData;
     private WorkType workType;
     private Class<?> fromClass;
@@ -86,6 +86,8 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
 
     @Override
     public void initParamData() {
+
+        super.initParamData();
 
         parentData = baseUI.getParam(ParamKey.ParentData, null);
         workType = baseUI.getParam(ParamKey.WorkType, null);
@@ -133,9 +135,9 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
-        data.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("企业名称")
                 .setContentHint("请选择")
                 .setContent(parentData == null ? "" : parentData.getCompanyName())
@@ -145,7 +147,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        data.add(new HGFastItem2.Builder(15, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(15, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("行政区域")
                 .setContentHint("请选择")
                 .setOnlyRead(false)
@@ -155,7 +157,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        data.add(new HGFastItem2.Builder(20, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(20, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("单位地址")
                 .setContentHint("请输入")
                 .setContent(parentData == null ? "" : parentData.getAddress())
@@ -166,7 +168,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        data.add(new HGFastItem2.Builder(30, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(30, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("主要联系人")
                 .setContentHint("请输入")
                 .setContent(parentData == null ? "" : parentData.getMainPeople())
@@ -177,7 +179,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        data.add(new HGFastItem2.Builder(40, HGFastItem2.ITEM_TYPE_INPUT)
+        data.add(new ZFastItem2.Builder(40, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("联系电话")
                 .setContentHint("请输入")
                 .setContent(parentData == null ? "" : parentData.getMainPeoplePhone())
@@ -188,14 +190,14 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        ChoiceItem checkedItem = null;
-        for (ChoiceItem t : Constants.BUSINESS_OBJ) {
+        ZChoiceItem checkedItem = null;
+        for (ZChoiceItem t : Constants.BUSINESS_OBJ) {
             if (TextUtils.equals(t.getItem() + "", parentData.getBusiness())) {
                 checkedItem = t;
                 break;
             }
         }
-        data.add(new HGFastItem2.Builder(50, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        data.add(new ZFastItem2.Builder(50, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("行业")
                 .setContentHint("请选择")
                 .setContent(parentData == null ? "" : parentData.getBusiness())
@@ -209,13 +211,13 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
         );
 
         checkedItem = null;
-        for (ChoiceItem t : Constants.PROPORTION_OBJ) {
+        for (ZChoiceItem t : Constants.PROPORTION_OBJ) {
             if (TextUtils.equals(t.getItem() + "", parentData.getProportion())) {
                 checkedItem = t;
                 break;
             }
         }
-        data.add(new HGFastItem2.Builder(60, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        data.add(new ZFastItem2.Builder(60, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("规模情况")
                 .setContentHint("请选择")
                 .setContent(parentData == null ? "" : parentData.getProportion())
@@ -228,7 +230,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 .build()
         );
 
-        data.add(new HGFastItem2.Builder(70, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        data.add(new ZFastItem2.Builder(70, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("人员数量(人)")
                 .setContentHint("请输入")
                 .setContent(parentData == null ? "" : parentData.getPeopleCount())
@@ -240,7 +242,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
         );
 
         refreshLayout.initRecyclerView();
-        refreshLayout.setAdapter(adapter = new HGFastAdapter2(baseUI, data));
+        refreshLayout.setAdapter(adapter = new ZFastAdapter2(baseUI, data));
 
 //        adapter.refreshDataAllData(data);
 
@@ -259,25 +261,29 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
         refreshLayout.setOnRefreshListener(refreshLayout -> doRefresh());
 
         // 企业名称
-        adapter.setOnHGFastItemClickListener2(10, new OnHGFastItemClickListener2Adapter() {
+        adapter.setOnFastItemClickListener2(10, new ZOnFastItemClickListener2Adapter() {
             @Override
-            public void onItemClick(int clickItemId) {
+            public boolean onItemClick(int clickItemId) {
                 if (!isOnlyRead) {
                     baseUI.startMyActivity(isFreeTake ? CompanySelectorForFreeTakeActivity.class : CompanySelectorActivity.class,
-                            new Enum[]{ParamKey.WorkType, HGParamKey.RequestCode},
+                            new Enum[]{ParamKey.WorkType, ZParamKey.RequestCode},
                             new Object[]{isOnlySelector ? WorkType.InputOnly : WorkType.Selector, baseUI.getBaseContext().getClass().getName()}
                     );
                 }
+
+                return true;
             }
         });
 
         // 行政区域
-        adapter.setOnHGFastItemClickListener2(15, new OnHGFastItemClickListener2Adapter() {
+        adapter.setOnFastItemClickListener2(15, new ZOnFastItemClickListener2Adapter() {
             @Override
-            public void onItemClick(int clickItemId) {
+            public boolean onItemClick(int clickItemId) {
                 if (!isOnlyRead) {
                     baseUI.startMyActivity(AreaSelectorActivity.class);
                 }
+
+                return true;
             }
         });
 
@@ -289,23 +295,23 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                 switch (code) {
                     case 20:
                         // 单位地址
-                        value = backData.getData(HGParamKey.InputValue, "");
+                        value = backData.getData(ZParamKey.InputValue, "");
                         parentData.setAddress(value);
                         break;
                     case 30:
                         // 主要联系人
-                        value = backData.getData(HGParamKey.InputValue, "");
+                        value = backData.getData(ZParamKey.InputValue, "");
                         parentData.setMainPeople(value);
                         break;
                     case 40:
                         // 主要联系人联系电话
-                        value = backData.getData(HGParamKey.InputValue, "");
+                        value = backData.getData(ZParamKey.InputValue, "");
                         parentData.setMainPeoplePhone(value);
                         break;
                     case 50:
                         // 行业
                         if (!isOnlyRead) {
-                            businessCheckedPosition = backData.getData(HGParamKey.Position, -1);
+                            businessCheckedPosition = backData.getData(ZParamKey.Position, -1);
                             if (businessCheckedPosition != -1) {
                                 parentData.setBusiness(Constants.BUSINESS[businessCheckedPosition]);
                             } else {
@@ -315,7 +321,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                         break;
                     case 60:
                         // 规模情况
-                        proportionCheckedPosition = backData.getData(HGParamKey.Position, -1);
+                        proportionCheckedPosition = backData.getData(ZParamKey.Position, -1);
                         if (proportionCheckedPosition != -1) {
                             parentData.setProportion(Constants.PROPORTION[proportionCheckedPosition]);
                         } else {
@@ -324,7 +330,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                         break;
                     case 70:
                         // 人员数量
-                        value = backData.getData(HGParamKey.InputValue, "");
+                        value = backData.getData(ZParamKey.InputValue, "");
                         parentData.setPeopleCount(value);
                         break;
                 }
@@ -342,7 +348,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.COMPANY_SELECTOR
                 || item.getEventActionCode() == EventActionCode.COMPANY_SUBMIT) {
             String companyName = item.getObj(ParamKey.StringData, "");
@@ -387,7 +393,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
         new Handler().postDelayed(() -> refreshLayout.getRefreshLayout().finishRefresh(), 1000);
     }
 
-    public HGRefreshLayout getRefreshLayout() {
+    public ZRefreshLayout getRefreshLayout() {
         return refreshLayout;
     }
 
@@ -397,8 +403,8 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
 
     public void submitData() {
         if (checkNotEmptyItems()) {
-            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                    .setText("提交中，请稍候……")
+            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                    .setContent("提交中，请稍候……")
             );
             mPresenter.submitData(parentData, province, city, district, town, workType);
         }
@@ -407,7 +413,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
     @Override
     public void submitDataSuccess(Long id, Long serviceId) {
 
-        t.success("提交成功");
+        Zt.success("提交成功");
 
         if (id != null) {
             parentData.setId(id);
@@ -418,7 +424,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
             parentData.setTimes(1);
         }
 
-        HGEvent event = new HGEvent(EventActionCode.COMPANY_SUBMIT, fromClass.getName());
+        ZEvent event = new ZEvent(EventActionCode.COMPANY_SUBMIT, fromClass.getName());
         event.addObj(ParamKey.Company, parentData);
         event.addObj(ParamKey.WorkType, workType);
         EventBus.getDefault().post(event);
@@ -446,15 +452,15 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
 
     public void getAreaName(Map<String, Object> request) {
 
-        RequestParams params = RequestParamsHelper.buildKeyValueRequestParam(
+        RequestParams params = ZRequestParamsBuilder.buildKeyValueRequestParam(
                 HttpMethod.GET,
-                RequestParamsHelper.buildCommonRequestApi(InterfaceApi.GetAreaAllInOne.getUrl()),
+                ZRequestParamsBuilder.buildRequestUrl(InterfaceApi.GetAreaAllInOne.getUrl()),
                 null,
                 request
         );
         params.addHeader("token", MyApplication.createApplication().getToken());
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -467,7 +473,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                     );
 
                     if (tempData != null) {
-                        if (!BeanUtils.isCollectionEmpty(tempData.getProvinces())) {
+                        if (!ZBeanUtils.isCollectionEmpty(tempData.getProvinces())) {
                             for (CommonChooseItem t : tempData.getProvinces()) {
                                 if (t.getId() == parentData.getProvinceId()) {
                                     province = t;
@@ -476,7 +482,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                             }
                         }
 
-                        if (!BeanUtils.isCollectionEmpty(tempData.getCities())) {
+                        if (!ZBeanUtils.isCollectionEmpty(tempData.getCities())) {
                             for (CommonChooseItem t : tempData.getCities()) {
                                 if (t.getId() == parentData.getCityId()) {
                                     city = t;
@@ -485,7 +491,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                             }
                         }
 
-                        if (!BeanUtils.isCollectionEmpty(tempData.getDistricts())) {
+                        if (!ZBeanUtils.isCollectionEmpty(tempData.getDistricts())) {
                             for (CommonChooseItem t : tempData.getDistricts()) {
                                 if (t.getId() == parentData.getDistrictId()) {
                                     district = t;
@@ -494,7 +500,7 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                             }
                         }
 
-                        if (!BeanUtils.isCollectionEmpty(tempData.getTowns())) {
+                        if (!ZBeanUtils.isCollectionEmpty(tempData.getTowns())) {
                             for (CommonChooseItem t : tempData.getTowns()) {
                                 if (t.getId() == parentData.getTownId()) {
                                     town = t;
@@ -516,13 +522,13 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
                     }
                 } else {
                     if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                        t.error(responseInfo.getMsg());
+                        Zt.error(responseInfo.getMsg());
                     } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                        t.error("授权已过期，请重新登录");
-                        HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                        Zt.error("授权已过期，请重新登录");
+                        ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                         EventBus.getDefault().post(event);
                     } else {
-                        t.error(R.string.network_error);
+                        Zt.error(R.string.network_error);
                     }
                 }
             }
@@ -536,6 +542,6 @@ public class CompanyDetailFragment extends BaseMVPFragment<CompanyDetailPresente
             public void onGetFinish() {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 }

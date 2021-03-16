@@ -2,8 +2,8 @@ package com.xhtt.hiddendangermaster.adapter.knowledgebase.msds;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.adapter.list.common.MultiItemTypeAdapter;
-import com.hg.hollowgoods.constant.HGConstants;
+import com.hg.zero.adapter.list.common.ZMultiItemTypeAdapter;
+import com.hg.zero.constant.ZConstants;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.msds.MSDSDetail;
 import com.xhtt.hiddendangermaster.constant.Constants;
 
@@ -13,11 +13,11 @@ import java.util.List;
  * Created by xhtt on 2017-01-23.
  */
 
-public class MSDSDetailAdapter extends MultiItemTypeAdapter<MSDSDetail> {
+public class MSDSDetailAdapter extends ZMultiItemTypeAdapter<MSDSDetail> {
 
     public MSDSDetailAdapter(Context context, List<MSDSDetail> datas) {
         super(context, datas);
-        addItemViewDelegate(HGConstants.LIST_ITEM_TYPE_HEADER, new ItemMSDSDetailLabel());
+        addItemViewDelegate(ZConstants.LIST_ITEM_TYPE_STICKY, new ItemMSDSDetailLabel());
         addItemViewDelegate(Constants.LIST_ITEM_TYPE_1, new ItemMSDSDetail01());
         addItemViewDelegate(Constants.LIST_ITEM_TYPE_2, new ItemMSDSDetail02());
         addItemViewDelegate(Constants.LIST_ITEM_TYPE_3, new ItemMSDSDetail03());

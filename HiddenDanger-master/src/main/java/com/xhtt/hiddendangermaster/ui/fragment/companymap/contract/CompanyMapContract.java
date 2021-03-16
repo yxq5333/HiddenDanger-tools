@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.companymap.contract;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.CompanyMap;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class CompanyMapContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getData();
 
         void addServiceCount(/*Map<String, Object> request*/Object companyId);
@@ -23,7 +23,7 @@ public class CompanyMapContract {
         void export();
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void getDataSuccess(ArrayList<CompanyMap> tempData);
 
         void getDataError();

@@ -7,18 +7,18 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
-import com.hg.widget.runtextview.RunTextViewVertical;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.widget.runtextview.ZRunTextViewVertical;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.accidentcase.AccidentCaseAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.accidentcase.AccidentCase;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.common.FileDetail;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.common.FileDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 
@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class AccidentCaseFragment extends BaseMVPFragment<AccidentCasePresenter> implements AccidentCaseContract.View {
+public class AccidentCaseFragment extends HDBaseMVPFragment<AccidentCasePresenter> implements AccidentCaseContract.View {
 
-    private RunTextViewVertical runText;
+    private ZRunTextViewVertical runText;
     private RecyclerView result;
 
     private AccidentCaseAdapter adapter;
@@ -71,21 +71,21 @@ public class AccidentCaseFragment extends BaseMVPFragment<AccidentCasePresenter>
             fileDetail.setActivityTitle("详情");
             fileDetail.setTitle(hotData.get(position).getTitle());
             fileDetail.setContent(hotData.get(position).getContent());
-            fileDetail.setReleaseTime(StringUtils.getDateTimeString(hotData.get(position).getDate(), StringUtils.DateFormatMode.LINE_YMDHM));
+            fileDetail.setReleaseTime(ZDateTimeUtils.getDateTimeString(hotData.get(position).getDate(), ZDateTimeUtils.DateFormatMode.LINE_YMDHM));
 
             baseUI.startMyActivity(FileDetailActivity.class,
-                    new Enum[]{HGParamKey.AppFiles},
+                    new Enum[]{ZParamKey.AppFiles},
                     new Object[]{fileDetail}
             );
         });
 
         result.setHasFixedSize(true);
-        result.setItemAnimator(new LandingAnimator());
+        result.setItemAnimator(new ZLandingAnimator());
         result.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
         result.setNestedScrollingEnabled(false);
 
         adapter = new AccidentCaseAdapter(baseUI.getBaseContext(), R.layout.item_accident_case, data);
-        result.setAdapter(new ScaleInAnimationAdapter(adapter));
+        result.setAdapter(new ZScaleInAnimationAdapter(adapter));
 
         doRefresh();
     }
@@ -93,7 +93,7 @@ public class AccidentCaseFragment extends BaseMVPFragment<AccidentCasePresenter>
     @Override
     public void setListener() {
 
-        adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -103,10 +103,10 @@ public class AccidentCaseFragment extends BaseMVPFragment<AccidentCasePresenter>
                 fileDetail.setActivityTitle("详情");
                 fileDetail.setTitle(data.get(position).getTitle());
                 fileDetail.setContent(data.get(position).getContent());
-                fileDetail.setReleaseTime(StringUtils.getDateTimeString(data.get(position).getDate(), StringUtils.DateFormatMode.LINE_YMDHM));
+                fileDetail.setReleaseTime(ZDateTimeUtils.getDateTimeString(data.get(position).getDate(), ZDateTimeUtils.DateFormatMode.LINE_YMDHM));
 
                 baseUI.startMyActivity(FileDetailActivity.class,
-                        new Enum[]{HGParamKey.AppFiles},
+                        new Enum[]{ZParamKey.AppFiles},
                         new Object[]{fileDetail}
                 );
             }

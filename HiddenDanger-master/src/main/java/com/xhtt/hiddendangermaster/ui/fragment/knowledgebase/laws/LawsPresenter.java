@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.laws;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.constant.LawType;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class LawsPresenter extends BasePresenter<LawsContract.View, LawsContract.Model> implements LawsContract.Presenter {
+public class LawsPresenter extends ZBasePresenter<LawsContract.View, LawsContract.Model> implements LawsContract.Presenter {
 
     @Override
     public void afterAttachView() {

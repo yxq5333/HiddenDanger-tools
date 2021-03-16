@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class HiddenDangerDetailContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void addData(HiddenDangerDetailRequest request);
 
         void editData(HiddenDangerDetailRequest request);
@@ -33,7 +33,7 @@ public class HiddenDangerDetailContract {
         void getHiddenDangerSecondType(String firstType);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         default void submitDataSuccess(Long id) {
         }
 

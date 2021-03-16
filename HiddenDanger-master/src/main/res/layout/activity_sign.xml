@@ -5,13 +5,13 @@
     android:layout_height="match_parent"
     android:background="@color/main_body_color">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleLayout
+    <com.hg.zero.widget.commontitle.ZCommonTitleLayout
         android:id="@+id/commonTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -131,7 +131,7 @@
 
         </LinearLayout>
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

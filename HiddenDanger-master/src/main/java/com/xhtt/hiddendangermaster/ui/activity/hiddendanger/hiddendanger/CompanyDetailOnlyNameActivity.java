@@ -9,15 +9,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CompanyOnlyName;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CompanyDetailContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CompanyDetailOnlyNameFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CompanyDetailPresenter;
@@ -28,7 +28,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.Company
  * @author HG
  */
 
-public class CompanyDetailOnlyNameActivity extends BaseMVPActivity<CompanyDetailPresenter> implements CompanyDetailContract.View {
+public class CompanyDetailOnlyNameActivity extends HDBaseMVPActivity<CompanyDetailPresenter> implements CompanyDetailContract.View {
 
     private Button submit;
 
@@ -46,6 +46,7 @@ public class CompanyDetailOnlyNameActivity extends BaseMVPActivity<CompanyDetail
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
         workType = baseUI.getParam(ParamKey.WorkType, WorkType.Detail);
         fromClass = baseUI.getParam(ParamKey.FromClass, null);
@@ -71,8 +72,8 @@ public class CompanyDetailOnlyNameActivity extends BaseMVPActivity<CompanyDetail
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, title);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), title);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -97,14 +98,14 @@ public class CompanyDetailOnlyNameActivity extends BaseMVPActivity<CompanyDetail
 
         new Handler().postDelayed(() -> {
 
-            submit.setOnClickListener(new OnViewClickListener(false) {
+            submit.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     companyDetailFragment.submitData();
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 

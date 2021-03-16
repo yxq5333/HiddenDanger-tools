@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.activity.knowledgebase.msds;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 /**
  * MSDS管理层
@@ -8,7 +8,7 @@ import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
  * @author HG
  */
 
-public class MSDSDetailPresenter extends BasePresenter<MSDSDetailContract.View, MSDSDetailContract.Model> implements MSDSDetailContract.Presenter {
+public class MSDSDetailPresenter extends ZBasePresenter<MSDSDetailContract.View, MSDSDetailContract.Model> implements MSDSDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {

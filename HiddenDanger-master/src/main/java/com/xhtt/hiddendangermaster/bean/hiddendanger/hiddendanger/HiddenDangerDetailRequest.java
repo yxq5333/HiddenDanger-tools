@@ -1,5 +1,7 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Hollow Goods on 2019-04-11.
  */
@@ -21,8 +23,21 @@ public class HiddenDangerDetailRequest {
     private Object companyName;// 企业名称
     private Object checkItemId;// 检查项id
     private Object currServiceId;// 最新的serviceId
+    @SerializedName("dangerLat")
+    private String typeFirst;// 隐患大类
+    @SerializedName("categorySub")
+    private String typeSecond;// 细分类型
+    @SerializedName("departRect")
+    private String changeDepartment;// 整改部门
+    @SerializedName("personLia")
+    private String dutyPeople;// 责任人
 
-    public HiddenDangerDetailRequest(Object serviceId, Object id, Object companyId, Object checkDate, Object riskAddress, Object riskPhotoList, Object riskDescription, Object riskLevel, Object referenceFrame, Object measure, Object rectifyPhotoList, Object memo, Object status, Object companyName, Object checkItemId, Object currServiceId) {
+    public HiddenDangerDetailRequest(Object serviceId, Object id, Object companyId, Object checkDate, Object riskAddress, Object riskPhotoList, Object riskDescription, Object riskLevel, Object referenceFrame, Object measure, Object rectifyPhotoList, Object memo, Object status, Object companyName, Object checkItemId, Object currServiceId,
+                                     String typeFirst,
+                                     String typeSecond,
+                                     String changeDepartment,
+                                     String dutyPeople
+    ) {
         this.serviceId = serviceId;
         this.id = id;
         this.companyId = companyId;
@@ -39,5 +54,9 @@ public class HiddenDangerDetailRequest {
         this.companyName = companyName;
         this.checkItemId = checkItemId;
         this.currServiceId = currServiceId;
+        this.typeFirst = typeFirst;
+        this.typeSecond = typeSecond;
+        this.changeDepartment = changeDepartment;
+        this.dutyPeople = dutyPeople;
     }
 }

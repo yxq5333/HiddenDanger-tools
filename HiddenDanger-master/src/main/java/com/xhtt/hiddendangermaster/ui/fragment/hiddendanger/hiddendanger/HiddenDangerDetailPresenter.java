@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
-import com.hg.hollowgoods.util.StringUtils;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDangerDetailRequest;
@@ -14,7 +14,7 @@ import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
  * @author HG
  */
 
-public class HiddenDangerDetailPresenter extends BasePresenter<HiddenDangerDetailContract.View, HiddenDangerDetailContract.Model> implements HiddenDangerDetailContract.Presenter {
+public class HiddenDangerDetailPresenter extends ZBasePresenter<HiddenDangerDetailContract.View, HiddenDangerDetailContract.Model> implements HiddenDangerDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {
@@ -38,7 +38,7 @@ public class HiddenDangerDetailPresenter extends BasePresenter<HiddenDangerDetai
                 hiddenDanger.getServiceId() == null || hiddenDanger.getServiceId() == 0 ? company.getServiceId() : hiddenDanger.getServiceId(),
                 id,
                 hiddenDanger.getCompanyId() == 0 ? (company.getId() == 0 ? null : company.getId()) : hiddenDanger.getCompanyId(),
-                StringUtils.getDateTimeString(hiddenDanger.getCheckDateShow(), StringUtils.DateFormatMode.LINE_YMD),
+                ZDateTimeUtils.getDateTimeString(hiddenDanger.getCheckDateShow(), ZDateTimeUtils.DateFormatMode.LINE_YMD),
                 hiddenDanger.getHiddenLocation(),
                 UploadFileUtils.appFiles2WebFiles(hiddenDanger.getAppHiddenPhotoList()),
                 hiddenDanger.getHiddenDescribe(),
@@ -50,7 +50,11 @@ public class HiddenDangerDetailPresenter extends BasePresenter<HiddenDangerDetai
                 hiddenDanger.getStatus(),
                 company.getId() == 0 ? company.getCompanyName() : null,
                 company.getCheckItemId(),
-                lastServiceId
+                lastServiceId,
+                hiddenDanger.getTypeFirst(),
+                hiddenDanger.getTypeSecond(),
+                hiddenDanger.getChangeDepartment(),
+                hiddenDanger.getDutyPeople()
         );
 
         if (workType == WorkType.Add || workType == WorkType.AddFreeTake) {

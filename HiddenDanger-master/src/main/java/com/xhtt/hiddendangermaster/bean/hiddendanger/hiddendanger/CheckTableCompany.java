@@ -1,12 +1,12 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
 import com.google.gson.annotations.SerializedName;
-import com.hg.hollowgoods.bean.CommonBean;
+import com.hg.zero.bean.ZCommonBean;
 
 /**
  * Created by Hollow Goods on 2019-05-15.
  */
-public class CheckTableCompany extends CommonBean<CheckTableCompany> {
+public class CheckTableCompany extends ZCommonBean<CheckTableCompany> {
 
     @SerializedName("name")
     private String companyName;

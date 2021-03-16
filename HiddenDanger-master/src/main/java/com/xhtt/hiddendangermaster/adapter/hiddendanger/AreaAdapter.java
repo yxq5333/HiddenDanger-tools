@@ -2,8 +2,8 @@ package com.xhtt.hiddendangermaster.adapter.hiddendanger;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.common.CommonChooseItem;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * <p>
  * Created by Hollow Goods on 2020-04-08.
  */
-public class AreaAdapter extends CommonAdapter<CommonChooseItem> {
+public class AreaAdapter extends ZCommonAdapter<CommonChooseItem> {
 
     private int checkedPosition = -1;
 
@@ -23,7 +23,7 @@ public class AreaAdapter extends CommonAdapter<CommonChooseItem> {
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, CommonChooseItem item, int position) {
+    protected void convert(ZViewHolder viewHolder, CommonChooseItem item, int position) {
         viewHolder.setText(R.id.tv_area, item.getItem());
         viewHolder.setTextColorRes(R.id.tv_area, position == checkedPosition
                 ? R.color.colorAccent

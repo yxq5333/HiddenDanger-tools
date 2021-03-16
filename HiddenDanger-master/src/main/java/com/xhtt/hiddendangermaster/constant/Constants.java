@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.constant;
 
-import com.hg.hollowgoods.ui.base.message.dialog2.ChoiceItem;
+import com.hg.zero.dialog.ZChoiceItem;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenLevel;
 
@@ -40,10 +40,10 @@ public class Constants {
             "规上",
             "规下",
     };
-    public static ArrayList<ChoiceItem> PROPORTION_OBJ = new ArrayList<ChoiceItem>() {
+    public static ArrayList<ZChoiceItem> PROPORTION_OBJ = new ArrayList<ZChoiceItem>() {
         {
-            add(new ChoiceItem("规上", "年主营业务收入在2000万元及以上的法人工业企业"));
-            add(new ChoiceItem("规下", "年主营业务收入在2000万元以下的法人工业企业"));
+            add(new ZChoiceItem("规上", "年主营业务收入在2000万元及以上的法人工业企业"));
+            add(new ZChoiceItem("规下", "年主营业务收入在2000万元以下的法人工业企业"));
         }
     };
     public static ArrayList<HiddenLevel> HIDDEN_LEVEL = new ArrayList<HiddenLevel>() {
@@ -52,10 +52,10 @@ public class Constants {
             add(new HiddenLevel(2, "一般隐患"));
         }
     };
-    public static ArrayList<ChoiceItem> HIDDEN_LEVEL_OBJ = new ArrayList<ChoiceItem>() {
+    public static ArrayList<ZChoiceItem> HIDDEN_LEVEL_OBJ = new ArrayList<ZChoiceItem>() {
         {
-            add(new ChoiceItem("重大隐患"));
-            add(new ChoiceItem("一般隐患"));
+            add(new ZChoiceItem("重大隐患"));
+            add(new ZChoiceItem("一般隐患"));
         }
     };
     public static String[] BUSINESS = {
@@ -69,17 +69,17 @@ public class Constants {
             "商贸",
             "化工",
     };
-    public static ArrayList<ChoiceItem> BUSINESS_OBJ = new ArrayList<ChoiceItem>() {
+    public static ArrayList<ZChoiceItem> BUSINESS_OBJ = new ArrayList<ZChoiceItem>() {
         {
-            add(new ChoiceItem("冶金"));
-            add(new ChoiceItem("有色"));
-            add(new ChoiceItem("建材"));
-            add(new ChoiceItem("机械"));
-            add(new ChoiceItem("轻工"));
-            add(new ChoiceItem("纺织"));
-            add(new ChoiceItem("烟草"));
-            add(new ChoiceItem("商贸"));
-            add(new ChoiceItem("化工"));
+            add(new ZChoiceItem("冶金"));
+            add(new ZChoiceItem("有色"));
+            add(new ZChoiceItem("建材"));
+            add(new ZChoiceItem("机械"));
+            add(new ZChoiceItem("轻工"));
+            add(new ZChoiceItem("纺织"));
+            add(new ZChoiceItem("烟草"));
+            add(new ZChoiceItem("商贸"));
+            add(new ZChoiceItem("化工"));
         }
     };
     public static String[] CHANGE_TIME = {
@@ -87,10 +87,10 @@ public class Constants {
             "1个月",
             "3个月",
     };
-    public static ArrayList<ChoiceItem> CHANGE_TIME_OBJ = new ArrayList<ChoiceItem>() {{
-        add(new ChoiceItem("半个月"));
-        add(new ChoiceItem("1个月"));
-        add(new ChoiceItem("3个月"));
+    public static ArrayList<ZChoiceItem> CHANGE_TIME_OBJ = new ArrayList<ZChoiceItem>() {{
+        add(new ZChoiceItem("半个月"));
+        add(new ZChoiceItem("1个月"));
+        add(new ZChoiceItem("3个月"));
     }};
 
     public static final int IMAGE_LOAD_TYPE_HIDDEN_DANGER_LIST = 4000;

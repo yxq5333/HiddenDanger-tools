@@ -2,7 +2,7 @@ package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.common.presenter;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.common.contract.AreaContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.common.model.AreaModel;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by Hollow Goods on 2020-04-08
  */
 
-public class AreaPresenter extends BasePresenter<AreaContract.View, AreaContract.Model> implements AreaContract.Presenter {
+public class AreaPresenter extends ZBasePresenter<AreaContract.View, AreaContract.Model> implements AreaContract.Presenter {
 
     public AreaPresenter(Context mContext) {
         super(mContext);

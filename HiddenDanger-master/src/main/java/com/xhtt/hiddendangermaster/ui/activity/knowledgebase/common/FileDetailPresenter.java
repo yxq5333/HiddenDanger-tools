@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.activity.knowledgebase.common;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 /**
  * 详情管理层
@@ -8,7 +8,7 @@ import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
  * @author HG
  */
 
-public class FileDetailPresenter extends BasePresenter<FileDetailContract.View, FileDetailContract.Model> implements FileDetailContract.Presenter {
+public class FileDetailPresenter extends ZBasePresenter<FileDetailContract.View, FileDetailContract.Model> implements FileDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {

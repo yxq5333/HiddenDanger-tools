@@ -7,18 +7,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.RecordListAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Record;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import java.util.ArrayList;
 
@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> implements RecordListContract.View {
+public class RecordListActivity extends HDBaseMVPActivity<RecordListPresenter> implements RecordListContract.View {
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
     private RecordListAdapter adapter;
     private ArrayList<Record> data = new ArrayList<>();
@@ -53,6 +53,7 @@ public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> imp
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
         if (parentData == null) {
@@ -63,15 +64,12 @@ public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> imp
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_record_list);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_record_list);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
-            TextView tips = baseUI.findViewById(R.id.tv_tips);
-            tips.setText("暂未提交检查记录");
-
-            refreshLayout = findViewById(R.id.hgRefreshLayout);
+            refreshLayout = findViewById(R.id.ZRefreshLayout);
 
             refreshLayout.initRecyclerView();
             refreshLayout.setAdapter(adapter = new RecordListAdapter(baseUI.getBaseContext(), R.layout.item_record_list, data));
@@ -89,7 +87,7 @@ public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> imp
 
             refreshLayout.setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-            adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -157,9 +155,12 @@ public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> imp
     public void getDataFinish() {
 
         if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+
+            TextView tips = baseUI.findViewById(R.id.tv_tips);
+            tips.setText("暂未提交检查记录");
         }
 
         new Handler().postDelayed(() -> {
@@ -169,11 +170,11 @@ public class RecordListActivity extends BaseMVPActivity<RecordListPresenter> imp
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }

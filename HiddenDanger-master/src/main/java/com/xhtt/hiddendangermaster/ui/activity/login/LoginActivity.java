@@ -7,18 +7,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.ui.activity.law.LawActivity;
 import com.xhtt.hiddendangermaster.ui.activity.main.MainActivity;
 import com.xhtt.hiddendangermaster.ui.activity.register.RegisterActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.util.LoginUtils;
 import com.xhtt.hiddendangermaster.util.UpdateAPPUtils;
 
@@ -28,7 +27,7 @@ import com.xhtt.hiddendangermaster.util.UpdateAPPUtils;
  * @author HG
  */
 
-public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements LoginContract.View {
+public class LoginActivity extends HDBaseMVPActivity<LoginPresenter> implements LoginContract.View {
 
     private final int DIALOG_CODE_LOGIN = 1000;
 
@@ -74,37 +73,32 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
     }
 
     @Override
-    public void initViewDelay() {
-        new DevelopmentUpdateAPPUtils(baseUI.getBaseContext()).checkUpdate();
-    }
-
-    @Override
     public void setListener() {
 
         flag.setOnCheckedChangeListener((buttonView, isChecked) -> login.setEnabled(isChecked));
 
-        register.setOnClickListener(new OnViewClickListener(false) {
+        register.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 baseUI.startMyActivity(RegisterActivity.class);
             }
         });
 
-        login.setOnClickListener(new OnViewClickListener(false) {
+        login.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 doLogin();
             }
         });
 
-        logo.setOnLongClickListener(new OnViewClickListener(false) {
+        logo.setOnLongClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewLongClick(View view, int id) {
-                IPConfigHelper.create().showIPConfig(baseUI);
+                ZIPConfigHelper.get().showIPConfig(baseUI);
             }
         });
 
-        avoidLawTips.setOnClickListener(new OnViewClickListener(false) {
+        avoidLawTips.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 baseUI.startMyActivity(LawActivity.class);
@@ -127,15 +121,15 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Lo
     @Override
     public void doLoginStart() {
         baseUI.baseDialog.showProgressDialog(
-                new DialogConfig.ProgressConfig(DIALOG_CODE_LOGIN)
-                        .setText("登录中，请稍候……")
+                new ZDialogConfig.ProgressConfig(DIALOG_CODE_LOGIN)
+                        .setContent("登录中，请稍候……")
         );
     }
 
     @Override
     public void doLoginSuccess(String token) {
 
-        t.success("登录成功");
+        Zt.success("登录成功");
 
         MyApplication.createApplication().setToken(token);
 

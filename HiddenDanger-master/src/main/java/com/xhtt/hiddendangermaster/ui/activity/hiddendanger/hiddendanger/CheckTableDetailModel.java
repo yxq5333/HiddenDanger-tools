@@ -2,12 +2,12 @@ package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -56,7 +56,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
     @Override
     public void getData(Map<String, Object> request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.CheckTableContentList.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.CheckTableContentList.getUrl()));
         params.setMethod(HttpMethod.GET);
         params.addHeader("token", MyApplication.createApplication().getToken());
 
@@ -73,7 +73,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             }
         }
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -91,7 +91,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
                             if (tempData != null) {
                                 for (CheckTableContent t : tempData) {
                                     if (t.getHiddenDanger() != null) {
-                                        t.getHiddenDanger().setCheckDateShow(StringUtils.getDateTimeLong(t.getHiddenDanger().getCheckDate(), StringUtils.DateFormatMode.LINE_YMD) + "");
+                                        t.getHiddenDanger().setCheckDateShow(ZDateTimeUtils.getDateTimeLong(t.getHiddenDanger().getCheckDate(), ZDateTimeUtils.DateFormatMode.LINE_YMD) + "");
                                         if (t.getHiddenDanger().getLevel() != null) {
                                             HiddenLevel hiddenLevel = null;
 
@@ -121,13 +121,13 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
                         }).start();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.getDataError();
@@ -139,7 +139,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.getDataError();
                     mView.getDataFinish();
                 }
@@ -161,19 +161,19 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
     public void changeContentStatus(Map<String, Object> request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ChangeCheckTableContentStatus.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ChangeCheckTableContentStatus.getUrl()));
         params.setMethod(HttpMethod.POST);
         params.addHeader("token", MyApplication.createApplication().getToken());
         params.setAsJsonContent(true);
         params.setBodyContent(new Gson().toJson(request));
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -184,13 +184,13 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
                         mView.changeContentStatusSuccess();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
                     }
                 }
@@ -199,7 +199,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                 }
             }
 
@@ -219,19 +219,19 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
     public void submitData(Map<String, Object> request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.CheckTableSubmit.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.CheckTableSubmit.getUrl()));
         params.setMethod(HttpMethod.POST);
         params.addHeader("token", MyApplication.createApplication().getToken());
         params.setAsJsonContent(true);
         params.setBodyContent(new Gson().toJson(request));
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -242,13 +242,13 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
                         mView.submitDataSuccess();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.submitDataError();
@@ -259,7 +259,7 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.submitDataError();
                 }
             }
@@ -280,6 +280,6 @@ public class CheckTableDetailModel implements CheckTableDetailContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 }

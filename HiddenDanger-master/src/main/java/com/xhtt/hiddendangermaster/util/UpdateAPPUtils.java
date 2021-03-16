@@ -3,18 +3,20 @@ package com.xhtt.hiddendangermaster.util;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.hg.hollowgoods.constant.HGConstants;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.APPUtils;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.updateapp.HGUpdateAPPUtils;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
+import com.hg.zero.ui.base.ZBaseActivity;
+import com.hg.zero.util.ZAppUtils;
+import com.hg.zero.util.updateapp.ZUpdateAPPUtils;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.AppVersion;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
+import com.xhtt.hiddendangermaster.constant.AppStyle;
 import com.xhtt.hiddendangermaster.constant.InterfaceApi;
+import com.xhtt.hiddendangermaster.constant.SystemConfig;
 
 import org.xutils.common.Callback;
 import org.xutils.http.HttpMethod;
@@ -25,9 +27,9 @@ import org.xutils.http.RequestParams;
  * Created by HG on 2016-11-28.
  */
 
-public class UpdateAPPUtils extends HGUpdateAPPUtils {
+public class UpdateAPPUtils extends ZUpdateAPPUtils {
 
-    public UpdateAPPUtils(BaseActivity baseActivity) {
+    public UpdateAPPUtils(ZBaseActivity baseActivity) {
         super(baseActivity);
         setDownloadApkMethod(HttpMethod.GET);
     }
@@ -35,10 +37,10 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
     @Override
     public void checkServerData() {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.UpdateVersion.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.UpdateVersion.getUrl()));
         params.setMethod(HttpMethod.GET);
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -50,12 +52,12 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
                             AppVersion.class
                     );
 
-                    if (!TextUtils.isEmpty(appVersion.getVersion()) && appVersion.getVersion().compareTo(APPUtils.getAppVersionName(getBaseActivity())) > 0) {
+                    if (!TextUtils.isEmpty(appVersion.getVersion()) && appVersion.getVersion().compareTo(ZAppUtils.getAppVersionName(getBaseActivity())) > 0) {
                         setURL(appVersion.getPackageUrl());
 
                         StringBuilder tip = new StringBuilder();
                         tip.append("V");
-                        tip.append(APPUtils.getAppVersionName(getBaseActivity()));
+                        tip.append(ZAppUtils.getAppVersionName(getBaseActivity()));
                         tip.append(" → ");
                         tip.append("V");
                         tip.append(appVersion.getVersion());
@@ -71,12 +73,12 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
                         showDialog(tip.toString());
                     } else {
                         if (isFromUser()) {
-                            t.info(R.string.update_app_already_new);
+                            Zt.info(R.string.update_app_already_new);
                         }
                     }
                 } else {
                     if (isFromUser()) {
-                        t.info(R.string.update_app_already_new);
+                        Zt.info(R.string.update_app_already_new);
                     }
                 }
             }
@@ -84,7 +86,7 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
             @Override
             public void onGetError(Throwable ex) {
                 if (isFromUser()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                 }
             }
 
@@ -96,7 +98,7 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
             @Override
             public void onGetFinish() {
                 if (isFromUser()) {
-                    getBaseActivity().baseUI.baseDialog.closeDialog(HGConstants.UPDATE_APP_UTILS_CHECK_PROGRESS_DIALOG_CODE);
+                    getBaseActivity().baseUI.baseDialog.closeDialog(ZConstants.UPDATE_APP_UTILS_CHECK_PROGRESS_DIALOG_CODE);
                 }
             }
 
@@ -104,6 +106,21 @@ public class UpdateAPPUtils extends HGUpdateAPPUtils {
             public void onGetCancel(Callback.CancelledException cex) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
+    }
+
+    @Override
+    protected boolean isOpenDevelopmentVersionCheck() {
+        return SystemConfig.APP_STYLE == AppStyle.XHTT_Test;
+    }
+
+    @Override
+    protected String setPgyApiKey() {
+        return "af523e39380fd3d004af76c62fde7b08";
+    }
+
+    @Override
+    protected String setPgyAppKey() {
+        return "b9efb515df0b5807fadad507522f34c7";
     }
 }

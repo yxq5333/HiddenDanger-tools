@@ -7,12 +7,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.laws.LawsAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.common.FileDetail;
@@ -22,6 +21,7 @@ import com.xhtt.hiddendangermaster.constant.LawType;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.common.FileDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 
@@ -31,9 +31,9 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements LawsContract.View {
+public class LawsFragment extends HDBaseMVPFragment<LawsPresenter> implements LawsContract.View {
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
     private LawsAdapter adapter;
     private ArrayList<Laws> data = new ArrayList<>();
@@ -53,6 +53,7 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
 
     @Override
     public void initParamData() {
+        super.initParamData();
         lawType = baseUI.getParam(ParamKey.LawType, LawType.Legal);
     }
 
@@ -61,7 +62,7 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
         switch (lawType) {
             case Legal:
@@ -95,7 +96,7 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
 
         refreshLayout.setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-        adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -107,7 +108,7 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
                 fileDetail.setMemo(data.get(position).getMemo());
 
                 baseUI.startMyActivity(FileDetailActivity.class,
-                        new Enum[]{HGParamKey.AppFiles},
+                        new Enum[]{ZParamKey.AppFiles},
                         new Object[]{fileDetail}
                 );
             }
@@ -183,15 +184,15 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
     @Override
     public void getDataFinish() {
 
+        if (data.size() > 0) {
+            baseUI.setStatus(ZStatusLayout.Status.Default);
+        } else {
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+        }
+
         if (isSearch && data.size() == 0) {
             TextView tips = baseUI.findViewById(R.id.tv_tips);
             tips.setText("未找到相关数据");
-        }
-
-        if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
-        } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
         }
 
         new Handler().postDelayed(() -> {
@@ -201,11 +202,11 @@ public class LawsFragment extends BaseMVPFragment<LawsPresenter> implements Laws
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }

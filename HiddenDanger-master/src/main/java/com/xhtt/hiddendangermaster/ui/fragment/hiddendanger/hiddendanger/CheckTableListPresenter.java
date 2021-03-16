@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @author HG
  */
 
-public class CheckTableListPresenter extends BasePresenter<CheckTableListContract.View, CheckTableListContract.Model> implements CheckTableListContract.Presenter {
+public class CheckTableListPresenter extends ZBasePresenter<CheckTableListContract.View, CheckTableListContract.Model> implements CheckTableListContract.Presenter {
 
     @Override
     public void afterAttachView() {

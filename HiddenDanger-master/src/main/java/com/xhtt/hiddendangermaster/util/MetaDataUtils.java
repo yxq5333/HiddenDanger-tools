@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-import com.hg.hollowgoods.util.LogUtils;
+import com.hg.zero.logger.ZLogger;
 
 /**
  * AndroidManifest.xml meta-data 工具类
@@ -20,7 +20,7 @@ public class MetaDataUtils {
             ApplicationInfo appInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
             return (T) appInfo.metaData.get(key);
         } catch (PackageManager.NameNotFoundException e) {
-            LogUtils.Log(e.getMessage());
+            ZLogger.e(e, MetaDataUtils.class.getSimpleName());
         }
 
         return null;

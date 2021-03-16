@@ -11,19 +11,19 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnFloatingSearchMenuItemClickListener;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.searchhistory.SearchKeys;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView;
-import com.hg.hollowgoods.widget.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.hg.hollowgoods.widget.floatingsearchview.util.Util;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.listener.ZOnFloatingSearchMenuItemClickListener;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.util.ZResUtils;
+import com.hg.zero.util.searchhistory.ZSearchKeys;
+import com.hg.zero.widget.floatingsearchview.ZFloatingSearchView;
+import com.hg.zero.widget.floatingsearchview.suggestions.model.ZSearchSuggestion;
+import com.hg.zero.widget.floatingsearchview.util.ZFloatingSearchViewUtil;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.CompanySelectorAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
@@ -32,6 +32,7 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -43,12 +44,12 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanySelectorPresenter> implements CompanySelectorContract.View {
+public class CompanySelectorForFreeTakeActivity extends HDBaseMVPActivity<CompanySelectorPresenter> implements CompanySelectorContract.View {
 
     private final int DIALOG_CODE_INPUT = 1000;
 
-    private HGRefreshLayout refreshLayout;
-    private FloatingSearchView floatingSearchView;
+    private ZRefreshLayout refreshLayout;
+    private ZFloatingSearchView floatingSearchView;
 
     private CompanySelectorAdapter adapter;
     private ArrayList<Company> data = new ArrayList<>();
@@ -61,7 +62,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     private boolean isSearch = false;
     private String inputKey = "";
     private String searchHint = "";
-    private ArrayList<SearchKeys> keys = new ArrayList<>();
+    private ArrayList<ZSearchKeys> keys = new ArrayList<>();
 
     @Override
     public Object registerEventBus() {
@@ -76,6 +77,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     @Override
     public void initParamData() {
 
+        super.initParamData();
         workType = baseUI.getParam(ParamKey.WorkType, WorkType.Selector);
 
         if (workType == null) {
@@ -86,7 +88,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_company_selector);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_company_selector);
 //        baseUI.setCommonRightTitleText("确定");
 //        baseUI.setDataMode(baseUI.DATA_MODE_LOAD_DATA_CENTER);
 
@@ -95,12 +97,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
 
         new Handler().postDelayed(() -> {
 
-            refreshLayout = findViewById(R.id.hgRefreshLayout);
-
-            if (workType == WorkType.InputOnly) {
-                TextView tips = baseUI.findViewById(R.id.tv_tips);
-                tips.setText("请输入企业名称并搜索");
-            }
+            refreshLayout = findViewById(R.id.ZRefreshLayout);
 
             refreshLayout.initRecyclerView();
             refreshLayout.setAdapter(adapter = new CompanySelectorAdapter(baseUI.getBaseContext(), R.layout.item_company_selector, data));
@@ -118,7 +115,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
 
             refreshLayout.getRefreshLayout().setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-            adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -139,7 +136,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
                 if (result) {
                     switch (code) {
                         case DIALOG_CODE_INPUT:
-                            inputKey = bundle.getData(HGParamKey.InputValue, "");
+                            inputKey = bundle.getData(ZParamKey.InputValue, "");
                             backStringData();
                             break;
                     }
@@ -154,7 +151,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.getEventActionCode() == EventActionCode.COMPANY_SUBMIT) {
             if (event.getObj(ParamKey.WorkType, null) == WorkType.Add) {
                 finishMyActivity();
@@ -169,7 +166,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
 
     private void backStringData() {
 
-        HGEvent event = baseUI.buildEvent(EventActionCode.COMPANY_SELECTOR);
+        ZEvent event = baseUI.buildEvent(EventActionCode.COMPANY_SELECTOR);
         event.addObj(ParamKey.StringData, inputKey);
         EventBus.getDefault().post(event);
 
@@ -178,7 +175,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
 
     private void backObjData() {
 
-        HGEvent event = baseUI.buildEvent(EventActionCode.COMPANY_SELECTOR);
+        ZEvent event = baseUI.buildEvent(EventActionCode.COMPANY_SELECTOR);
         event.addObj(ParamKey.Company, data.get(clickPosition));
         EventBus.getDefault().post(event);
 
@@ -243,6 +240,12 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     @Override
     public void getDataFinish() {
 
+        if (data.size() > 0) {
+            baseUI.setStatus(ZStatusLayout.Status.Default);
+        } else {
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+        }
+
         if (isSearch && data.size() == 0) {
             TextView tips = baseUI.findViewById(R.id.tv_tips);
             if (workType == WorkType.InputOnly) {
@@ -256,12 +259,6 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
             }
         }
 
-        if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
-        } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
-        }
-
         new Handler().postDelayed(() -> {
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Refreshing || refreshLayout.getRefreshLayout().getState() == RefreshState.RefreshReleased) {
@@ -269,11 +266,11 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }
@@ -282,10 +279,10 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
     public void findNameSuccess(ArrayList<Company> tempData) {
 
         if (tempData != null) {
-            ArrayList<SearchKeys> temp = new ArrayList<>();
+            ArrayList<ZSearchKeys> temp = new ArrayList<>();
 
             for (Company t : tempData) {
-                temp.add(new SearchKeys(t.getCompanyName()));
+                temp.add(new ZSearchKeys(t.getCompanyName()));
             }
 
             keys.clear();
@@ -338,7 +335,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
                 }
             });
 
-            floatingSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            floatingSearchView.setOnFocusChangeListener(new ZFloatingSearchView.OnFocusChangeListener() {
 
                 @Override
                 public void onFocus() {
@@ -360,16 +357,16 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
 
             floatingSearchView.setOnBindSuggestionCallback((suggestionView, leftIcon, textView, item, itemPosition) -> {
                 // 历史列表绑定数据
-                SearchKeys searchKeys = (SearchKeys) item;
+                ZSearchKeys searchKeys = (ZSearchKeys) item;
 
-                int textColor = getBaseContext().getResources().getColor(com.hg.hollowgoods.R.color.search_history_text);
-                String textLight = getBaseContext().getString(com.hg.hollowgoods.R.string.search_history_text_light);
+                int textColor = getBaseContext().getResources().getColor(R.color.search_history_text);
+                String textLight = ZResUtils.getColorValueById(getBaseContext(), R.color.colorAccent, false);
 
-                if (searchKeys.getIsHistory()) {
+                if (searchKeys.isHistory()) {
                     leftIcon.setImageDrawable(ResourcesCompat.getDrawable(getBaseContext().getResources(),
                             R.drawable.ic_history_black_24dp, null));
 
-                    Util.setIconColor(leftIcon, textColor);
+                    ZFloatingSearchViewUtil.setIconColor(leftIcon, textColor);
                     leftIcon.setAlpha(0.36f);
                 } else {
                     leftIcon.setAlpha(0.0f);
@@ -383,12 +380,12 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
                 textView.setText(Html.fromHtml(text));
             });
 
-            floatingSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+            floatingSearchView.setOnSearchListener(new ZFloatingSearchView.OnSearchListener() {
                 @Override
-                public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+                public void onSuggestionClicked(final ZSearchSuggestion searchSuggestion) {
 
                     // 点击了历史记录列表
-                    SearchKeys searchKeys = (SearchKeys) searchSuggestion;
+                    ZSearchKeys searchKeys = (ZSearchKeys) searchSuggestion;
                     searchKey = searchKeys.getBody();
                     inputKey = searchKey;
                     doSearch();
@@ -419,7 +416,7 @@ public class CompanySelectorForFreeTakeActivity extends BaseMVPActivity<CompanyS
                 floatingSearchView.clearSearchFocus();
             });
 
-            floatingSearchView.setOnMenuItemClickListener(new OnFloatingSearchMenuItemClickListener(getBaseContext(), false) {
+            floatingSearchView.setOnMenuItemClickListener(new ZOnFloatingSearchMenuItemClickListener(getBaseContext(), false) {
                 @Override
                 public void onFloatingSearchMenuItemClick(MenuItem item) {
 

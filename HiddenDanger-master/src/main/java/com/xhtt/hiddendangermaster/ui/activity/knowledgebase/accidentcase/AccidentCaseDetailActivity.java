@@ -6,16 +6,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.common.FileDetail;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 
 /**
  * 详情界面
@@ -23,7 +23,7 @@ import com.xhtt.hiddendangermaster.constant.SystemConfig;
  * @author HG
  */
 @Deprecated
-public class AccidentCaseDetailActivity extends BaseActivity {
+public class AccidentCaseDetailActivity extends HDBaseActivity {
 
     private TextView title;
     private View timeAuthor;
@@ -42,7 +42,8 @@ public class AccidentCaseDetailActivity extends BaseActivity {
     @Override
     public void initParamData() {
 
-        fileDetail = baseUI.getParam(HGParamKey.AppFiles, new FileDetail());
+        super.initParamData();
+        fileDetail = baseUI.getParam(ZParamKey.AppFiles, new FileDetail());
 
         if (TextUtils.isEmpty(fileDetail.getTitle())) {
             fileDetail.setTitle("无标题");
@@ -52,8 +53,8 @@ public class AccidentCaseDetailActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, fileDetail.getActivityTitle());
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), fileDetail.getActivityTitle());
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -103,7 +104,7 @@ public class AccidentCaseDetailActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-        new Handler().postDelayed(() -> baseUI.setStatus(HGStatusLayout.Status.Default), SystemConfig.DELAY_TIME_SET_LISTENER);
+        new Handler().postDelayed(() -> baseUI.setStatus(ZStatusLayout.Status.Default), SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
     private String getHtmlData(String bodyHTML) {

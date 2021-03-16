@@ -2,7 +2,7 @@ package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 /**
  * 服务单签字确认 管理层
@@ -10,7 +10,7 @@ import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
  * Created by YXQ on 2020-06-23
  */
 
-public class SignPresenter extends BasePresenter<SignContract.View, SignContract.Model> implements SignContract.Presenter {
+public class SignPresenter extends ZBasePresenter<SignContract.View, SignContract.Model> implements SignContract.Presenter {
 
     public SignPresenter(Context mContext) {
         super(mContext);

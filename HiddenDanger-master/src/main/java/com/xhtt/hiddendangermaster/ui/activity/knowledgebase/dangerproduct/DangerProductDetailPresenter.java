@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.activity.knowledgebase.dangerproduct;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 /**
  * 危化品信息管理层
@@ -8,7 +8,7 @@ import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
  * @author HG
  */
 
-public class DangerProductDetailPresenter extends BasePresenter<DangerProductDetailContract.View, DangerProductDetailContract.Model> implements DangerProductDetailContract.Presenter {
+public class DangerProductDetailPresenter extends ZBasePresenter<DangerProductDetailContract.View, DangerProductDetailContract.Model> implements DangerProductDetailContract.Presenter {
 
     @Override
     public void afterAttachView() {

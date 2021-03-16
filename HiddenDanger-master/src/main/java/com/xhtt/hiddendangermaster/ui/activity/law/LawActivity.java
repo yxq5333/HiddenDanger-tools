@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.util.TextViewUtils;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.util.ZTextViewUtils;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 
 /**
  * 版权声明和隐私保护界面
  *
  * @author HG
  */
-public class LawActivity extends BaseActivity {
+public class LawActivity extends HDBaseActivity {
 
     @Override
     public int bindLayout() {
@@ -25,7 +25,7 @@ public class LawActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, "免责声明");
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), "免责声明");
 
         int colorBlue = Color.parseColor("#2F6699");
         int colorGrey = Color.parseColor("#666666");
@@ -33,7 +33,7 @@ public class LawActivity extends BaseActivity {
 
         TextView txt = findViewById(R.id.tv_txt);
 
-        TextViewUtils.getBuilder(this, "")
+        ZTextViewUtils.getBuilder(this, "")
 
                 .append("本系统提醒您：")
                 .setForegroundColor(colorGrey)

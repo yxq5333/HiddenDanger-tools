@@ -10,18 +10,18 @@ import android.widget.LinearLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.util.DensityUtils;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.util.ZDensityUtils;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerDetailContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerDetailFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerDetailPresenter;
@@ -32,7 +32,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenD
  * @author HG
  */
 
-public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDetailPresenter> implements HiddenDangerDetailContract.View {
+public class HiddenDangerDetailActivity extends HDBaseMVPActivity<HiddenDangerDetailPresenter> implements HiddenDangerDetailContract.View {
 
     public static final int ACTION_SUBMIT_ONLY = 1;
     public static final int ACTION_SUBMIT_AND_RESTART = 2;
@@ -58,6 +58,8 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
     @Override
     public void initParamData() {
 
+        super.initParamData();
+
         submitUnchecked = findViewById(R.id.btn_submitUnchecked);
         submitChecked = findViewById(R.id.btn_submitChecked);
         submit = findViewById(R.id.btn_submit);
@@ -70,7 +72,7 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
 
         lastServiceId = company.getServiceId();
 
-        grandData = BeanUtils.copy(company, Company.class);
+        grandData = ZBeanUtils.copy(company, Company.class);
 
         if (workType == null) {
             workType = WorkType.Detail;
@@ -84,7 +86,7 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
                 if (hiddenDangerAddWithOutContinue) {
                     submitAndRestart.setVisibility(View.GONE);
                     LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) submit.getLayoutParams();
-                    llp.setMarginEnd(DensityUtils.dp2px(this, 16));
+                    llp.setMarginEnd(ZDensityUtils.dp2px(this, 16));
                 }
                 break;
             case AddFreeTake:
@@ -99,7 +101,7 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
                 findViewById(R.id.ll_changeView).setVisibility(View.GONE);
                 submitAndRestart.setVisibility(View.GONE);
                 LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) submit.getLayoutParams();
-                llp.setMarginEnd(DensityUtils.dp2px(this, 16));
+                llp.setMarginEnd(ZDensityUtils.dp2px(this, 16));
                 break;
             case Change:
                 title = "隐患排查";
@@ -119,8 +121,8 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, title);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), title);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -143,21 +145,21 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
 
         new Handler().postDelayed(() -> {
 
-            submitChecked.setOnClickListener(new OnViewClickListener(false) {
+            submitChecked.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     hiddenDangerDetailFragment.submitFile(HiddenDanger.STATUS_CHANGED);
                 }
             });
 
-            submitUnchecked.setOnClickListener(new OnViewClickListener(false) {
+            submitUnchecked.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     hiddenDangerDetailFragment.submitFile(HiddenDanger.STATUS_UNCHANGED);
                 }
             });
 
-            submit.setOnClickListener(new OnViewClickListener(false) {
+            submit.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     action = ACTION_SUBMIT_ONLY;
@@ -165,7 +167,7 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
                 }
             });
 
-            submitAndRestart.setOnClickListener(new OnViewClickListener(false) {
+            submitAndRestart.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     action = ACTION_SUBMIT_AND_RESTART;
@@ -173,7 +175,7 @@ public class HiddenDangerDetailActivity extends BaseMVPActivity<HiddenDangerDeta
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 

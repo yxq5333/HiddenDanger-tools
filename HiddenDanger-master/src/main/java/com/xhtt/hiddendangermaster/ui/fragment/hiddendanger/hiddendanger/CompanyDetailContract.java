@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.common.CommonChooseItem;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CompanyDetailRequest;
@@ -16,13 +16,13 @@ import com.xhtt.hiddendangermaster.constant.WorkType;
 
 public class CompanyDetailContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void addData(CompanyDetailRequest request);
 
         void editData(CompanyDetailRequest request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         default void submitDataSuccess(Long id, Long serviceId) {
         }
 

@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/main_body_color">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleLayout
+    <com.hg.zero.widget.commontitle.ZCommonTitleLayout
         android:id="@+id/commonTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -31,8 +31,8 @@
                 app:cardCornerRadius="3dp"
                 app:cardElevation="3dp">
 
-                <com.hg.hollowgoods.widget.HGRefreshLayout
-                    android:id="@+id/hgRefreshLayout"
+                <com.hg.zero.widget.refreshlayout.ZRefreshLayout
+                    android:id="@+id/ZRefreshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:openLoadMore="false"
@@ -168,7 +168,7 @@
 
         </LinearLayout>
 
-        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+        <com.hg.zero.widget.floatingsearchview.ZFloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -178,11 +178,11 @@
             app:floatingSearch_searchBarMarginLeft="16dp"
             app:floatingSearch_searchBarMarginRight="16dp"
             app:floatingSearch_searchBarMarginTop="16dp"
-            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_searchHint="@string/z_search"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"
             app:floatingSearch_viewTextColor="#323232" />
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

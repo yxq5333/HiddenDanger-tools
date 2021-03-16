@@ -2,13 +2,16 @@ package com.xhtt.hiddendangermaster.application;
 
 import android.app.Application;
 
-import com.hg.hollowgoods.application.BaseApplication;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.util.ip.IPConfig;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.updateapp.DevelopmentUpdateAPPUtils;
+import com.hg.zero.application.ZBaseApplication;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZSystemConfig;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfig;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.BuildConfig;
+import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.bean.ListLimitDataInfo;
+import com.xhtt.hiddendangermaster.bean.ResponseInfo;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.constant.AppStyle;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
@@ -23,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * Created by Hollow Goods on 2019-03-26.
  */
-public class MyApplication extends BaseApplication {
+public class MyApplication extends ZBaseApplication {
 
     @Override
     public Application initAppContext() {
@@ -36,8 +39,8 @@ public class MyApplication extends BaseApplication {
     }
 
     @Override
-    public boolean isNeedReadOfficeFile() {
-        return true;
+    public void initTopData() {
+        ZSystemConfig.setOpenOfficeFileReader(true);
     }
 
     @Override
@@ -49,20 +52,35 @@ public class MyApplication extends BaseApplication {
         String defaultIP = MetaDataUtils.getMetaData(this, BuildConfig.MetaDataKeyIP);
         Integer defaultPort = MetaDataUtils.getMetaData(this, BuildConfig.MetaDataKeyPORT);
 
-        IPConfigHelper.create().initIPConfigs(new IPConfig().setIp(defaultIP).setPort(String.valueOf(defaultPort)));
+        ZIPConfig ipConfig = new ZIPConfig();
+        ipConfig.setIp(defaultIP);
+        ipConfig.setPort(String.valueOf(defaultPort));
+
+        ZIPConfigHelper.get().initIPConfigs(ipConfig);
+
+        ZSystemConfig.setUsername(getString(R.string.app_name));
 
         LoginUtils.initUser();
 
-        HGSystemConfig.IS_DEVELOPMENT_MODE = true;
-        DevelopmentUpdateAPPUtils.loadDevelopmentCheckAppUpdateIp();
+        ZSystemConfig.bindResponseClass(ResponseInfo.class, ListLimitDataInfo.class);
+        ZSystemConfig.setSingleChoiceDialogAutoBack(true);
+        ZSystemConfig.setActivityStartInAnim(ZConstants.ACTIVITY_ANIMATION[6][0]);
+        ZSystemConfig.setActivityStartOutAnim(ZConstants.ACTIVITY_ANIMATION[6][1]);
+        ZSystemConfig.setActivityFinishInAnim(0);
+        ZSystemConfig.setActivityFinishOutAnim(ZConstants.ACTIVITY_ANIMATION[1][1]);
     }
 
     public static MyApplication createApplication() {
         return create();
     }
 
+    @Override
+    public void tokenOverDate() {
+        LoginUtils.autoExitApp(this);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
         if (event.getEventActionCode() == EventActionCode.TokenOverdue) {
             // Token过期
             LoginUtils.autoExitApp(this);

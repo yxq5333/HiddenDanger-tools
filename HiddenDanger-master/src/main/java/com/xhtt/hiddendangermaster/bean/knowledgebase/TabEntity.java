@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.bean.knowledgebase;
 
-import com.hg.widget.tablayout.listener.CustomTabEntity;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.CustomTabEntity;
 
 public class TabEntity implements CustomTabEntity {
     public String title;
@@ -10,8 +10,8 @@ public class TabEntity implements CustomTabEntity {
 
     public TabEntity(String title) {
         this.title = title;
-        this.selectedIcon = R.drawable.ic_android_green_24dp;
-        this.unSelectedIcon = R.drawable.ic_android_green_24dp;
+        this.selectedIcon = R.drawable.z_ic_android_green_24dp;
+        this.unSelectedIcon = R.drawable.z_ic_android_green_24dp;
     }
 
     public TabEntity(String title, int selectedIcon, int unSelectedIcon) {

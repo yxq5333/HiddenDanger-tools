@@ -11,32 +11,32 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.SystemAppUtils;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
-import com.hg.hollowgoods.util.file.FileUtils2;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.file.ZFileUtils2;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.string.ZStringUtils;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
+import com.hg.zero.util.ZSystemAppUtils;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.xhtt.hiddendangermaster.R;
-import com.xhtt.hiddendangermaster.service.JavaScriptInterface;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.common.FileDetailAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.common.FileDetail;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.InterfaceApi;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.service.JavaScriptInterface;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.plugin.PlayVideoActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ import java.util.List;
  * @author HG
  */
 
-public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> implements FileDetailContract.View {
+public class FileDetailActivity extends HDBaseMVPActivity<FileDetailPresenter> implements FileDetailContract.View {
 
     private TextView title;
     private View timeAuthor;
@@ -63,7 +63,7 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
 
     private FileDetail fileDetail;
     private FileDetailAdapter fileAdapter;
-    private ArrayList<AppFile> fileData = new ArrayList<>();
+    private ArrayList<ZAppFile> fileData = new ArrayList<>();
 
     @Override
     public Object registerEventBus() {
@@ -78,7 +78,8 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
     @Override
     public void initParamData() {
 
-        fileDetail = baseUI.getParam(HGParamKey.AppFiles, new FileDetail());
+        super.initParamData();
+        fileDetail = baseUI.getParam(ZParamKey.AppFiles, new FileDetail());
 
         if (TextUtils.isEmpty(fileDetail.getTitle())) {
             fileDetail.setTitle("无标题");
@@ -88,8 +89,8 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, fileDetail.getActivityTitle());
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), fileDetail.getActivityTitle());
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
@@ -177,17 +178,17 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
                 filesView.setVisibility(View.GONE);
             } else {
                 files.setHasFixedSize(true);
-                files.setItemAnimator(new LandingAnimator());
+                files.setItemAnimator(new ZLandingAnimator());
                 files.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
                 files.setNestedScrollingEnabled(false);
 
-                List<AppFile> temp = UploadFileUtils.webFiles2AppFiles(fileDetail.getWebFiles());
+                List<ZAppFile> temp = UploadFileUtils.webFiles2AppFiles(fileDetail.getWebFiles());
                 if (temp != null) {
                     fileData.addAll(temp);
                 }
 
                 fileAdapter = new FileDetailAdapter(baseUI.getBaseContext(), R.layout.item_file_detail, fileData);
-                files.setAdapter(new ScaleInAnimationAdapter(fileAdapter));
+                files.setAdapter(new ZScaleInAnimationAdapter(fileAdapter));
             }
             // 备注
             if (TextUtils.isEmpty(fileDetail.getMemo())) {
@@ -204,10 +205,10 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
         new Handler().postDelayed(() -> {
 
             if (fileAdapter != null) {
-                fileAdapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+                fileAdapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                     @Override
                     public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
-                        new SystemAppUtils().readFile(baseUI.getBaseContext(),
+                        new ZSystemAppUtils().readFile(baseUI.getBaseContext(),
                                 fileData.get(position).getUrl(),
                                 fileData.get(position).getOriginalName()
                         );
@@ -215,7 +216,7 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
                 });
             }
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -225,26 +226,26 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
     }
 
     @Override
-    public void onEventUI(HGEvent event) {
+    public void onEventUI(ZEvent event) {
 
         String title;
         String url;
 
         if (event.getEventActionCode() == EventActionCode.OPEN_WEB_FILE) {
-            title = event.getObj(HGParamKey.Title, "");
+            title = event.getObj(ZParamKey.Title, "");
             url = event.getObj(ParamKey.URL, "");
 
-            if (FileUtils2.isImageFile(url)) {
-                new SystemAppUtils().previewPhotos(baseUI.getBaseContext(), url);
-            } else if (FileUtils2.isOfficeFile(url)) {
-                new SystemAppUtils().readFile(baseUI.getBaseContext(), url, title);
+            if (ZFileUtils2.isImageFile(url)) {
+                new ZSystemAppUtils().previewPhotos(baseUI.getBaseContext(), url);
+            } else if (ZFileUtils2.isOfficeFile(url)) {
+                new ZSystemAppUtils().readFile(baseUI.getBaseContext(), url, title);
             }
         } else if (event.getEventActionCode() == EventActionCode.PLAY_VIDEO) {
-            title = event.getObj(HGParamKey.Title, "");
+            title = event.getObj(ZParamKey.Title, "");
             url = event.getObj(ParamKey.URL, "");
 
             baseUI.startMyActivity(PlayVideoActivity.class,
-                    new Enum[]{HGParamKey.Title, ParamKey.URL},
+                    new Enum[]{ZParamKey.Title, ParamKey.URL},
                     new Object[]{title, url}
             );
         }
@@ -291,13 +292,13 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
         html.append("</body></html>");
 
         String result = html.toString();
-        result = result.replaceAll("src=\"/proxyApi/file/show/", "onclick=\"javaOpenImage(this)\" src=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
-        result = result.replaceAll("src=\"/proxyApi/file/down/", "onclick=\"javaOpenImage(this)\" src=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
-        result = result.replaceAll("src=\"/static/UEditor/dialogs/attachment/fileTypeImages/", "src=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
-        result = result.replaceAll("href=\"/proxyApi/file/show/", "onclick=\"javaOpenFile(this)\" id=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()));
-        result = result.replaceAll("href=\"/proxyApi/file/down/", "onclick=\"javaOpenFile(this)\" id=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()));
+        result = result.replaceAll("src=\"/proxyApi/file/show/", "onclick=\"javaOpenImage(this)\" src=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
+        result = result.replaceAll("src=\"/proxyApi/file/down/", "onclick=\"javaOpenImage(this)\" src=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
+        result = result.replaceAll("src=\"/static/UEditor/dialogs/attachment/fileTypeImages/", "src=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()));
+        result = result.replaceAll("href=\"/proxyApi/file/show/", "onclick=\"javaOpenFile(this)\" id=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()));
+        result = result.replaceAll("href=\"/proxyApi/file/down/", "onclick=\"javaOpenFile(this)\" id=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()));
 
-        List<String> str = StringUtils.getStringArray(result, "<");
+        List<String> str = ZStringUtils.getStringArray(result, "<");
         StringBuilder result2 = new StringBuilder();
         for (String t : str) {
             if (!TextUtils.isEmpty(t)) {
@@ -307,7 +308,7 @@ public class FileDetailActivity extends BaseMVPActivity<FileDetailPresenter> imp
                 if (t.startsWith("video")) {
                     String temp = t;
                     temp = temp.replace("video", "img");
-                    temp = temp.replace("src=", "src=\"" + IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()) + "dd.jpg\"" + " id=");
+                    temp = temp.replace("src=", "src=\"" + ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()) + "dd.jpg\"" + " id=");
                     temp = temp.replace("controls=\"\"", "");
                     temp = temp.replace("onclick=\"javaOpenImage(this)\"", "onclick=\"javaOpenVideo(this)\"");
                     result2.append(temp);

@@ -8,15 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.ViewUtils;
-import com.hg.hollowgoods.widget.HGStatusLayout;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZViewUtils;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.util.LoginUtils;
 
 /**
@@ -25,7 +25,7 @@ import com.xhtt.hiddendangermaster.util.LoginUtils;
  * @author HG
  */
 
-public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresenter> implements AlterPasswordContract.View {
+public class AlterPasswordActivity extends HDBaseMVPActivity<AlterPasswordPresenter> implements AlterPasswordContract.View {
 
     private final int DIALOG_CODE_CHANGE_PASSWORD = 1000;
 
@@ -47,8 +47,8 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_alter_password);
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_alter_password);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
             oldPassword = findViewById(R.id.et_oldPassword);
@@ -65,7 +65,7 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
 
         new Handler().postDelayed(() -> {
 
-            watchPassword1.setOnClickListener(new OnViewClickListener(false) {
+            watchPassword1.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     canInput1Watch = !canInput1Watch;
@@ -73,7 +73,7 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
                 }
             });
 
-            watchPassword2.setOnClickListener(new OnViewClickListener(false) {
+            watchPassword2.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     canInput2Watch = !canInput2Watch;
@@ -81,7 +81,7 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
                 }
             });
 
-            sure.setOnClickListener(new OnViewClickListener(false) {
+            sure.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     mPresenter.changePassword(
@@ -92,7 +92,7 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -111,21 +111,21 @@ public class AlterPasswordActivity extends BaseMVPActivity<AlterPasswordPresente
             watch.setImageResource(R.drawable.ic_can_watch);
         }
 
-        ViewUtils.setEditTextCursorLocation(input);
+        ZViewUtils.setEditTextCursorLocation(input);
     }
 
     @Override
     public void changePasswordStart() {
         baseUI.baseDialog.showProgressDialog(
-                new DialogConfig.ProgressConfig(DIALOG_CODE_CHANGE_PASSWORD)
-                        .setText("修改中，请稍候……")
+                new ZDialogConfig.ProgressConfig(DIALOG_CODE_CHANGE_PASSWORD)
+                        .setContent("修改中，请稍候……")
         );
     }
 
     @Override
     public void changePasswordSuccess() {
 
-        t.success("修改成功");
+        Zt.success("修改成功");
 
         new Handler().postDelayed(() -> {
             LoginUtils.autoExitApp(this);

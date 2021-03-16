@@ -1,29 +1,33 @@
 package com.xhtt.hiddendangermaster.bean;
 
-import com.google.gson.annotations.SerializedName;
-import com.hg.hollowgoods.bean.CommonBean;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-import org.xutils.db.annotation.Column;
-import org.xutils.db.annotation.Table;
+import com.google.gson.annotations.SerializedName;
+import com.hg.zero.bean.ZCommonBean;
 
 import java.util.ArrayList;
 
 /**
  * Created by Hollow Goods on 2019-04-04.
  */
-@Table(name = "User")
-public class User extends CommonBean<User> {
+@Entity
+public class User extends ZCommonBean<User> {
 
     public static final int USER_TYPE_GOV = 4;
 
-    @Column(name = "tableId", isId = true)
+    @ColumnInfo()
+    @PrimaryKey(autoGenerate = true)
     private int tableId;
 
-    @Column(name = "username")
+    @ColumnInfo
     private String username;
 
     private String name;
 
+    @ColumnInfo
     @SerializedName("mobile")
     private String phone;
 
@@ -35,10 +39,35 @@ public class User extends CommonBean<User> {
 
     private String aboutUs;
 
-    @Column(name = "password")
+    @ColumnInfo
     private String password;
 
+    @Ignore
     private ArrayList<Integer> roleIdList;
+
+    public int getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(int tableId) {
+        this.tableId = tableId;
+    }
+
+    public String getHelp() {
+        return help;
+    }
+
+    public void setHelp(String help) {
+        this.help = help;
+    }
+
+    public String getAboutUs() {
+        return aboutUs;
+    }
+
+    public void setAboutUs(String aboutUs) {
+        this.aboutUs = aboutUs;
+    }
 
     public ArrayList<Integer> getRoleIdList() {
         return roleIdList;
@@ -52,6 +81,7 @@ public class User extends CommonBean<User> {
         super(-1);
     }
 
+    @Ignore
     public User(int itemType) {
         super(itemType);
     }

@@ -29,18 +29,18 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.ui.fragment.proxy.ProxyConfig;
-import com.hg.hollowgoods.ui.fragment.proxy.ProxyHelper;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.fragment.proxy.ZProxyConfig;
+import com.hg.zero.ui.fragment.proxy.ZProxyHelper;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.companymap.MapCompanyListAdapter;
 import com.xhtt.hiddendangermaster.bean.CompanyMap;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.contract.CompanyMapContract;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.presenter.CompanyMapPresenter;
 import com.xhtt.hiddendangermaster.util.CallPhoneUtils;
@@ -62,7 +62,7 @@ import java.util.Set;
  * Created by Hollow Goods on 2020-04-01
  */
 
-public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> implements CompanyMapContract.View {
+public class CompanyMapFragment extends HDBaseMVPFragment<CompanyMapPresenter> implements CompanyMapContract.View {
 
     private final int PERMISSION_CODE_LOCATION = 1000;
     private final int DIALOG_CODE_EXPORT = 2000;
@@ -79,8 +79,8 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     private AppCompatTextView serviceCount;
     private Group addServiceCountGroup;
 
-    @ViewInject(value = R.id.hgRefreshLayout)
-    private HGRefreshLayout refreshLayout;
+    @ViewInject(value = R.id.ZRefreshLayout)
+    private ZRefreshLayout refreshLayout;
 
     private AMap aMap;
     // 定义一个UiSettings对象
@@ -123,8 +123,8 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     @Override
     public void initViewDelay() {
         baseUI.baseDialog.showProgressDialog(
-                new DialogConfig.ProgressConfig(DIALOG_CODE_LOAD)
-                        .setText("加载中，请稍候……")
+                new ZDialogConfig.ProgressConfig(DIALOG_CODE_LOAD)
+                        .setContent("加载中，请稍候……")
         );
         mPresenter.getData();
     }
@@ -142,21 +142,21 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
 
         checkPermission();
 
-        add.setOnClickListener(new OnViewClickListener(false) {
+        add.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 mapZoom(1);
             }
         });
 
-        dif.setOnClickListener(new OnViewClickListener(false) {
+        dif.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 mapZoom(-1);
             }
         });
 
-        myLocation.setOnClickListener(new OnViewClickListener(false) {
+        myLocation.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (myLocationTag != null) {
@@ -165,13 +165,13 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             }
         });
 
-        mapCompanyListAdapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        mapCompanyListAdapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
                 refreshLayout.setVisibility(View.GONE);
                 CompanyMap companyMap = mapCompanyListData.get(position);
                 if (companyMap.getLat() == null || companyMap.getLng() == null) {
-                    t.error("该企业未填位置信息");
+                    Zt.error("该企业未填位置信息");
                 } else {
                     moveMap(new LatLng(companyMap.getLat(), companyMap.getLng()), 18);
                 }
@@ -182,8 +182,8 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             if (result) {
                 if (code == DIALOG_CODE_ASK_ADD) {
                     baseUI.baseDialog.showProgressDialog(
-                            new DialogConfig.ProgressConfig(DIALOG_CODE_ADD)
-                                    .setText("提交中，请稍候……")
+                            new ZDialogConfig.ProgressConfig(DIALOG_CODE_ADD)
+                                    .setContent("提交中，请稍候……")
                     );
                     mPresenter.addServiceCount(clickCompanyMap.getCompanyId());
                 }
@@ -199,8 +199,8 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     @Override
     public void onRightTitleClick(View view, int id) {
         baseUI.baseDialog.showProgressDialog(
-                new DialogConfig.ProgressConfig(DIALOG_CODE_EXPORT)
-                        .setText("导出中，请稍候……")
+                new ZDialogConfig.ProgressConfig(DIALOG_CODE_EXPORT)
+                        .setContent("导出中，请稍候……")
         );
         mPresenter.export();
     }
@@ -425,7 +425,7 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
                 break;
         }
 
-        guide.setOnClickListener(new OnViewClickListener(false) {
+        guide.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 new AlertDialog.Builder(baseUI.getBaseContext())
@@ -436,13 +436,13 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
                                     LatLng p = new LatLng(clickCompanyMap.getLat(), clickCompanyMap.getLng());
                                     p = LocationChangeUtils.GaoDe2BaiDu(p);
                                     if (!GuideUtils.routeByBaiDuMap(baseUI.getBaseContext(), clickCompanyMap.getCompanyName(), p.latitude, p.longitude)) {
-                                        t.info("请先安装百度地图");
+                                        Zt.info("请先安装百度地图");
                                     }
                                     break;
                                 case 1:
                                     // 高德地图
                                     if (!GuideUtils.routeByAMap(baseUI.getBaseContext(), clickCompanyMap.getCompanyName(), clickCompanyMap.getLat(), clickCompanyMap.getLng())) {
-                                        t.info("请先安装高德地图");
+                                        Zt.info("请先安装高德地图");
                                     }
                                     break;
                             }
@@ -450,21 +450,21 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             }
         });
 
-        addServiceCount.setOnClickListener(new OnViewClickListener(false) {
+        addServiceCount.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 baseUI.baseDialog.showAlertDialog(
-                        new DialogConfig.AlertConfig(DIALOG_CODE_ASK_ADD)
-                                .setTitle(R.string.tips_best)
-                                .setText("请确认本次服务是否完成？")
+                        new ZDialogConfig.AlertConfig(DIALOG_CODE_ASK_ADD)
+                                .setTitle(R.string.z_tips_best)
+                                .setContent("请确认本次服务是否完成？")
                 );
             }
         });
 
-        phoneLayout1.setOnClickListener(new OnViewClickListener(false) {
+        phoneLayout1.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()
+                new ZProxyHelper(baseUI.getBaseContext()).requestProxy(new ZProxyConfig()
                         .setPermissions(new String[]{Manifest.permission.CALL_PHONE})
                         .setRequestCode(3344)
                         .setOnProxyRequestPermissionsResult((isAgreeAll, requestCode, permissions, isAgree) -> {
@@ -476,10 +476,10 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             }
         });
 
-        phoneLayout2.setOnClickListener(new OnViewClickListener(false) {
+        phoneLayout2.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()
+                new ZProxyHelper(baseUI.getBaseContext()).requestProxy(new ZProxyConfig()
                         .setPermissions(new String[]{Manifest.permission.CALL_PHONE})
                         .setRequestCode(3344)
                         .setOnProxyRequestPermissionsResult((isAgreeAll, requestCode, permissions, isAgree) -> {
@@ -491,10 +491,10 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
             }
         });
 
-        phoneLayout3.setOnClickListener(new OnViewClickListener(false) {
+        phoneLayout3.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
-                ProxyHelper.create(baseUI.getBaseContext()).requestProxy(new ProxyConfig()
+                new ZProxyHelper(baseUI.getBaseContext()).requestProxy(new ZProxyConfig()
                         .setPermissions(new String[]{Manifest.permission.CALL_PHONE})
                         .setRequestCode(3344)
                         .setOnProxyRequestPermissionsResult((isAgreeAll, requestCode, permissions, isAgree) -> {
@@ -654,7 +654,7 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     @Override
     public void addServiceCountSuccess() {
 
-        t.success("提交成功");
+        Zt.success("提交成功");
 
         clickCompanyMap.setServiceNowCount(clickCompanyMap.getServiceNowCount() + 1);
         serviceCount.setText(clickCompanyMap.getServiceNowCount() + "/" + clickCompanyMap.getServiceTotalCount());
@@ -695,9 +695,9 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
     @Override
     public void exportSuccess(File file) {
         baseUI.baseDialog.showTipDialog(
-                new DialogConfig.TipConfig(-1)
-                        .setTitle(R.string.tips_best)
-                        .setText("已保存至：" + file.getAbsolutePath())
+                new ZDialogConfig.TipConfig(-1)
+                        .setTitle(R.string.z_tips_best)
+                        .setContent("已保存至：" + file.getAbsolutePath())
         );
     }
 
@@ -744,11 +744,11 @@ public class CompanyMapFragment extends BaseMVPFragment<CompanyMapPresenter> imp
         mapCompanyListData.addAll(temp);
         mapCompanyListAdapter.refreshData(mapCompanyListData);
 
-        if (isSearched && BeanUtils.isCollectionEmpty(mapCompanyListData)) {
-            t.info("未搜索到该企业");
+        if (isSearched && ZBeanUtils.isCollectionEmpty(mapCompanyListData)) {
+            Zt.info("未搜索到该企业");
         }
 
-        refreshLayout.setVisibility(BeanUtils.isCollectionEmpty(mapCompanyListData) ? View.GONE : View.VISIBLE);
+        refreshLayout.setVisibility(ZBeanUtils.isCollectionEmpty(mapCompanyListData) ? View.GONE : View.VISIBLE);
     }
 
 }

@@ -7,15 +7,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.CheckTableListAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CheckTable;
@@ -24,6 +23,7 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.CheckTableDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 
@@ -33,12 +33,12 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresenter> implements CheckTableListContract.View {
+public class CheckTableListFragment extends HDBaseMVPFragment<CheckTableListPresenter> implements CheckTableListContract.View {
 
     private final int DIALOG_CODE_ASK_DELETE_DATA = 1000;
     private final int DIALOG_CODE_DELETE_DATA = 1001;
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
     private CheckTableListAdapter adapter;
     private ArrayList<CheckTable> data = new ArrayList<>();
@@ -63,6 +63,7 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
     @Override
     public void initParamData() {
 
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
         if (parentData == null) {
@@ -75,7 +76,7 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
         baseUI.initSearchView(refreshLayout, true);
         baseUI.setSearchHint("检查表名称");
@@ -93,7 +94,7 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
 
         refreshLayout.setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-        adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -117,19 +118,19 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
                     sb.append(data.get(clickPosition).getCheckTableName());
                     sb.append("\"");
                     sb.append("吗？");
-                    baseUI.baseDialog.showAlertDialog(new DialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
-                            .setTitle(R.string.tips_best)
-                            .setText(sb.toString())
+                    baseUI.baseDialog.showAlertDialog(new ZDialogConfig.AlertConfig(DIALOG_CODE_ASK_DELETE_DATA)
+                            .setTitle(R.string.z_tips_best)
+                            .setContent(sb.toString())
                     );
                 }
 
-                baseUI.baseDialog.setOnDialogClickListener((code, result, backData) -> {
+                baseUI.baseDialog.addOnDialogClickListener((code, result, backData) -> {
 
                     if (result) {
                         switch (code) {
                             case DIALOG_CODE_ASK_DELETE_DATA:
-                                baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
-                                        .setText("删除中，请稍候……")
+                                baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_DELETE_DATA)
+                                        .setContent("删除中，请稍候……")
                                 );
                                 mPresenter.deleteData(data.get(clickPosition).getId());
                                 break;
@@ -146,7 +147,7 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.CHANGE_CHECK_TABLE_CONTENT_STATUS) {
             if (data.get(clickPosition).getStatus() != CheckTable.STATUS_CHECK_ING) {
                 data.get(clickPosition).setStatus(CheckTable.STATUS_CHECK_ING);
@@ -156,7 +157,7 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
         } else if (item.getEventActionCode() == EventActionCode.CHECK_TABLE_SUBMIT) {
             if (data.get(clickPosition).getStatus() != CheckTable.STATUS_CHECKED) {
                 data.get(clickPosition).setStatus(CheckTable.STATUS_CHECKED);
-                data.get(clickPosition).setCheckDate(StringUtils.getDateTimeString(System.currentTimeMillis(), StringUtils.DateFormatMode.LINE_YMD));
+                data.get(clickPosition).setCheckDate(ZDateTimeUtils.getDateTimeString(System.currentTimeMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD));
 
                 adapter.refreshData(data, clickPosition);
             }
@@ -234,15 +235,15 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
     @Override
     public void getDataFinish() {
 
+        if (data.size() > 0) {
+            baseUI.setStatus(ZStatusLayout.Status.Default);
+        } else {
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
+        }
+
         if (isSearch && data.size() == 0) {
             TextView tips = baseUI.findViewById(R.id.tv_tips);
             tips.setText("未找到相关数据");
-        }
-
-        if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
-        } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
         }
 
         new Handler().postDelayed(() -> {
@@ -252,18 +253,18 @@ public class CheckTableListFragment extends BaseMVPFragment<CheckTableListPresen
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }
 
     @Override
     public void deleteDataSuccess() {
-        t.success("删除成功");
+        Zt.success("删除成功");
         data.remove(clickPosition);
         adapter.removeData(data, clickPosition, 1);
     }

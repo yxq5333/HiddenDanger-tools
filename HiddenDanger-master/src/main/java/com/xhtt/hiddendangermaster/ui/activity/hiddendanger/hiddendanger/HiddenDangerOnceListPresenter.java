@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 
 /**
  * 隐患排查单次服务列表管理层
@@ -8,7 +8,7 @@ import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
  * @author HG
  */
 
-public class HiddenDangerOnceListPresenter extends BasePresenter<HiddenDangerOnceListContract.View, HiddenDangerOnceListContract.Model> implements HiddenDangerOnceListContract.Presenter {
+public class HiddenDangerOnceListPresenter extends ZBasePresenter<HiddenDangerOnceListContract.View, HiddenDangerOnceListContract.Model> implements HiddenDangerOnceListContract.Presenter {
 
     @Override
     public void afterAttachView() {

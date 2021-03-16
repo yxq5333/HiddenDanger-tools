@@ -3,8 +3,8 @@ package com.xhtt.hiddendangermaster.adapter.hiddendanger.statistics;
 import android.content.Context;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatistics;
 
@@ -13,14 +13,14 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-10.
  */
-public class HiddenStatisticsAdapter extends CommonAdapter<HiddenStatistics> {
+public class HiddenStatisticsAdapter extends ZCommonAdapter<HiddenStatistics> {
 
     public HiddenStatisticsAdapter(Context context, int layoutId, List<HiddenStatistics> data) {
         super(context, layoutId, data);
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, HiddenStatistics item, int position) {
+    protected void convert(ZViewHolder viewHolder, HiddenStatistics item, int position) {
 
         if (position == 0) {
             viewHolder.setText(R.id.tv_number, "序号");

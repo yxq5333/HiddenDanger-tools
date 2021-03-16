@@ -3,10 +3,10 @@ package com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger;
 import android.content.Context;
 import android.view.View;
 
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CheckTableContent;
 
@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-09.
  */
-public class CheckTableDetailAdapter extends CommonAdapter<CheckTableContent> {
+public class CheckTableDetailAdapter extends ZCommonAdapter<CheckTableContent> {
 
     private boolean isOnlyRead;
-    private OnRecyclerViewItemClickOldListener onStatusChangedListener;
+    private ZOnRecyclerViewItemClickOldListener onStatusChangedListener;
 
     public CheckTableDetailAdapter(Context context, int layoutId, List<CheckTableContent> data, boolean isOnlyRead) {
         super(context, layoutId, data);
@@ -26,7 +26,7 @@ public class CheckTableDetailAdapter extends CommonAdapter<CheckTableContent> {
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, CheckTableContent item, int position) {
+    protected void convert(ZViewHolder viewHolder, CheckTableContent item, int position) {
 
         viewHolder.setText(R.id.tv_checkContent, item.getCheckContent());
 
@@ -41,7 +41,7 @@ public class CheckTableDetailAdapter extends CommonAdapter<CheckTableContent> {
         }
 
         if (!isOnlyRead) {
-            viewHolder.setOnClickListener(R.id.rb_yes, new OnViewClickListener(false) {
+            viewHolder.setOnClickListener(R.id.rb_yes, new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     if (item.getStatus() == null || item.getStatus() != CheckTableContent.STATUS_YES) {
@@ -56,7 +56,7 @@ public class CheckTableDetailAdapter extends CommonAdapter<CheckTableContent> {
                 }
             });
 
-            viewHolder.setOnClickListener(R.id.rb_no, new OnViewClickListener(false) {
+            viewHolder.setOnClickListener(R.id.rb_no, new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     if (item.getStatus() == null || item.getStatus() != CheckTableContent.STATUS_NO) {
@@ -73,7 +73,7 @@ public class CheckTableDetailAdapter extends CommonAdapter<CheckTableContent> {
         }
     }
 
-    public void setOnStatusChangedListener(OnRecyclerViewItemClickOldListener onStatusChangedListener) {
+    public void setOnStatusChangedListener(ZOnRecyclerViewItemClickOldListener onStatusChangedListener) {
         this.onStatusChangedListener = onStatusChangedListener;
     }
 }

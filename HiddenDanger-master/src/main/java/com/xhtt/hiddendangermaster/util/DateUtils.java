@@ -1,6 +1,6 @@
 package com.xhtt.hiddendangermaster.util;
 
-import com.hg.hollowgoods.util.StringUtils;
+import com.hg.zero.datetime.ZDateTimeUtils;
 
 import java.util.Calendar;
 
@@ -12,12 +12,12 @@ public class DateUtils {
     public static String getSmartDate(long date) {
 
         if (isToday(date)) {
-            return StringUtils.getDateTimeString(date, StringUtils.DateFormatMode.Time_HM);
+            return ZDateTimeUtils.getDateTimeString(date, ZDateTimeUtils.DateFormatMode.Time_HM);
         } else if (isYesterday(date)) {
-            return "昨天 " + StringUtils.getDateTimeString(date, StringUtils.DateFormatMode.Time_HM);
+            return "昨天 " + ZDateTimeUtils.getDateTimeString(date, ZDateTimeUtils.DateFormatMode.Time_HM);
         }
 
-        return StringUtils.getDateTimeString(date, StringUtils.DateFormatMode.LINE_YMDHM);
+        return ZDateTimeUtils.getDateTimeString(date, ZDateTimeUtils.DateFormatMode.LINE_YMDHM);
     }
 
     /**
@@ -28,8 +28,8 @@ public class DateUtils {
      */
     public static boolean isToday(long date) {
 
-        String str = StringUtils.getDateTimeString(System.currentTimeMillis(), StringUtils.DateFormatMode.LINE_YMD);
-        long n = StringUtils.getDateTimeLong(str, StringUtils.DateFormatMode.LINE_YMD);
+        String str = ZDateTimeUtils.getDateTimeString(System.currentTimeMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD);
+        long n = ZDateTimeUtils.getDateTimeLong(str, ZDateTimeUtils.DateFormatMode.LINE_YMD);
 
         Calendar today = Calendar.getInstance();
         today.setTimeInMillis(n);
@@ -49,8 +49,8 @@ public class DateUtils {
      */
     public static boolean isYesterday(long date) {
 
-        String str = StringUtils.getDateTimeString(System.currentTimeMillis(), StringUtils.DateFormatMode.LINE_YMD);
-        long n = StringUtils.getDateTimeLong(str, StringUtils.DateFormatMode.LINE_YMD);
+        String str = ZDateTimeUtils.getDateTimeString(System.currentTimeMillis(), ZDateTimeUtils.DateFormatMode.LINE_YMD);
+        long n = ZDateTimeUtils.getDateTimeLong(str, ZDateTimeUtils.DateFormatMode.LINE_YMD);
 
         Calendar today = Calendar.getInstance();
         today.setTimeInMillis(n);

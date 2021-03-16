@@ -3,13 +3,11 @@ package com.xhtt.hiddendangermaster.adapter.knowledgebase;
 import android.content.Context;
 import android.view.View;
 
-import com.bumptech.glide.request.RequestOptions;
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.util.glide.GlideOptions;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.banner.Banner;
 import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
@@ -23,38 +21,32 @@ import java.util.List;
  * @author: 马禛
  * @date: 2018年09月17日
  */
-public class BannerAdapter extends CommonAdapter<Banner> {
+public class BannerAdapter extends ZCommonAdapter<Banner> {
 
     private InfiniteScrollAdapter infiniteAdapter;
-    private OnRecyclerViewItemClickOldListener onBannerClickListener;
+    private ZOnRecyclerViewItemClickOldListener onBannerClickListener;
 
     public BannerAdapter(Context context, int layoutId, List<Banner> data) {
         super(context, layoutId, data);
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, Banner item, int position) {
+    protected void convert(ZViewHolder viewHolder, Banner item, int position) {
 
-        RequestOptions requestOptions = new RequestOptions()
-                .placeholder(HGCommonResource.IMAGE_LOADING)
-                .error(HGCommonResource.IMAGE_LOAD_ERROR)
-                .centerCrop();
-
-        GlideOptions glideOptions;
-
+        Object src;
         if (item.getFileList() != null && item.getFileList().size() > 0) {
-            glideOptions = new GlideOptions(UploadFileUtils.webFile2AppFile(item.getFileList().get(0)).getUrl(), null, GlideOptions.NO_FADE_IN, requestOptions);
+            src = UploadFileUtils.webFile2AppFile(item.getFileList().get(0)).getUrl();
         } else {
             if (item.getRes() != null) {
-                glideOptions = new GlideOptions(item.getRes(), null, GlideOptions.NO_FADE_IN, requestOptions);
+                src = item.getRes();
             } else {
-                glideOptions = new GlideOptions(HGCommonResource.IMAGE_LOAD_ERROR, null, GlideOptions.NO_FADE_IN, requestOptions);
+                src = ZCommonResource.getImageError();
             }
         }
 
-        viewHolder.setImageByUrl(R.id.iv_img, glideOptions);
+        viewHolder.setImageByUrl(R.id.iv_img, src);
 
-        viewHolder.setOnClickListener(R.id.cv_all, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.cv_all, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 if (onBannerClickListener != null) {
@@ -68,7 +60,7 @@ public class BannerAdapter extends CommonAdapter<Banner> {
         this.infiniteAdapter = infiniteAdapter;
     }
 
-    public void setOnBannerClickListener(OnRecyclerViewItemClickOldListener onBannerClickListener) {
+    public void setOnBannerClickListener(ZOnRecyclerViewItemClickOldListener onBannerClickListener) {
         this.onBannerClickListener = onBannerClickListener;
     }
 }

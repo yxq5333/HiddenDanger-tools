@@ -35,17 +35,30 @@ android {
         buildConfigField('String', 'MetaDataKeyChannel', configs.MetaDataKeyChannel)
         buildConfigField('String', 'MetaDataKeyIP', configs.MetaDataKeyIP)
         buildConfigField('String', 'MetaDataKeyPORT', configs.MetaDataKeyPORT)
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.keyData
         }
         debug {
+//            minifyEnabled true
+//            shrinkResources true
+//            zipAlignEnabled true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.keyData
         }
     }
+
     sourceSets {
         main() {
             jniLibs.srcDirs = ['jniLibs']
@@ -72,6 +85,18 @@ android {
     flavorDimensions "default"
 
     productFlavors {
+        // 欣华天泰——测试模式
+        XHTT_Test {
+            manifestPlaceholders = [
+                    APP_CHANNEL_VALUE: "XHTT_Test",
+                    AMapKey          : configs.AMapAndroidKey4Manifest,
+                    APP_LOGO         : "@mipmap/logo",
+                    APP_IP_VALUE     : "218.93.5.75",
+                    APP_PORT_VALUE   : "8022",
+            ]
+            dimension = 'default'
+        }
+
         // 欣华天泰——知识库风格
         XHTT {
             manifestPlaceholders = [
@@ -196,16 +221,18 @@ static def releaseTime() {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // JDK8兼容扩展库
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
 
-    implementation libs.HollowGoodsV5
-    implementation libs.HollowGoodsV5_Widget
-
+    implementation libs.Zero
+    // Room注解器
+    annotationProcessor 'android.arch.persistence.room:compiler:2.1.4'
+    // Glide注解器
+    annotationProcessor "com.github.bumptech.glide:compiler:4.11.0"
 
     implementation 'com.amap.api:3dmap:6.8.0'
     implementation 'com.amap.api:location:4.8.0'
@@ -215,5 +242,5 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.4'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.6.5.2'
 }

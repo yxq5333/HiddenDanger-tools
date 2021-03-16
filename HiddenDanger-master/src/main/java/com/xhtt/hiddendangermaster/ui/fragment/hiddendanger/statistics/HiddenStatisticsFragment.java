@@ -22,18 +22,18 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.RingProgressBar;
-import com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.ringprogressbar.ZRingProgressBar;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.statistics.HiddenStatisticsAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatistics;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatisticsBase;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatisticsBaseMonth;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,14 +44,14 @@ import java.util.Calendar;
  * @author HG
  */
 
-public class HiddenStatisticsFragment extends BaseMVPFragment<HiddenStatisticsPresenter> implements HiddenStatisticsContract.View {
+public class HiddenStatisticsFragment extends HDBaseMVPFragment<HiddenStatisticsPresenter> implements HiddenStatisticsContract.View {
 
     private SmartRefreshLayout smartRefreshLayout;
     private NestedScrollView nestedScrollView;
     private CombinedChart combinedChart;
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private TextView searchYear;
-    private RingProgressBar progress;
+    private ZRingProgressBar progress;
     private TextView progressTips;
     private TextView hiddenDangerTotal;
     private TextView hiddenDangerChanged;
@@ -80,7 +80,7 @@ public class HiddenStatisticsFragment extends BaseMVPFragment<HiddenStatisticsPr
         smartRefreshLayout = baseUI.findViewById(R.id.smartRefreshLayout);
         nestedScrollView = baseUI.findViewById(R.id.nestedScrollView);
         combinedChart = baseUI.findViewById(R.id.combinedChart);
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
         searchYear = baseUI.findViewById(R.id.tv_searchYear);
         progress = baseUI.findViewById(R.id.progress);
         progressTips = baseUI.findViewById(R.id.tv_progressTips);
@@ -92,7 +92,7 @@ public class HiddenStatisticsFragment extends BaseMVPFragment<HiddenStatisticsPr
 
         smartRefreshLayout.setEnableHeaderTranslationContent(false);
         smartRefreshLayout.setEnableAutoLoadMore(false);
-        smartRefreshLayout.setPrimaryColorsId(HGCommonResource.TITLE_BAR_RESOURCE, com.hg.hollowgoods.R.color.white);
+        smartRefreshLayout.setPrimaryColorsId(ZCommonResource.getTitleBarResource(), R.color.white);
 
         year = Calendar.getInstance().get(Calendar.YEAR);
         searchYear.setText(year + "年");
@@ -367,11 +367,11 @@ public class HiddenStatisticsFragment extends BaseMVPFragment<HiddenStatisticsPr
             }
 
             if (smartRefreshLayout.getState() == RefreshState.Loading) {
-                if (smartRefreshLayout.isNoMoreData()) {
-                    smartRefreshLayout.finishLoadMoreWithNoMoreData();
-                } else {
-                    smartRefreshLayout.finishLoadMore();
-                }
+//                if (smartRefreshLayout.isNoMoreData()) {
+//                    smartRefreshLayout.finishLoadMoreWithNoMoreData();
+//                } else {
+                smartRefreshLayout.finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }

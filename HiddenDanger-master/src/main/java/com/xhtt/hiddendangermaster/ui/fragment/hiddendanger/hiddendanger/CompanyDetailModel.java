@@ -1,12 +1,12 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger;
 
 import com.google.gson.Gson;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.string.ZStringUtils;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -49,13 +49,13 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
     @Override
     public void addData(CompanyDetailRequest request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.CompanyAdd.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.CompanyAdd.getUrl()));
         params.setMethod(HttpMethod.POST);
         params.addHeader("token", MyApplication.createApplication().getToken());
         params.setAsJsonContent(true);
         params.setBodyContent(new Gson().toJson(request));
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -63,19 +63,19 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
 
                 if (isViewAttached()) {
                     if (responseInfo.getCode() == ResponseInfo.CODE_SUCCESS) {
-                        List<String> str = StringUtils.getStringArray(responseInfo.getData() + "", ",");
+                        List<String> str = ZStringUtils.getStringArray(responseInfo.getData() + "", ",");
                         long id = new BigDecimal(str.get(0)).longValue();
                         long serviceId = new BigDecimal(str.get(1)).longValue();
                         mView.submitDataSuccess(id, serviceId);
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.submitDataError();
@@ -86,7 +86,7 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.submitDataError();
                 }
             }
@@ -107,19 +107,19 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
     public void editData(CompanyDetailRequest request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.CompanyEdit.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.CompanyEdit.getUrl()));
         params.setMethod(HttpMethod.POST);
         params.addHeader("token", MyApplication.createApplication().getToken());
         params.setAsJsonContent(true);
         params.setBodyContent(new Gson().toJson(request));
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -130,13 +130,13 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
                         mView.submitDataSuccess(null, null);
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.submitDataError();
@@ -147,7 +147,7 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.submitDataError();
                 }
             }
@@ -168,6 +168,6 @@ public class CompanyDetailModel implements CompanyDetailContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 }

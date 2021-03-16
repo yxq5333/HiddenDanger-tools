@@ -10,10 +10,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
+import com.hg.zero.config.ZCommonResource;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.msds.MSDSFragment;
 
 /**
@@ -22,7 +22,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.msds.MSDSFragment;
  * @author HG
  */
 
-public class MSDSActivity extends BaseActivity {
+public class MSDSActivity extends HDBaseActivity {
 
     private final int SEARCH_TYPE_FUZZY_QUERY = 0;
     private final int SEARCH_TYPE_PRECISE_QUERY = 1;
@@ -40,7 +40,7 @@ public class MSDSActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_msds);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_msds);
         Toolbar.LayoutParams tlp = new Toolbar.LayoutParams(Gravity.END | Gravity.CENTER_VERTICAL);
         baseUI.addCommonTitleOtherView(
                 searchType = (ImageView) View.inflate(baseUI.getBaseContext(), R.layout.item_msds_right_menu, null),

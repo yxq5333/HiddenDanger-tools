@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class CompanyListContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getData(Map<String, Object> request);
 
         void deleteData(ArrayList<Long> request);
@@ -23,7 +23,7 @@ public class CompanyListContract {
         void getHiddenLevel();
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void getDataSuccess(ArrayList<Company> tempData);
 
         void getDataError();

@@ -6,14 +6,14 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.file.FileUtils2;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.UploadListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.file.ZFileUtils2;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZUploadListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
@@ -33,8 +33,8 @@ import java.util.List;
  */
 public class UploadFileUtils {
 
-    private List<AppFile> result = new ArrayList<>();
-    private List<AppFile> needUploadFiles = new ArrayList<>();
+    private List<ZAppFile> result = new ArrayList<>();
+    private List<ZAppFile> needUploadFiles = new ArrayList<>();
     private OnUploadProgressListener onUploadProgressListener;
     private Context context;
     private String requestCode;
@@ -43,11 +43,11 @@ public class UploadFileUtils {
         this.context = context;
     }
 
-    public void doUpload(List<AppFile> files) {
+    public void doUpload(List<ZAppFile> files) {
         doUpload("", files);
     }
 
-    public void doUpload(String requestCode, List<AppFile> files) {
+    public void doUpload(String requestCode, List<ZAppFile> files) {
 
         this.requestCode = requestCode;
 
@@ -58,7 +58,7 @@ public class UploadFileUtils {
             needUploadFiles.clear();
             ArrayList<Object> uploadFiles = new ArrayList<>();
 
-            for (AppFile t : files) {
+            for (ZAppFile t : files) {
                 if (t.getFile() != null) {
                     needUploadFiles.add(t);
                     uploadFiles.add(t.getFile().getAbsolutePath());
@@ -71,13 +71,14 @@ public class UploadFileUtils {
                 return;
             }
 
-            RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.UploadFile.getUrl()));
+            RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.UploadFile.getUrl()));
             params.setMethod(HttpMethod.POST);
             params.addHeader("token", MyApplication.createApplication().getToken());
 
-            new XUtils2.BuilderUploadFile(true)
+            new ZxUtils3.UploadBuilder()
+                    .setAutoCompress(true)
                     .setContext(context)
-                    .setUploadListener(new UploadListener() {
+                    .setUploadListener(new ZUploadListener() {
                         @Override
                         public void onUploadSuccess(String strResult) {
 
@@ -93,7 +94,7 @@ public class UploadFileUtils {
                                 if (tempData != null) {
                                     int count = Math.min(needUploadFiles.size(), tempData.size());
                                     int index;
-                                    AppFile media;
+                                    ZAppFile media;
 
                                     for (int i = 0; i < count; i++) {
                                         media = webFile2AppFile(tempData.get(i));
@@ -109,8 +110,8 @@ public class UploadFileUtils {
                                 backData(true);
                             } else {
                                 if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                                    t.error("授权已过期，请重新登录");
-                                    HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                                    Zt.error("授权已过期，请重新登录");
+                                    ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                                     EventBus.getDefault().post(event);
                                 } else {
                                     backData(false);
@@ -153,8 +154,8 @@ public class UploadFileUtils {
 
         new Handler().postDelayed(() -> {
 
-            HGEvent event = new HGEvent(EventActionCode.UPLOAD_PHOTO);
-            event.addObj(HGParamKey.RequestCode, requestCode);
+            ZEvent event = new ZEvent(EventActionCode.UPLOAD_PHOTO);
+            event.addObj(ZParamKey.RequestCode, requestCode);
             event.addObj(ParamKey.Status, status);
             event.addObj(ParamKey.BackData, result);
             EventBus.getDefault().post(event);
@@ -165,12 +166,12 @@ public class UploadFileUtils {
         this.onUploadProgressListener = onUploadProgressListener;
     }
 
-    public static List<AppFile> webFiles2AppFiles(List<WebFile> webFiles) {
+    public static List<ZAppFile> webFiles2AppFiles(List<WebFile> webFiles) {
 
-        List<AppFile> result = new ArrayList<>();
+        List<ZAppFile> result = new ArrayList<>();
 
         if (webFiles != null) {
-            AppFile media;
+            ZAppFile media;
 
             for (WebFile t : webFiles) {
                 media = webFile2AppFile(t);
@@ -183,33 +184,33 @@ public class UploadFileUtils {
         return result;
     }
 
-    public static AppFile webFile2AppFile(WebFile webFile) {
+    public static ZAppFile webFile2AppFile(WebFile webFile) {
 
-        AppFile result = null;
+        ZAppFile result = null;
 
         if (webFile != null) {
-            result = new AppFile();
+            result = new ZAppFile();
             result.setOriginalName(webFile.getFileOldName());
             result.setGenerateName(webFile.getFileSaveName());
 
-            if (FileUtils2.isImageFile(webFile.getFileOldName())) {
-                result.setUrl(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()) + webFile.getFileSaveName());
+            if (ZFileUtils2.isImageFile(webFile.getFileOldName())) {
+                result.setUrl(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.ShowFile.getUrl()) + webFile.getFileSaveName());
             } else {
-                result.setUrl(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()) + webFile.getFileSaveName());
+                result.setUrl(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.DownloadFile.getUrl()) + webFile.getFileSaveName());
             }
         }
 
         return result;
     }
 
-    public static ArrayList<WebFile> appFiles2WebFiles(List<AppFile> appFiles) {
+    public static ArrayList<WebFile> appFiles2WebFiles(List<ZAppFile> appFiles) {
 
         ArrayList<WebFile> result = new ArrayList<>();
 
         if (appFiles != null) {
             WebFile webFile;
 
-            for (AppFile t : appFiles) {
+            for (ZAppFile t : appFiles) {
                 webFile = appFile2WebFile(t);
 
                 if (webFile != null) {
@@ -221,7 +222,7 @@ public class UploadFileUtils {
         return result;
     }
 
-    public static WebFile appFile2WebFile(AppFile appFile) {
+    public static WebFile appFile2WebFile(ZAppFile appFile) {
 
         WebFile result = null;
 

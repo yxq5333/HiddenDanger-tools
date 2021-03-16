@@ -5,23 +5,23 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.hg.hollowgoods.adapter.fast.HGFastAdapter2;
-import com.hg.hollowgoods.adapter.fast.bean.HGFastItem2;
-import com.hg.hollowgoods.adapter.fast.callback.OnHGFastItemClickListener2Adapter;
-import com.hg.hollowgoods.adapter.fast.callback.OnSystemProxyEventFinishListenerAdapter;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.bean.file.AppFile;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.message.dialog2.ChoiceItem;
-import com.hg.hollowgoods.ui.base.message.dialog2.DialogConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.BeanUtils;
-import com.hg.hollowgoods.util.ChoiceItemBuilder;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.validatorinput.validator.ValidatorFactory;
-import com.hg.hollowgoods.widget.validatorinput.validator.ValidatorType;
+import com.hg.zero.adapter.fast.ZFastAdapter2;
+import com.hg.zero.adapter.fast.bean.ZFastItem2;
+import com.hg.zero.adapter.fast.callback.ZOnFastItemClickListener2Adapter;
+import com.hg.zero.adapter.fast.callback.ZOnSystemProxyEventFinishListenerAdapter;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.constant.ZConstants;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.dialog.ZChoiceItem;
+import com.hg.zero.dialog.ZDialogConfig;
+import com.hg.zero.file.ZAppFile;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.util.ZBeanUtils;
+import com.hg.zero.util.ZChoiceItemBuilder;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.validatorinput.validator.ZValidatorFactory;
+import com.hg.zero.widget.validatorinput.validator.ZValidatorType;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.User;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
@@ -37,6 +37,7 @@ import com.xhtt.hiddendangermaster.constant.WorkType;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.FreeTakeActivity;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.HiddenDangerBaseActivity;
 import com.xhtt.hiddendangermaster.ui.activity.hiddendanger.hiddendanger.HiddenDangerDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.OnFragmentWorkListener;
 import com.xhtt.hiddendangermaster.util.uploadfile.UploadFileUtils;
 
@@ -51,20 +52,20 @@ import java.util.List;
  * @author HG
  */
 
-public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDetailPresenter> implements HiddenDangerDetailContract.View {
+public class HiddenDangerDetailFragment extends HDBaseMVPFragment<HiddenDangerDetailPresenter> implements HiddenDangerDetailContract.View {
 
     private final int DIALOG_CODE_SUBMIT = 1000;
 
-    private HGRefreshLayout hiddenDangerRefreshLayout;
-    private HGRefreshLayout changeRefreshLayout;
+    private ZRefreshLayout hiddenDangerRefreshLayout;
+    private ZRefreshLayout changeRefreshLayout;
     private View changeView;
 
     private Company grandData;
     private HiddenDanger parentData;
-    private HGFastAdapter2 hiddenDangerAdapter;
-    private List<HGFastItem2> hiddenDangerData = new ArrayList<>();
-    private HGFastAdapter2 changeAdapter;
-    private List<HGFastItem2> changeData = new ArrayList<>();
+    private ZFastAdapter2 hiddenDangerAdapter;
+    private List<ZFastItem2> hiddenDangerData = new ArrayList<>();
+    private ZFastAdapter2 changeAdapter;
+    private List<ZFastItem2> changeData = new ArrayList<>();
     private WorkType workType;
     private boolean isOnlyRead = true;
     private String title = "";
@@ -87,6 +88,8 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
 
     @Override
     public void initParamData() {
+
+        super.initParamData();
 
         hiddenDangerRefreshLayout = baseUI.findViewById(R.id.hiddenDangerHGRefreshLayout);
         changeRefreshLayout = baseUI.findViewById(R.id.changeHGRefreshLayout);
@@ -151,28 +154,32 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
         changeRefreshLayout.initRecyclerView();
         changeRefreshLayout.getRecyclerView().setNestedScrollingEnabled(false);
 
-        hiddenDangerData.add(new HGFastItem2.Builder(10, HGFastItem2.ITEM_TYPE_DATE)
+        hiddenDangerData.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_DATE)
                 .setLabel("检查日期")
                 .setContentHint("请选择")
                 .setContent(parentData.getCheckDateShow())
-                .setDateFormatMode(StringUtils.DateFormatMode.LINE_YMD)
+                .setDateFormatMode(ZDateTimeUtils.DateFormatMode.LINE_YMD)
                 .setNotEmpty(true)
                 .setOnlyRead(isOnlyRead)
                 .setRightIconRes(R.drawable.ic_my_arrow_right)
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(20, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(20, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("隐患地点")
                 .setContentHint("请输入")
                 .setContent(parentData.getHiddenLocation())
+                .buildInputConfig(new ZDialogConfig.InputConfig(ZConstants.DEFAULT_CODE)
+                        .setOpenHistory(true)
+                        .setHistoryKey("hidden.danger.location")
+                )
                 .setNotEmpty(false)
                 .setOnlyRead(isOnlyRead)
                 .setRightIconRes(R.drawable.ic_my_arrow_right)
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(25, HGFastItem2.ITEM_TYPE_FILE)
+        hiddenDangerData.add(new ZFastItem2.Builder(25, ZFastItem2.ITEM_TYPE_FILE)
                 .setLabel("隐患照片")
                 .setContentHint("请选择")
                 .setAppFiles(parentData.getAppHiddenPhotoList())
@@ -183,7 +190,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(30, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(30, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("隐患描述")
                 .setContentHint("请输入或选择")
                 .setContent(parentData.getHiddenDescribe())
@@ -193,14 +200,14 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        ChoiceItem checkedItem = null;
-        for (ChoiceItem t : Constants.HIDDEN_LEVEL_OBJ) {
+        ZChoiceItem checkedItem = null;
+        for (ZChoiceItem t : Constants.HIDDEN_LEVEL_OBJ) {
             if (TextUtils.equals(t.getItem() + "", parentData.getHiddenLevel())) {
                 checkedItem = t;
                 break;
             }
         }
-        hiddenDangerData.add(new HGFastItem2.Builder(40, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        hiddenDangerData.add(new ZFastItem2.Builder(40, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("隐患等级")
                 .setContentHint("请选择")
                 .setContent(parentData.getHiddenLevel())
@@ -212,10 +219,10 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(200, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        hiddenDangerData.add(new ZFastItem2.Builder(200, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("隐患大类")
                 .setContentHint("请选择")
-                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeFirst()) ? null : new ChoiceItem(parentData.getTypeFirst()))
+                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeFirst()) ? null : new ZChoiceItem(parentData.getTypeFirst()))
                 .setNotEmpty(false)
                 .setOnlyRead(isOnlyRead)
                 .setRightIconRes(R.drawable.ic_my_arrow_right)
@@ -223,10 +230,10 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(201, HGFastItem2.ITEM_TYPE_SINGLE_CHOICE)
+        hiddenDangerData.add(new ZFastItem2.Builder(201, ZFastItem2.ITEM_TYPE_SINGLE_CHOICE)
                 .setLabel("细分类别")
                 .setContentHint("请选择")
-                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeSecond()) ? null : new ChoiceItem(parentData.getTypeSecond()))
+                .setSingleCheckedItem(TextUtils.isEmpty(parentData.getTypeSecond()) ? null : new ZChoiceItem(parentData.getTypeSecond()))
                 .setNotEmpty(false)
                 .setOnlyRead(isOnlyRead)
                 .setRightIconRes(R.drawable.ic_my_arrow_right)
@@ -234,7 +241,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(50, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(50, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("参考依据")
                 .setContentHint("请输入")
                 .setContent(parentData.getReference())
@@ -244,7 +251,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(60, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(60, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("整改措施")
                 .setContentHint("请输入")
                 .setContent(parentData.getChangeFunction())
@@ -254,7 +261,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(202, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(202, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("整改部门")
                 .setContentHint("请输入")
                 .setContent(parentData.getChangeDepartment())
@@ -265,7 +272,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerData.add(new HGFastItem2.Builder(203, HGFastItem2.ITEM_TYPE_INPUT)
+        hiddenDangerData.add(new ZFastItem2.Builder(203, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("责任人")
                 .setContentHint("请输入")
                 .setContent(parentData.getDutyPeople())
@@ -276,11 +283,11 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        hiddenDangerAdapter = new HGFastAdapter2(baseUI, hiddenDangerData);
+        hiddenDangerAdapter = new ZFastAdapter2(baseUI, hiddenDangerData);
         hiddenDangerRefreshLayout.setAdapter(hiddenDangerAdapter);
 
 //        hiddenDangerAdapter.refreshDataAllData(hiddenDangerData);
-        changeData.add(new HGFastItem2.Builder(1, HGFastItem2.ITEM_TYPE_FILE)
+        changeData.add(new ZFastItem2.Builder(1, ZFastItem2.ITEM_TYPE_FILE)
                 .setLabel("整改后照片")
                 .setContentHint("请选择")
                 .setAppFiles(parentData.getAppChangePhotoList())
@@ -291,7 +298,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        changeData.add(new HGFastItem2.Builder(5, HGFastItem2.ITEM_TYPE_INPUT)
+        changeData.add(new ZFastItem2.Builder(5, ZFastItem2.ITEM_TYPE_INPUT)
                 .setLabel("整改说明")
                 .setContentHint("请输入")
                 .setContent(parentData.getChangeDescribe())
@@ -301,7 +308,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 .build()
         );
 
-        changeAdapter = new HGFastAdapter2(baseUI, changeData);
+        changeAdapter = new ZFastAdapter2(baseUI, changeData);
         changeRefreshLayout.setAdapter(changeAdapter);
 
 //        changeAdapter.refreshDataAllData(changeData);
@@ -320,39 +327,43 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     public void setListener() {
 
         // 隐患描述
-        hiddenDangerAdapter.setOnHGFastItemClickListener2(30, new OnHGFastItemClickListener2Adapter() {
+        hiddenDangerAdapter.setOnFastItemClickListener2(30, new ZOnFastItemClickListener2Adapter() {
             @Override
-            public void onItemClick(int clickItemId) {
+            public boolean onItemClick(int clickItemId) {
                 if (!isOnlyRead) {
-                    DialogConfig.InputConfig configInput = new DialogConfig.InputConfig(clickItemId)
+                    ZDialogConfig.InputConfig configInput = new ZDialogConfig.InputConfig(clickItemId)
                             .setHint("请输入隐患描述")
-                            .setText(parentData.getHiddenDescribe())
+                            .setContent(parentData.getHiddenDescribe())
                             .setMaxLines(3)
-                            .setValidator(ValidatorFactory.getValidator(ValidatorType.MIN_LENGTH, "至少输入1个字", 1),
-                                    ValidatorFactory.getValidator(ValidatorType.MAX_LENGTH, "最多输入500个字", 500)
+                            .setValidator(ZValidatorFactory.getValidator(ZValidatorType.MIN_LENGTH, "至少输入1个字", 1),
+                                    ZValidatorFactory.getValidator(ZValidatorType.MAX_LENGTH, "最多输入500个字", 500)
                             );
                     baseUI.baseDialog.showInputDialog(configInput);
                 }
+
+                return true;
             }
 
             @Override
-            public void onRightIconClick(int clickItemId) {
+            public boolean onRightIconClick(int clickItemId) {
                 if (!isOnlyRead) {
                     baseUI.startMyActivity(HiddenDangerBaseActivity.class);
                 }
+
+                return true;
             }
         });
 
-        hiddenDangerAdapter.addOnSystemProxyEventFinishListener(new OnSystemProxyEventFinishListenerAdapter() {
+        hiddenDangerAdapter.addOnSystemProxyEventFinishListener(new ZOnSystemProxyEventFinishListenerAdapter() {
             @Override
-            public void onSingleChoiceFinish(int itemId, ChoiceItem choiceItem) {
+            public void onSingleChoiceFinish(int itemId, ZChoiceItem ZChoiceItem) {
                 if (itemId == 200) {
                     hiddenDangerAdapter.findItemById(201).setSingleCheckedItem(null)
                             .setContent("")
                             .setChoiceItems(null);
                     hiddenDangerAdapter.processData();
 
-                    mPresenter.getHiddenDangerSecondType(choiceItem.getItem() + "");
+                    mPresenter.getHiddenDangerSecondType(ZChoiceItem.getItem() + "");
                 }
             }
         });
@@ -366,27 +377,27 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                 switch (code) {
                     case 5:
                         // 整改说明
-                        strValue = data.getData(HGParamKey.InputValue, "");
+                        strValue = data.getData(ZParamKey.InputValue, "");
                         change.setChangeDescribe(strValue);
                         break;
                     case 10:
                         // 检查日期
-                        longValue = data.getData(HGParamKey.DateTimeInMillis, 0);
+                        longValue = data.getData(ZParamKey.DateTimeInMillis, 0L);
                         parentData.setCheckDateShow(longValue + "");
                         break;
                     case 20:
                         // 隐患地点
-                        strValue = data.getData(HGParamKey.InputValue, "");
+                        strValue = data.getData(ZParamKey.InputValue, "");
                         parentData.setHiddenLocation(strValue);
                         break;
                     case 30:
                         // 隐患描述
-                        strValue = data.getData(HGParamKey.InputValue, "");
+                        strValue = data.getData(ZParamKey.InputValue, "");
                         parentData.setHiddenDescribe(strValue);
                         break;
                     case 40:
                         // 隐患等级
-                        int levelPosition = data.getData(HGParamKey.Position, -1);
+                        int levelPosition = data.getData(ZParamKey.Position, -1);
                         if (levelPosition != -1) {
                             hiddenLevelChecked = Constants.HIDDEN_LEVEL.get(levelPosition);
                             parentData.setHiddenLevel(hiddenLevelChecked.getLevelName());
@@ -398,20 +409,20 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
                         break;
                     case 50:
                         // 参考依据
-                        strValue = data.getData(HGParamKey.InputValue, "");
+                        strValue = data.getData(ZParamKey.InputValue, "");
                         parentData.setReference(strValue);
                         break;
                     case 60:
                         // 整改措施
-                        strValue = data.getData(HGParamKey.InputValue, "");
+                        strValue = data.getData(ZParamKey.InputValue, "");
                         parentData.setChangeFunction(strValue);
                         break;
                     case DIALOG_CODE_SUBMIT:
-                        int position = data.getData(HGParamKey.Position, -1);
+                        int position = data.getData(ZParamKey.Position, -1);
 
                         if (position != -1) {
-                            baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                                    .setText("提交中，请稍候……")
+                            baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                                    .setContent("提交中，请稍候……")
                             );
 
                             if (position == 0) {
@@ -440,14 +451,14 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     }
 
     @Override
-    public void onEventUI(HGEvent item) {
+    public void onEventUI(ZEvent item) {
 
         if (item.getEventActionCode() == EventActionCode.UPLOAD_PHOTO) {
             if (item.isFromMe(this.getClass().getName())) {
                 boolean status = item.getObj(ParamKey.Status, false);
 
                 if (status) {
-                    ArrayList<AppFile> files = item.getObj(ParamKey.BackData, null);
+                    ArrayList<ZAppFile> files = item.getObj(ParamKey.BackData, null);
                     submitData(files);
                 }
             }
@@ -477,11 +488,11 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public HGRefreshLayout getHiddenDangerRefreshLayout() {
+    public ZRefreshLayout getHiddenDangerRefreshLayout() {
         return hiddenDangerRefreshLayout;
     }
 
-    public HGRefreshLayout getChangeRefreshLayout() {
+    public ZRefreshLayout getChangeRefreshLayout() {
         return changeRefreshLayout;
     }
 
@@ -505,20 +516,20 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
 
     private void submit() {
 
-        baseUI.baseDialog.showProgressDialog(new DialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
-                .setText("提交中，请稍候……")
+        baseUI.baseDialog.showProgressDialog(new ZDialogConfig.ProgressConfig(DIALOG_CODE_SUBMIT)
+                .setContent("提交中，请稍候……")
         );
 
-        List<AppFile> uploadFiles = new ArrayList<>();
-        List<AppFile> hiddenPhoto = hiddenDangerAdapter.findItemById(25).getAppFiles();
-        List<AppFile> changePhoto = changeAdapter.findItemById(1).getAppFiles();
+        List<ZAppFile> uploadFiles = new ArrayList<>();
+        List<ZAppFile> hiddenPhoto = hiddenDangerAdapter.findItemById(25).getAppFiles();
+        List<ZAppFile> changePhoto = changeAdapter.findItemById(1).getAppFiles();
 
         parentData.setAppHiddenPhotoList(hiddenPhoto);
         parentData.setAppChangePhotoList(changePhoto);
         change.setAppChangePhotoList(changePhoto);
 
         if (hiddenPhoto != null) {
-            for (AppFile t : hiddenPhoto) {
+            for (ZAppFile t : hiddenPhoto) {
                 t.setTag(25);
             }
 
@@ -526,7 +537,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
         }
 
         if (changePhoto != null) {
-            for (AppFile t : changePhoto) {
+            for (ZAppFile t : changePhoto) {
                 t.setTag(1);
             }
             uploadFiles.addAll(changePhoto);
@@ -535,23 +546,28 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
         uploadFileUtils.doUpload(this.getClass().getName(), uploadFiles);
     }
 
-    private ArrayList<AppFile> cacheFiles = new ArrayList<>();
+    private ArrayList<ZAppFile> cacheFiles = new ArrayList<>();
 
-    private void submitData(ArrayList<AppFile> files) {
+    private void submitData(ArrayList<ZAppFile> files) {
         if (hiddenDangerAdapter.checkNotEmptyItem()) {
             cacheFiles.clear();
             cacheFiles.addAll(files);
 
-            ArrayList<AppFile> hiddenPhotos = new ArrayList<>();
-            ArrayList<AppFile> changePhotos = new ArrayList<>();
+            ArrayList<ZAppFile> hiddenPhotos = new ArrayList<>();
+            ArrayList<ZAppFile> changePhotos = new ArrayList<>();
 
-            for (AppFile t : files) {
+            for (ZAppFile t : files) {
                 if ((int) t.getTag() == 25) {
                     hiddenPhotos.add(t);
                 } else if ((int) t.getTag() == 1) {
                     changePhotos.add(t);
                 }
             }
+
+            parentData.setTypeFirst(hiddenDangerAdapter.findItemById(200).getContent());
+            parentData.setTypeSecond(hiddenDangerAdapter.findItemById(201).getContent());
+            parentData.setChangeDepartment(hiddenDangerAdapter.findItemById(202).getContent());
+            parentData.setDutyPeople(hiddenDangerAdapter.findItemById(203).getContent());
 
             parentData.setAppHiddenPhotoList(hiddenPhotos);
             parentData.setAppChangePhotoList(changePhotos);
@@ -565,7 +581,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     public void submitDataSuccess(Long id) {
 
         baseUI.baseDialog.closeDialog(DIALOG_CODE_SUBMIT);
-        t.success("提交成功");
+        Zt.success("提交成功");
 
         if (id != null) {
             parentData.setId(id);
@@ -579,7 +595,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
         parentData.setChangeDescribe(change.getChangeDescribe());
         parentData.setAppChangePhotoList(change.getAppChangePhotoList());
 
-        HGEvent event = new HGEvent(EventActionCode.HIDDEN_DANGER_SUBMIT);
+        ZEvent event = new ZEvent(EventActionCode.HIDDEN_DANGER_SUBMIT);
         event.addObj(ParamKey.Company, parentData);
         event.addObj(ParamKey.WorkType, workType);
         EventBus.getDefault().post(event);
@@ -647,11 +663,11 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     @Override
     public void getHiddenDangerFirstTypeSuccess(List<HiddenDangerType> tempData) {
 
-        HGFastItem2 item2 = hiddenDangerAdapter.findItemById(200);
-        item2.setChoiceItems(ChoiceItemBuilder.build(tempData));
+        ZFastItem2 item2 = hiddenDangerAdapter.findItemById(200);
+        item2.setChoiceItems(ZChoiceItemBuilder.build(tempData));
 
-        if (!BeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null) {
-            for (ChoiceItem t : item2.getChoiceItems()) {
+        if (!ZBeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null) {
+            for (ZChoiceItem t : item2.getChoiceItems()) {
                 if (TextUtils.equals(t.getItem() + "", item2.getSingleCheckedItem().getItem() + "")) {
                     item2.setSingleCheckedItem(t);
                     break;
@@ -668,13 +684,13 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
     @Override
     public void getHiddenDangerSecondTypeSuccess(List<HiddenDangerType> tempData) {
 
-        HGFastItem2 item2 = hiddenDangerAdapter.findItemById(201);
-        item2.setChoiceItems(ChoiceItemBuilder.build(tempData));
+        ZFastItem2 item2 = hiddenDangerAdapter.findItemById(201);
+        item2.setChoiceItems(ZChoiceItemBuilder.build(tempData));
 
-        if (!BeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null && item2.getSingleCheckedItem().getTag() != null) {
+        if (!ZBeanUtils.isCollectionEmpty(tempData) && item2.getSingleCheckedItem() != null && item2.getSingleCheckedItem().getTag() != null) {
             item2.getSingleCheckedItem().setTag(null);
 
-            for (ChoiceItem t : item2.getChoiceItems()) {
+            for (ZChoiceItem t : item2.getChoiceItems()) {
                 if (TextUtils.equals(t.getItem() + "", item2.getSingleCheckedItem().getItem() + "")) {
                     item2.setSingleCheckedItem(t);
                     break;
@@ -689,7 +705,7 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
             parentData = new HiddenDanger();
             parentData.setCheckDateShow(System.currentTimeMillis() + "");
         } else {
-            parentData = BeanUtils.copy(parentData, HiddenDanger.class);
+            parentData = ZBeanUtils.copy(parentData, HiddenDanger.class);
 
             if (TextUtils.isEmpty(parentData.getCheckDateShow())) {
                 parentData.setCheckDateShow(System.currentTimeMillis() + "");
@@ -721,9 +737,13 @@ public class HiddenDangerDetailFragment extends BaseMVPFragment<HiddenDangerDeta
             hiddenDangerAdapter.findItemById(20).setContent(parentData.getHiddenLocation());
             hiddenDangerAdapter.findItemById(25).setAppFiles(parentData.getAppHiddenPhotoList());
             hiddenDangerAdapter.findItemById(30).setContent(parentData.getHiddenDescribe());
-            hiddenDangerAdapter.findItemById(40).setContent(parentData.getHiddenLevel());
+//            hiddenDangerAdapter.findItemById(40).setContent(parentData.getHiddenLevel());
             hiddenDangerAdapter.findItemById(50).setContent(parentData.getReference());
             hiddenDangerAdapter.findItemById(60).setContent(parentData.getChangeFunction());
+            hiddenDangerAdapter.findItemById(200).setContent(parentData.getTypeFirst());
+            hiddenDangerAdapter.findItemById(201).setContent(parentData.getTypeSecond());
+            hiddenDangerAdapter.findItemById(202).setContent(parentData.getChangeDepartment());
+            hiddenDangerAdapter.findItemById(203).setContent(parentData.getDutyPeople());
 
             hiddenDangerAdapter.processData();
         }

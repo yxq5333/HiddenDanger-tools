@@ -2,14 +2,14 @@ package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
 import androidx.annotation.NonNull;
 
-import com.hg.hollowgoods.adapter.SimpleChoiceItem;
+import com.hg.zero.adapter.ZSimpleChoiceItem;
 
 /**
  * 隐患类型
  * <p>
  * Created by Hollow Goods on 2020-11-17.
  */
-public class HiddenDangerType implements SimpleChoiceItem {
+public class HiddenDangerType implements ZSimpleChoiceItem {
 
     private long id;
 

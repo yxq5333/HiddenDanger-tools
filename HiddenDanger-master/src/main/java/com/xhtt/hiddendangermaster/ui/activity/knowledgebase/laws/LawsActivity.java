@@ -6,17 +6,17 @@ import android.view.View;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.hg.hollowgoods.adapter.viewpager.FragmentViewPagerAdapter;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.widget.tablayout.CommonTabLayout;
-import com.hg.widget.tablayout.listener.CustomTabEntity;
-import com.hg.widget.tablayout.listener.OnTabSelectListener;
+import com.hg.zero.adapter.viewpager.ZFragmentViewPagerAdapter;
+import com.hg.zero.config.ZCommonResource;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.TabEntity;
 import com.xhtt.hiddendangermaster.constant.LawType;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.laws.LawsFragment;
+import com.xhtt.hiddendangermaster.view.tablayout.CommonTabLayout;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.CustomTabEntity;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 
@@ -26,20 +26,20 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class LawsActivity extends BaseActivity {
+public class LawsActivity extends HDBaseActivity {
 
     private CommonTabLayout tabBar;
     private ViewPager viewPager;
 
     private ArrayList<CustomTabEntity> tabBarData = new ArrayList<CustomTabEntity>() {
         {
-            add(new TabEntity("法律", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("法规", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("规章", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("文件", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
+            add(new TabEntity("法律", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("法规", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("规章", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("文件", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
         }
     };
-    private FragmentViewPagerAdapter adapter;
+    private ZFragmentViewPagerAdapter adapter;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private int nowPosition = 0;
     private LawsFragment legalFragment;
@@ -55,7 +55,7 @@ public class LawsActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_laws);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_laws);
 
         tabBar = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -94,7 +94,7 @@ public class LawsActivity extends BaseActivity {
         );
         fragments.add(fileFragment);
 
-        adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
+        adapter = new ZFragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(adapter);
     }

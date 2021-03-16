@@ -5,12 +5,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.util.APPUtils;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.config.ZSystemConfig;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.util.ZAppUtils;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.util.UpdateAPPUtils;
 
 /**
@@ -18,7 +18,7 @@ import com.xhtt.hiddendangermaster.util.UpdateAPPUtils;
  * <p>
  * Created by Hollow Goods on 2019-05-22
  */
-public class AboutUsActivity extends BaseActivity {
+public class AboutUsActivity extends HDBaseActivity {
 
     private Button update;
 
@@ -32,14 +32,14 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_about_us);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_about_us);
 
         update = findViewById(R.id.btn_update);
         TextView version = findViewById(R.id.tv_version);
         version.setText("V");
-        version.append(APPUtils.getAppVersionName(baseUI.getBaseContext()));
+        version.append(ZAppUtils.getAppVersionName(baseUI.getBaseContext()));
         version.append("-");
-        version.append(HGSystemConfig.IS_DEBUG_MODEL ? "debug" : "release");
+        version.append(ZSystemConfig.isDebugMode() ? "debug" : "release");
         version.append(" ");
         version.append("2019");
 
@@ -48,7 +48,7 @@ public class AboutUsActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-        update.setOnClickListener(new OnViewClickListener(false) {
+        update.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 updateAPPUtils.checkUpdate(true);

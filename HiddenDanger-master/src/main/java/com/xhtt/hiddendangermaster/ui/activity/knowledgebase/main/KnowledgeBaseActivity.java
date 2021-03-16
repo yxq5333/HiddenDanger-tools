@@ -9,12 +9,11 @@ import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnViewClickListener;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.accidentcase.AccidentCase;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.banner.Banner;
@@ -24,6 +23,7 @@ import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.dangerproduct.Dange
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.laws.LawsActivity;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.msds.MSDSActivity;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.technologystandard.TechnologyStandardActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.accidentcase.AccidentCaseContract;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.accidentcase.AccidentCaseFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.banner.BannerFragment;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * 主界面
  * Created by Hollow Goods on 2019-03-29.
  */
-public class KnowledgeBaseActivity extends BaseActivity {
+public class KnowledgeBaseActivity extends HDBaseActivity {
 
     private SmartRefreshLayout smartRefreshLayout;
     private BannerFragment bannerFragment;
@@ -52,7 +52,7 @@ public class KnowledgeBaseActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle bundle) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, "知识库");
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), "知识库");
 
         new Handler().postDelayed(() -> {
 
@@ -95,28 +95,28 @@ public class KnowledgeBaseActivity extends BaseActivity {
 
         new Handler().postDelayed(() -> {
 
-            tab1.setOnClickListener(new OnViewClickListener(false) {
+            tab1.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(LawsActivity.class);
                 }
             });
 
-            tab2.setOnClickListener(new OnViewClickListener(false) {
+            tab2.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(TechnologyStandardActivity.class);
                 }
             });
 
-            tab3.setOnClickListener(new OnViewClickListener(false) {
+            tab3.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(DangerProductActivity.class);
                 }
             });
 
-            tab4.setOnClickListener(new OnViewClickListener(false) {
+            tab4.setOnClickListener(new ZOnViewClickListener(false) {
                 @Override
                 public void onViewClick(View view, int id) {
                     baseUI.startMyActivity(MSDSActivity.class);
@@ -151,16 +151,16 @@ public class KnowledgeBaseActivity extends BaseActivity {
                     }
 
                     if (smartRefreshLayout.getState() == RefreshState.Loading) {
-                        if (smartRefreshLayout.isNoMoreData()) {
-                            smartRefreshLayout.finishLoadMoreWithNoMoreData();
-                        } else {
-                            smartRefreshLayout.finishLoadMore();
-                        }
+//                        if (smartRefreshLayout.isNoMoreData()) {
+//                            smartRefreshLayout.finishLoadMoreWithNoMoreData();
+//                        } else {
+                        smartRefreshLayout.finishLoadMore();
+//                        }
                     }
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 

@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.statistics;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatistics;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.statistics.HiddenStatisticsBase;
 
@@ -16,13 +16,13 @@ import java.util.Map;
 
 public class HiddenStatisticsContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void getBaseData(Map<String, Object> request);
 
         void getListData(Map<String, Object> request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void getBaseDataSuccess(HiddenStatisticsBase hiddenStatisticsBase);
 
         void getBaseDataError();

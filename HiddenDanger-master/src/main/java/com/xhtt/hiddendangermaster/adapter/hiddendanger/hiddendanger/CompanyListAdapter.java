@@ -3,10 +3,10 @@ package com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger;
 import android.content.Context;
 import android.view.View;
 
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 
@@ -15,16 +15,16 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-08.
  */
-public class CompanyListAdapter extends CommonAdapter<Company> {
+public class CompanyListAdapter extends ZCommonAdapter<Company> {
 
-    private OnRecyclerViewItemClickOldListener onButtonClickListener;
+    private ZOnRecyclerViewItemClickOldListener onButtonClickListener;
 
     public CompanyListAdapter(Context context, int layoutId, List<Company> data) {
         super(context, layoutId, data);
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, Company item, int position) {
+    protected void convert(ZViewHolder viewHolder, Company item, int position) {
 
         viewHolder.setText(R.id.tv_companyName, item.getCompanyName());
         viewHolder.setText(R.id.tv_mainPeople, item.getMainPeople());
@@ -33,7 +33,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
         viewHolder.setText(R.id.tv_changedCount, "" + item.getHiddenDangerChangeCount());
         viewHolder.setText(R.id.tv_unchangedCount, "" + item.getHiddenDangerNoChangeCount());
 
-        viewHolder.setOnClickListener(R.id.cv_all, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.cv_all, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
@@ -43,7 +43,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_edit, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_edit, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
@@ -53,7 +53,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_hiddenDangerList, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_hiddenDangerList, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
@@ -63,7 +63,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
             }
         });
 
-        viewHolder.setOnClickListener(R.id.btn_record, new OnViewClickListener(false) {
+        viewHolder.setOnClickListener(R.id.btn_record, new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
 
@@ -73,7 +73,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
             }
         });
 
-        viewHolder.setOnLongClickListener(R.id.cv_all, new OnViewClickListener(false) {
+        viewHolder.setOnLongClickListener(R.id.cv_all, new ZOnViewClickListener(false) {
             @Override
             public void onViewLongClick(View view, int id) {
                 if (onButtonClickListener != null) {
@@ -83,7 +83,7 @@ public class CompanyListAdapter extends CommonAdapter<Company> {
         });
     }
 
-    public void setOnButtonClickListener(OnRecyclerViewItemClickOldListener onButtonClickListener) {
+    public void setOnButtonClickListener(ZOnRecyclerViewItemClickOldListener onButtonClickListener) {
         this.onButtonClickListener = onButtonClickListener;
     }
 }

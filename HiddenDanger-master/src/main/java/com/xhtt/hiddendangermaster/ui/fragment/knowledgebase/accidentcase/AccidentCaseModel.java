@@ -4,12 +4,12 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.StringUtils;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.datetime.ZDateTimeUtils;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -54,7 +54,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
     @Override
     public void getData(Map<String, Object> request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseList.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseList.getUrl()));
         params.setMethod(HttpMethod.GET);
         params.addHeader("token", MyApplication.createApplication().getToken());
 
@@ -71,7 +71,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             }
         }
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -91,7 +91,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
                                     if (TextUtils.isEmpty(t.getCreateTime())) {
                                         t.setDate(0);
                                     } else {
-                                        t.setDate(StringUtils.getDateTimeLong(t.getCreateTime(), StringUtils.DateFormatMode.LINE_YMDHMS));
+                                        t.setDate(ZDateTimeUtils.getDateTimeLong(t.getCreateTime(), ZDateTimeUtils.DateFormatMode.LINE_YMDHMS));
                                     }
                                 }
                             }
@@ -100,13 +100,13 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
                         }).start();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.getDataError();
@@ -118,7 +118,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.getDataError();
                     mView.getDataFinish();
                 }
@@ -140,13 +140,13 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
     public void getHotData(Map<String, Object> request) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseList.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseList.getUrl()));
         params.setMethod(HttpMethod.GET);
         params.addHeader("token", MyApplication.createApplication().getToken());
 
@@ -163,7 +163,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             }
         }
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -183,7 +183,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
                                     if (TextUtils.isEmpty(t.getCreateTime())) {
                                         t.setDate(0);
                                     } else {
-                                        t.setDate(StringUtils.getDateTimeLong(t.getCreateTime(), StringUtils.DateFormatMode.LINE_YMDHMS));
+                                        t.setDate(ZDateTimeUtils.getDateTimeLong(t.getCreateTime(), ZDateTimeUtils.DateFormatMode.LINE_YMDHMS));
                                     }
                                 }
                             }
@@ -192,13 +192,13 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
                         }).start();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.getHotDataError();
@@ -210,7 +210,7 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.getHotDataError();
                     mView.getHotDataFinish();
                 }
@@ -232,17 +232,17 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
     public void addReadCount(long id) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseAddReadCount.getUrl()) + id);
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.AccidentCaseAddReadCount.getUrl()) + id);
         params.setMethod(HttpMethod.POST);
         params.addHeader("token", MyApplication.createApplication().getToken());
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -267,6 +267,6 @@ public class AccidentCaseModel implements AccidentCaseContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 }

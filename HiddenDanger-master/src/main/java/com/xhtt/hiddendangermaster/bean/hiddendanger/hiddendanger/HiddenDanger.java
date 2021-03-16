@@ -1,8 +1,8 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
 import com.google.gson.annotations.SerializedName;
-import com.hg.hollowgoods.bean.CommonBean;
-import com.hg.hollowgoods.bean.file.AppFile;
+import com.hg.zero.bean.ZCommonBean;
+import com.hg.zero.file.ZAppFile;
 import com.xhtt.hiddendangermaster.util.uploadfile.WebFile;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-08.
  */
-public class HiddenDanger extends CommonBean<HiddenDanger> {
+public class HiddenDanger extends ZCommonBean<HiddenDanger> {
 
     /**** 一般隐患 ****/
     public static final int HIDDEN_DANGER_LEVEL_NORMAL = 2;
@@ -68,9 +68,9 @@ public class HiddenDanger extends CommonBean<HiddenDanger> {
     @SerializedName("rectifyPhotoList")
     private ArrayList<WebFile> changePhotoList;// 整改后照片
 
-    private List<AppFile> appHiddenPhotoList;
+    private List<ZAppFile> appHiddenPhotoList;
 
-    private List<AppFile> appChangePhotoList;
+    private List<ZAppFile> appChangePhotoList;
 
     public String getChangeDescribe() {
         return changeDescribe;
@@ -290,19 +290,19 @@ public class HiddenDanger extends CommonBean<HiddenDanger> {
         this.checkPeople = checkPeople;
     }
 
-    public List<AppFile> getAppHiddenPhotoList() {
+    public List<ZAppFile> getAppHiddenPhotoList() {
         return appHiddenPhotoList;
     }
 
-    public void setAppHiddenPhotoList(List<AppFile> appHiddenPhotoList) {
+    public void setAppHiddenPhotoList(List<ZAppFile> appHiddenPhotoList) {
         this.appHiddenPhotoList = appHiddenPhotoList;
     }
 
-    public List<AppFile> getAppChangePhotoList() {
+    public List<ZAppFile> getAppChangePhotoList() {
         return appChangePhotoList;
     }
 
-    public void setAppChangePhotoList(List<AppFile> appChangePhotoList) {
+    public void setAppChangePhotoList(List<ZAppFile> appChangePhotoList) {
         this.appChangePhotoList = appChangePhotoList;
     }
 }

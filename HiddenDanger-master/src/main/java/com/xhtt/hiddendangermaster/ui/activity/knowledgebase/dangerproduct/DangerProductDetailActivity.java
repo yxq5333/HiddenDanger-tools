@@ -6,15 +6,15 @@ import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.util.anim.recyclerview.adapters.ScaleInAnimationAdapter;
-import com.hg.hollowgoods.util.anim.recyclerview.animators.LandingAnimator;
+import com.hg.zero.anim.recyclerview.adapters.ZScaleInAnimationAdapter;
+import com.hg.zero.anim.recyclerview.animators.ZLandingAnimator;
+import com.hg.zero.config.ZCommonResource;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.dangerproduct.DangerProductDetailAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.dangerproduct.DangerProduct;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.dangerproduct.DangerProductDetail;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class DangerProductDetailActivity extends BaseMVPActivity<DangerProductDetailPresenter> implements DangerProductDetailContract.View {
+public class DangerProductDetailActivity extends HDBaseMVPActivity<DangerProductDetailPresenter> implements DangerProductDetailContract.View {
 
     private RecyclerView result;
 
@@ -39,22 +39,23 @@ public class DangerProductDetailActivity extends BaseMVPActivity<DangerProductDe
 
     @Override
     public void initParamData() {
+        super.initParamData();
         parentData = baseUI.getParam(ParamKey.ParentData, new DangerProduct());
     }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_danger_product_detail);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_danger_product_detail);
 
         result = findViewById(R.id.rv_result);
 
         result.setHasFixedSize(true);
-        result.setItemAnimator(new LandingAnimator());
+        result.setItemAnimator(new ZLandingAnimator());
         result.setLayoutManager(new LinearLayoutManager(baseUI.getBaseContext()));
 
         adapter = new DangerProductDetailAdapter(baseUI.getBaseContext(), R.layout.item_danger_product_detail, data);
-        result.setAdapter(new ScaleInAnimationAdapter(adapter));
+        result.setAdapter(new ZScaleInAnimationAdapter(adapter));
 
         initData();
     }

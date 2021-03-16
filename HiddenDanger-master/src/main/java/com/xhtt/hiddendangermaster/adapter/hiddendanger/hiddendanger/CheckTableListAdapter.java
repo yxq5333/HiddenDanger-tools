@@ -2,8 +2,8 @@ package com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.adapter.list.common.CommonAdapter;
-import com.hg.hollowgoods.adapter.list.mvvm.base.ViewHolder;
+import com.hg.zero.adapter.list.common.ZCommonAdapter;
+import com.hg.zero.adapter.list.mvvm.base.ZViewHolder;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.CheckTable;
 
@@ -12,14 +12,14 @@ import java.util.List;
 /**
  * Created by Hollow Goods on 2019-04-09.
  */
-public class CheckTableListAdapter extends CommonAdapter<CheckTable> {
+public class CheckTableListAdapter extends ZCommonAdapter<CheckTable> {
 
     public CheckTableListAdapter(Context context, int layoutId, List<CheckTable> data) {
         super(context, layoutId, data);
     }
 
     @Override
-    protected void convert(ViewHolder viewHolder, CheckTable item, int position) {
+    protected void convert(ZViewHolder viewHolder, CheckTable item, int position) {
 
         viewHolder.setText(R.id.tv_checkDate, item.getCheckDate());
         viewHolder.setText(R.id.tv_checkTableName, item.getCheckTableName());

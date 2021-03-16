@@ -7,21 +7,21 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.hg.hollowgoods.adapter.viewpager.FragmentViewPagerAdapter;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnViewClickListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.widget.tablayout.CommonTabLayout;
-import com.hg.widget.tablayout.listener.CustomTabEntity;
-import com.hg.widget.tablayout.listener.OnTabSelectListener;
+import com.hg.zero.adapter.viewpager.ZFragmentViewPagerAdapter;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnViewClickListener;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Company;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.Record;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.TabEntity;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.WorkType;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.CheckTableListFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerOnceListChildFragment;
+import com.xhtt.hiddendangermaster.view.tablayout.CommonTabLayout;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.CustomTabEntity;
+import com.xhtt.hiddendangermaster.view.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOnceListPresenter> implements HiddenDangerOnceListContract.View {
+public class HiddenDangerOnceListActivity extends HDBaseMVPActivity<HiddenDangerOnceListPresenter> implements HiddenDangerOnceListContract.View {
 
     private CommonTabLayout tabBar;
     private ViewPager viewPager;
@@ -39,11 +39,11 @@ public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOn
 
     private ArrayList<CustomTabEntity> tabBarData = new ArrayList<CustomTabEntity>() {
         {
-            add(new TabEntity("隐患列表", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
-            add(new TabEntity("检查记录表", R.drawable.ic_android_green_24dp, R.drawable.ic_android_green_24dp));
+            add(new TabEntity("隐患列表", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
+            add(new TabEntity("检查记录表", R.drawable.z_ic_android_green_24dp, R.drawable.z_ic_android_green_24dp));
         }
     };
-    private FragmentViewPagerAdapter adapter;
+    private ZFragmentViewPagerAdapter adapter;
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private int nowPosition = 0;
     private HiddenDangerOnceListChildFragment fragment1;
@@ -59,6 +59,7 @@ public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOn
     @Override
     public void initParamData() {
 
+        super.initParamData();
         grandData = baseUI.getParam(ParamKey.GrandData, null);
         parentData = baseUI.getParam(ParamKey.ParentData, null);
 
@@ -78,7 +79,7 @@ public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOn
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, grandData.getCompanyName());
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), grandData.getCompanyName());
 
         tabBar = findViewById(R.id.tabBar);
         viewPager = findViewById(R.id.viewPager);
@@ -102,7 +103,7 @@ public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOn
         );
         fragments.add(fragment2);
 
-        adapter = new FragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
+        adapter = new ZFragmentViewPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(adapter);
     }
@@ -142,7 +143,7 @@ public class HiddenDangerOnceListActivity extends BaseMVPActivity<HiddenDangerOn
             }
         });
 
-        add.setOnClickListener(new OnViewClickListener(false) {
+        add.setOnClickListener(new ZOnViewClickListener(false) {
             @Override
             public void onViewClick(View view, int id) {
                 baseUI.startMyActivity(HiddenDangerDetailActivity.class,

@@ -7,13 +7,13 @@ import android.os.Looper;
 import com.amap.api.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGSystemConfig;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.xutils.RequestParamsHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.DownloadListener;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZSystemConfig;
+import com.hg.zero.net.ZRequestParamsBuilder;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZDownloadListener;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.CompanyMap;
@@ -64,14 +64,14 @@ public class CompanyMapModel implements CompanyMapContract.Model {
         Map<String, String> header = new HashMap<>();
         header.put("token", MyApplication.createApplication().getToken());
 
-        RequestParams params = RequestParamsHelper.buildKeyValueRequestParam(
+        RequestParams params = ZRequestParamsBuilder.buildKeyValueRequestParam(
                 HttpMethod.GET,
-                RequestParamsHelper.buildCommonRequestApi(InterfaceApi.GetCompanyMapList.getUrl()),
+                ZRequestParamsBuilder.buildRequestUrl(InterfaceApi.GetCompanyMapList.getUrl()),
                 header,
                 null
         );
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
                 if (isViewAttached()) {
@@ -104,13 +104,13 @@ public class CompanyMapModel implements CompanyMapContract.Model {
                         }).start();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.getDataError();
@@ -122,7 +122,7 @@ public class CompanyMapModel implements CompanyMapContract.Model {
             @Override
             public void onGetError(Throwable ex) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.getDataError();
                     mView.getDataFinish();
                 }
@@ -134,7 +134,7 @@ public class CompanyMapModel implements CompanyMapContract.Model {
 
                 }
             }
-        }).getHttpData(params);
+        }).requestData(params);
 
 //        ArrayList<CompanyMap> tempData = new ArrayList<>();
 //        CompanyMap companyMap;
@@ -171,15 +171,15 @@ public class CompanyMapModel implements CompanyMapContract.Model {
         Map<String, String> header = new HashMap<>();
         header.put("token", MyApplication.createApplication().getToken());
 
-        RequestParams params = RequestParamsHelper.buildKeyValueRequestParam(
-                RequestParamsHelper.buildCommonRequestApi(InterfaceApi.AddServiceCount.getUrl()
+        RequestParams params = ZRequestParamsBuilder.buildKeyValueRequestParam(
+                ZRequestParamsBuilder.buildRequestUrl(InterfaceApi.AddServiceCount.getUrl()
                         + "/" + companyId
                 ),
                 header,
                 null
         );
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
                 if (isViewAttached()) {
@@ -189,13 +189,13 @@ public class CompanyMapModel implements CompanyMapContract.Model {
                         mView.addServiceCountSuccess();
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.addServiceCountError();
@@ -206,7 +206,7 @@ public class CompanyMapModel implements CompanyMapContract.Model {
             @Override
             public void onGetError(Throwable ex) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.getDataError();
                 }
             }
@@ -217,7 +217,7 @@ public class CompanyMapModel implements CompanyMapContract.Model {
                     mView.addServiceCountFinish();
                 }
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     @Override
@@ -226,15 +226,15 @@ public class CompanyMapModel implements CompanyMapContract.Model {
         Map<String, String> header = new HashMap<>();
         header.put("token", MyApplication.createApplication().getToken());
 
-        RequestParams params = RequestParamsHelper.buildKeyValueRequestParam(
-                RequestParamsHelper.buildCommonRequestApi(InterfaceApi.Export.getUrl()),
+        RequestParams params = ZRequestParamsBuilder.buildKeyValueRequestParam(
+                ZRequestParamsBuilder.buildRequestUrl(InterfaceApi.Export.getUrl()),
                 header,
                 null
         );
 
         params.addParameter("isServiced", true);
 
-        new XUtils2.BuilderDownloadFile().setDownloadListener(new DownloadListener() {
+        new ZxUtils3.DownloadBuilder().setDownloadListener(new ZDownloadListener() {
             @Override
             public void onDownloadSuccess(File file) {
                 if (isViewAttached()) {
@@ -245,7 +245,7 @@ public class CompanyMapModel implements CompanyMapContract.Model {
             @Override
             public void onDownloadError(Throwable ex) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.exportError();
                 }
             }
@@ -261,6 +261,6 @@ public class CompanyMapModel implements CompanyMapContract.Model {
                     mView.exportFinish();
                 }
             }
-        }).downloadFile(params, HGSystemConfig.getDownloadFilePath());
+        }).downloadFile(params, ZSystemConfig.downloadDir());
     }
 }

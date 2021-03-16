@@ -1,11 +1,11 @@
 package com.xhtt.hiddendangermaster.ui.activity.login;
 
 import com.google.gson.Gson;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.ip.IPConfigHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.ui.activity.plugin.ip.ZIPConfigHelper;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.bean.LoginRequest;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -49,12 +49,12 @@ public class LoginModel implements LoginContract.Model {
             mView.doLoginStart();
         }
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.Login.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.Login.getUrl()));
         params.setMethod(HttpMethod.POST);
         params.setAsJsonContent(true);
         params.setBodyContent(new Gson().toJson(request));
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
                 ResponseInfo responseInfo = new Gson().fromJson(result, ResponseInfo.class);
@@ -63,7 +63,7 @@ public class LoginModel implements LoginContract.Model {
                     if (responseInfo.getCode() == ResponseInfo.CODE_SUCCESS) {
                         checkUserRole(responseInfo.getToken());
                     } else {
-                        t.error(responseInfo.getMsg());
+                        Zt.error(responseInfo.getMsg());
                         mView.doLoginError();
                     }
                 }
@@ -72,7 +72,7 @@ public class LoginModel implements LoginContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.doLoginError();
                 }
             }
@@ -93,16 +93,16 @@ public class LoginModel implements LoginContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
     private void checkUserRole(String token) {
 
-        RequestParams params = new RequestParams(IPConfigHelper.create().getNowIPConfig().getRequestUrl(InterfaceApi.GetUserData.getUrl()));
+        RequestParams params = new RequestParams(ZIPConfigHelper.get().getNowIPConfig().getRequestUrl(InterfaceApi.GetUserData.getUrl()));
         params.setMethod(HttpMethod.GET);
         params.addHeader("token", token);
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -120,7 +120,7 @@ public class LoginModel implements LoginContract.Model {
 
                             for (int p : user.getRoleIdList()) {
                                 if (p == User.USER_TYPE_GOV) {
-                                    t.error("政府端未开放");
+                                    Zt.error("政府端未开放");
                                     flag = false;
                                     mView.doLoginError();
                                     break;
@@ -135,13 +135,13 @@ public class LoginModel implements LoginContract.Model {
                         }
                     } else {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
-                            t.error(responseInfo.getMsg());
+                            Zt.error(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
-                            t.error(R.string.network_error);
+                            Zt.error(R.string.network_error);
                         }
 
                         mView.doLoginError();
@@ -152,7 +152,7 @@ public class LoginModel implements LoginContract.Model {
             @Override
             public void onGetError(Throwable throwable) {
                 if (isViewAttached()) {
-                    t.error(R.string.network_error);
+                    Zt.error(R.string.network_error);
                     mView.doLoginError();
                 }
             }
@@ -171,7 +171,7 @@ public class LoginModel implements LoginContract.Model {
             public void onGetCancel(Callback.CancelledException e) {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 
 }

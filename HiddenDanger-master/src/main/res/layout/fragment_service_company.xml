@@ -5,23 +5,23 @@
     android:background="@color/main_body_color"
     android:orientation="vertical">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
+    <com.hg.zero.widget.commontitle.ZCommonTitleView
         android:id="@+id/commonTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/smartRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.hg.hollowgoods.widget.smartrefresh.header.MaterialHeader
+            <com.scwang.smart.refresh.header.MaterialHeader
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -64,7 +64,7 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:tint="@color/txt_color_dark"
-                            app:srcCompat="@drawable/ic_arrow_right" />
+                            app:srcCompat="@drawable/z_ic_arrow_right" />
 
                     </LinearLayout>
 
@@ -269,8 +269,8 @@
                         app:cardCornerRadius="3dp"
                         app:cardElevation="3dp">
 
-                        <com.hg.hollowgoods.widget.HGRefreshLayout
-                            android:id="@+id/hgRefreshLayout"
+                        <com.hg.zero.widget.refreshlayout.ZRefreshLayout
+                            android:id="@+id/ZRefreshLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:openLoadMore="false"
@@ -282,13 +282,13 @@
 
             </androidx.core.widget.NestedScrollView>
 
-            <com.hg.hollowgoods.widget.smartrefresh.footer.ClassicsFooter
+            <com.scwang.smart.refresh.footer.ClassicsFooter
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </com.hg.hollowgoods.widget.smartrefresh.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+        <com.hg.zero.widget.floatingsearchview.ZFloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -298,11 +298,11 @@
             app:floatingSearch_searchBarMarginLeft="16dp"
             app:floatingSearch_searchBarMarginRight="16dp"
             app:floatingSearch_searchBarMarginTop="16dp"
-            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_searchHint="@string/z_search"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"
             app:floatingSearch_viewTextColor="#323232" />
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
 </LinearLayout>

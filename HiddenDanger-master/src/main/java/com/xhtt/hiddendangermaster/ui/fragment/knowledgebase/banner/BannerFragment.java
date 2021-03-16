@@ -8,15 +8,15 @@ import android.widget.RadioGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.util.SystemAppUtils;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.util.ZSystemAppUtils;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.BannerAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.banner.Banner;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.banner.BannerAppUrl;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.main.KnowledgeBaseActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.yarolegovich.discretescrollview.DSVOrientation;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.InfiniteScrollAdapter;
@@ -32,7 +32,7 @@ import java.util.TimerTask;
  * @author HG
  */
 
-public class BannerFragment extends BaseMVPFragment<BannerPresenter> implements BannerContract.View {
+public class BannerFragment extends HDBaseMVPFragment<BannerPresenter> implements BannerContract.View {
 
     public static final int BANNER_TYPE_KNOWLEDGE_BASE = 1;
     public static final int BANNER_TYPE_HIDDEN_DANGER = 2;
@@ -57,6 +57,7 @@ public class BannerFragment extends BaseMVPFragment<BannerPresenter> implements 
     @Override
     public void initParamData() {
 
+        super.initParamData();
         location = baseUI.getParam(ParamKey.Location, Banner.LOCATION_MAIN_ACTIVITY);
         bannerType = baseUI.getParam(ParamKey.BannerType, BannerFragment.BANNER_TYPE_KNOWLEDGE_BASE);
 
@@ -156,7 +157,7 @@ public class BannerFragment extends BaseMVPFragment<BannerPresenter> implements 
         onItemChanged(bannerPosition);
         startBanner();
 
-        adapter.setOnBannerClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnBannerClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -169,7 +170,7 @@ public class BannerFragment extends BaseMVPFragment<BannerPresenter> implements 
                             url = "http://" + url;
                         }
 
-                        new SystemAppUtils().openExplorer(baseUI.getBaseContext(), url);
+                        new ZSystemAppUtils().openExplorer(baseUI.getBaseContext(), url);
                     }
                 } else if (data.get(position).getLinkType() == Banner.TYPE_APP) {
                     if (TextUtils.equals(data.get(position).getAppUrl(), BannerAppUrl.KnowledgeBase.getUrl())) {

@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.util.xutils.RequestParamsHelper;
-import com.hg.hollowgoods.util.xutils.XUtils2;
-import com.hg.hollowgoods.util.xutils.callback.base.GetHttpDataListener;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.net.ZRequestParamsBuilder;
+import com.hg.zero.net.ZxUtils3;
+import com.hg.zero.net.callback.base.ZRequestDataListener;
+import com.hg.zero.toast.Zt;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.application.MyApplication;
 import com.xhtt.hiddendangermaster.bean.ResponseInfo;
@@ -53,15 +53,15 @@ public class AreaModel implements AreaContract.Model {
     @Override
     public void getData(Map<String, Object> request) {
 
-        RequestParams params = RequestParamsHelper.buildKeyValueRequestParam(
+        RequestParams params = ZRequestParamsBuilder.buildKeyValueRequestParam(
                 HttpMethod.GET,
-                RequestParamsHelper.buildCommonRequestApi(InterfaceApi.GetArea.getUrl()),
+                ZRequestParamsBuilder.buildRequestUrl(InterfaceApi.GetArea.getUrl()),
                 null,
                 request
         );
         params.addHeader("token", MyApplication.createApplication().getToken());
 
-        new XUtils2.BuilderGetHttpData().setGetHttpDataListener(new GetHttpDataListener() {
+        new ZxUtils3.RequestDataBuilder().setRequestDataListener(new ZRequestDataListener() {
             @Override
             public void onGetSuccess(String result) {
 
@@ -82,8 +82,8 @@ public class AreaModel implements AreaContract.Model {
                         if (responseInfo.getCode() == ResponseInfo.CODE_FAIL) {
                             mView.getDataError(responseInfo.getMsg());
                         } else if (responseInfo.getCode() == ResponseInfo.CODE_TOKEN_OVERDUE) {
-                            t.error("授权已过期，请重新登录");
-                            HGEvent event = new HGEvent(EventActionCode.TokenOverdue);
+                            Zt.error("授权已过期，请重新登录");
+                            ZEvent event = new ZEvent(EventActionCode.TokenOverdue);
                             EventBus.getDefault().post(event);
                         } else {
                             mView.getDataError(R.string.network_error);
@@ -106,6 +106,6 @@ public class AreaModel implements AreaContract.Model {
             public void onGetFinish() {
 
             }
-        }).getHttpData(params);
+        }).requestData(params);
     }
 }

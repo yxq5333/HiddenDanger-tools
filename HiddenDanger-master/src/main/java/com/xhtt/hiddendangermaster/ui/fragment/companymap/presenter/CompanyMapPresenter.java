@@ -2,7 +2,7 @@ package com.xhtt.hiddendangermaster.ui.fragment.companymap.presenter;
 
 import android.content.Context;
 
-import com.hg.hollowgoods.ui.base.mvp.BasePresenter;
+import com.hg.zero.ui.base.mvp.ZBasePresenter;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.contract.CompanyMapContract;
 import com.xhtt.hiddendangermaster.ui.fragment.companymap.model.CompanyMapModel;
 
@@ -12,7 +12,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.companymap.model.CompanyMapModel;
  * Created by Hollow Goods on 2020-04-01
  */
 
-public class CompanyMapPresenter extends BasePresenter<CompanyMapContract.View, CompanyMapContract.Model> implements CompanyMapContract.Presenter {
+public class CompanyMapPresenter extends ZBasePresenter<CompanyMapContract.View, CompanyMapContract.Model> implements CompanyMapContract.Presenter {
 
     public CompanyMapPresenter(Context mContext) {
         super(mContext);

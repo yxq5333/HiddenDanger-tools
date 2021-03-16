@@ -10,7 +10,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.hg.hollowgoods.constant.HGSystemConfig;
+import com.hg.zero.config.ZSystemConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -206,7 +206,7 @@ public class DoodleView extends SurfaceView implements SurfaceHolder.Callback {
      * @return 图片的保存路径
      */
     public String saveBitmap(DoodleView doodleView) {
-        String path = HGSystemConfig.getDataCachePath() + "Sign/" + System.currentTimeMillis() + ".png";
+        String path = ZSystemConfig.dataCacheDir() + "Sign/" + System.currentTimeMillis() + ".png";
         if (!new File(path).getParentFile().exists()) {
             new File(path).getParentFile().mkdirs();
         }

@@ -6,9 +6,8 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.util.LogUtils;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.logger.ZLogger;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -17,6 +16,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.xhtt.hiddendangermaster.BuildConfig;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.EventActionCode;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by Hollow Goods on 2019-07-24.
  */
-public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
+public class WXEntryActivity extends HDBaseActivity implements IWXAPIEventHandler {
 
     /**
      * 微信登录相关
@@ -52,7 +52,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         try {
             boolean result = api.handleIntent(getIntent(), this);
             if (!result) {
-                LogUtils.Log("参数不合法，未被SDK处理，退出");
+                ZLogger.e("参数不合法，未被SDK处理，退出");
                 finish();
             }
         } catch (Exception e) {
@@ -81,7 +81,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onReq(BaseReq baseReq) {
-        LogUtils.Log("baseReq:" + new Gson().toJson(baseReq));
+        ZLogger.e("baseReq:" + new Gson().toJson(baseReq));
     }
 
     /**
@@ -100,8 +100,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onResp(BaseResp baseResp) {
 
-        LogUtils.Log("baseReq:" + new Gson().toJson(baseResp));
-        LogUtils.Log("baseResp:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode);
+        ZLogger.e("baseReq:" + new Gson().toJson(baseResp));
+        ZLogger.e("baseResp:" + baseResp.errStr + "," + baseResp.openId + "," + baseResp.transaction + "," + baseResp.errCode);
         String result;
 
         switch (baseResp.errCode) {
@@ -114,25 +114,21 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 );
 //                MyApplication.createApplication().setWeChatCode(temp.get("code") + "");
 
-                HGEvent event = new HGEvent(EventActionCode.WE_CHAT_LOGIN_GET_CODE_SUCCESS);
+                ZEvent event = new ZEvent(EventActionCode.WE_CHAT_LOGIN_GET_CODE_SUCCESS);
                 EventBus.getDefault().post(event);
 
-                LogUtils.Log(1, result);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 result = "发送取消";
-                LogUtils.Log(2, result);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 result = "发送被拒绝";
-                LogUtils.Log(1, result);
                 finish();
                 break;
             default:
                 result = "发送返回";
-                LogUtils.Log(0, result);
                 finish();
                 break;
         }

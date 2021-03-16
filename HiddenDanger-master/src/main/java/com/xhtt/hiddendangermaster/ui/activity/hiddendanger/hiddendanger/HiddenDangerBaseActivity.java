@@ -8,13 +8,12 @@ import android.widget.RadioGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.bean.eventbus.HGEvent;
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPActivity;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.bean.eventbus.ZEvent;
+import com.hg.zero.config.ZCommonResource;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.hiddendanger.HiddenDangerBaseAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger.HiddenDanger;
@@ -22,6 +21,7 @@ import com.xhtt.hiddendangermaster.constant.EventActionCode;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.msds.MSDSActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerListContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.hiddendanger.HiddenDangerListPresenter;
 
@@ -35,9 +35,9 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class HiddenDangerBaseActivity extends BaseMVPActivity<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
+public class HiddenDangerBaseActivity extends HDBaseMVPActivity<HiddenDangerListPresenter> implements HiddenDangerListContract.View {
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private RadioGroup status;
 
     private HiddenDangerBaseAdapter adapter;
@@ -57,13 +57,13 @@ public class HiddenDangerBaseActivity extends BaseMVPActivity<HiddenDangerListPr
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, "隐患库");
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), "隐患库");
         baseUI.setCommonRightTitleText("MSDS");
-        baseUI.setStatus(HGStatusLayout.Status.Loading);
+        baseUI.setStatus(ZStatusLayout.Status.Loading);
 
         new Handler().postDelayed(() -> {
 
-            refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+            refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
             status = baseUI.findViewById(R.id.rg_status);
 
             baseUI.initSearchView(refreshLayout, true);
@@ -98,7 +98,7 @@ public class HiddenDangerBaseActivity extends BaseMVPActivity<HiddenDangerListPr
                 refreshLayout.getRefreshLayout().autoRefresh();
             });
 
-            adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+            adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
                 @Override
                 public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
                     clickPosition = position;
@@ -106,7 +106,7 @@ public class HiddenDangerBaseActivity extends BaseMVPActivity<HiddenDangerListPr
                 }
             });
 
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         }, SystemConfig.DELAY_TIME_SET_LISTENER);
     }
 
@@ -182,18 +182,18 @@ public class HiddenDangerBaseActivity extends BaseMVPActivity<HiddenDangerListPr
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }
 
     private void backData() {
 
-        HGEvent event = new HGEvent(EventActionCode.SELECTOR_HIDDEN_DANGER_STORE);
+        ZEvent event = new ZEvent(EventActionCode.SELECTOR_HIDDEN_DANGER_STORE);
         event.addObj(ParamKey.BackData, data.get(clickPosition));
         EventBus.getDefault().post(event);
 

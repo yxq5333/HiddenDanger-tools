@@ -1,7 +1,7 @@
 package com.xhtt.hiddendangermaster.ui.activity.profile;
 
-import com.hg.hollowgoods.ui.base.mvp.IBaseModel;
-import com.hg.hollowgoods.ui.base.mvp.IBaseView;
+import com.hg.zero.ui.base.mvp.ZIBaseModel;
+import com.hg.zero.ui.base.mvp.ZIBaseView;
 
 import java.util.Map;
 
@@ -13,11 +13,11 @@ import java.util.Map;
 
 public class AlterPasswordContract {
 
-    public interface Model extends IBaseModel {
+    public interface Model extends ZIBaseModel {
         void changePassword(Map<String, Object> request);
     }
 
-    public interface View extends IBaseView {
+    public interface View extends ZIBaseView {
         void changePasswordStart();
 
         void changePasswordSuccess();

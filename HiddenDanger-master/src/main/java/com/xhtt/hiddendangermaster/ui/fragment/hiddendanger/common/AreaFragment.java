@@ -7,16 +7,16 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.ui.base.ListDataHelper;
-import com.hg.hollowgoods.ui.base.ListListenerAdapter;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.message.toast.t;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.smartrefresh.api.RefreshLayout;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.toast.Zt;
+import com.hg.zero.widget.refreshlayout.ZListListenerAdapter;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.hiddendanger.AreaAdapter;
 import com.xhtt.hiddendangermaster.bean.hiddendanger.common.CommonChooseItem;
+import com.xhtt.hiddendangermaster.ui.ListDataHelper;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.common.contract.AreaContract;
 import com.xhtt.hiddendangermaster.ui.fragment.hiddendanger.common.presenter.AreaPresenter;
 
@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * Created by Hollow Goods on 2020-04-08
  */
 
-public class AreaFragment extends BaseMVPFragment<AreaPresenter> implements AreaContract.View, ListDataHelper {
+public class AreaFragment extends HDBaseMVPFragment<AreaPresenter> implements AreaContract.View, ListDataHelper {
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
 
     private AreaAdapter adapter;
     private ArrayList<CommonChooseItem> data = new ArrayList<>();
@@ -52,7 +52,7 @@ public class AreaFragment extends BaseMVPFragment<AreaPresenter> implements Area
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
         adapter = new AreaAdapter(baseUI.getBaseContext(), R.layout.item_area, data);
 
@@ -71,7 +71,7 @@ public class AreaFragment extends BaseMVPFragment<AreaPresenter> implements Area
     @Override
     public void setListener() {
 
-        refreshLayout.getRefreshLayout().setOnMultiPurposeListener(new ListListenerAdapter() {
+        refreshLayout.getRefreshLayout().setOnMultiListener(new ZListListenerAdapter() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 doRefresh();
@@ -100,7 +100,7 @@ public class AreaFragment extends BaseMVPFragment<AreaPresenter> implements Area
             }
         });
 
-        adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
                 if (position != adapter.getCheckedPosition()) {
@@ -209,7 +209,7 @@ public class AreaFragment extends BaseMVPFragment<AreaPresenter> implements Area
 
     @Override
     public void getDataError(Object msg) {
-        t.error(msg);
+        Zt.error(msg);
     }
 
     @Override

@@ -1,22 +1,18 @@
 package com.xhtt.hiddendangermaster.ui.activity.knowledgebase.plugin;
 
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.BaseActivity;
-import com.hg.hollowgoods.util.LogUtils;
-import com.hg.hollowgoods.widget.RingProgressBar;
-import com.hg.widget.enview.ENVolumeView;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.widget.ringprogressbar.ZRingProgressBar;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.constant.ParamKey;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
+import com.xhtt.hiddendangermaster.view.enview.ENVolumeView;
 import com.xhtt.hiddendangermaster.view.videoplayerview.Data2Source;
 
 import chuangyuan.ycj.videolibrary.listener.OnGestureProgressListener;
@@ -28,10 +24,10 @@ import chuangyuan.ycj.videolibrary.widget.VideoPlayerView;
 /**
  * Created by HG on 2018-07-25.
  */
-public class PlayVideoActivity extends BaseActivity {
+public class PlayVideoActivity extends HDBaseActivity {
 
     private VideoPlayerView playerView;
-    private RingProgressBar brightnessProgressBar;
+    private ZRingProgressBar brightnessProgressBar;
     private ENVolumeView volumeProgressBar;
     private TextView progressFlag;
     private TextView progressCurrIndex;
@@ -55,7 +51,8 @@ public class PlayVideoActivity extends BaseActivity {
     @Override
     public void initParamData() {
 
-        title = baseUI.getParam(HGParamKey.Title, "");
+        super.initParamData();
+        title = baseUI.getParam(ZParamKey.Title, "");
         String url = baseUI.getParam(ParamKey.URL, "");
         urls = new String[1];
         urls[0] = url;
@@ -203,11 +200,6 @@ public class PlayVideoActivity extends BaseActivity {
             @Override
             public void showProgressDialog(long seekTimePosition, long duration, String seekTime, String totalTime) {
 
-                LogUtils.Log(seekTimePosition);
-                LogUtils.Log(duration);
-                LogUtils.Log(seekTime);
-                LogUtils.Log(totalTime);
-
                 // 显示你的布局
                 playerView.getGestureProgressLayout().setVisibility(View.VISIBLE);
                 // 为你布局显示内容自定义内容
@@ -225,14 +217,12 @@ public class PlayVideoActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.Log("onResume");
         playerManager.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LogUtils.Log("onPause");
         playerManager.onPause();
     }
 

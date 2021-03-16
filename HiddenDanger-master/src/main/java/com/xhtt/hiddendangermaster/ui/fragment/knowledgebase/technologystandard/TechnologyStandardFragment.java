@@ -7,18 +7,18 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hg.hollowgoods.constant.HGParamKey;
-import com.hg.hollowgoods.ui.base.click.OnRecyclerViewItemClickOldListener;
-import com.hg.hollowgoods.ui.base.mvp.BaseMVPFragment;
-import com.hg.hollowgoods.widget.HGRefreshLayout;
-import com.hg.hollowgoods.widget.HGStatusLayout;
-import com.hg.hollowgoods.widget.smartrefresh.constant.RefreshState;
+import com.hg.zero.constant.ZParamKey;
+import com.hg.zero.listener.ZOnRecyclerViewItemClickOldListener;
+import com.hg.zero.widget.refreshlayout.ZRefreshLayout;
+import com.hg.zero.widget.statuslayout.ZStatusLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.xhtt.hiddendangermaster.R;
 import com.xhtt.hiddendangermaster.adapter.knowledgebase.technologystandard.TechnologyStandardAdapter;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.common.FileDetail;
 import com.xhtt.hiddendangermaster.bean.knowledgebase.technologystandard.TechnologyStandard;
 import com.xhtt.hiddendangermaster.constant.SystemConfig;
 import com.xhtt.hiddendangermaster.ui.activity.knowledgebase.common.FileDetailActivity;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseMVPFragment;
 
 import java.util.ArrayList;
 
@@ -28,9 +28,9 @@ import java.util.ArrayList;
  * @author HG
  */
 
-public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStandardPresenter> implements TechnologyStandardContract.View {
+public class TechnologyStandardFragment extends HDBaseMVPFragment<TechnologyStandardPresenter> implements TechnologyStandardContract.View {
 
-    private HGRefreshLayout refreshLayout;
+    private ZRefreshLayout refreshLayout;
     private View noDataView;
 
     private TechnologyStandardAdapter adapter;
@@ -52,7 +52,7 @@ public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStanda
 
         baseUI.setCommonTitleViewVisibility(false);
 
-        refreshLayout = baseUI.findViewById(R.id.hgRefreshLayout);
+        refreshLayout = baseUI.findViewById(R.id.ZRefreshLayout);
 
         baseUI.initSearchView(refreshLayout, true);
 
@@ -69,7 +69,7 @@ public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStanda
 
         refreshLayout.setOnLoadMoreListener(refreshLayout -> doLoadMore());
 
-        adapter.setOnItemClickListener(new OnRecyclerViewItemClickOldListener(false) {
+        adapter.setOnItemClickListener(new ZOnRecyclerViewItemClickOldListener(false) {
             @Override
             public void onRecyclerViewItemClick(View view, RecyclerView.ViewHolder viewHolder, int position) {
 
@@ -80,7 +80,7 @@ public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStanda
                 fileDetail.setWebFiles(data.get(position).getFileList());
 
                 baseUI.startMyActivity(FileDetailActivity.class,
-                        new Enum[]{HGParamKey.AppFiles},
+                        new Enum[]{ZParamKey.AppFiles},
                         new Object[]{fileDetail}
                 );
             }
@@ -162,9 +162,9 @@ public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStanda
         }
 
         if (data.size() > 0) {
-            baseUI.setStatus(HGStatusLayout.Status.Default);
+            baseUI.setStatus(ZStatusLayout.Status.Default);
         } else {
-            baseUI.setStatus(HGStatusLayout.Status.NoData);
+            baseUI.setStatus(ZStatusLayout.Status.NoData);
         }
 
         new Handler().postDelayed(() -> {
@@ -174,11 +174,11 @@ public class TechnologyStandardFragment extends BaseMVPFragment<TechnologyStanda
             }
 
             if (refreshLayout.getRefreshLayout().getState() == RefreshState.Loading) {
-                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
-                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
-                } else {
-                    refreshLayout.getRefreshLayout().finishLoadMore();
-                }
+//                if (refreshLayout.getRefreshLayout().isNoMoreData()) {
+//                    refreshLayout.getRefreshLayout().finishLoadMoreWithNoMoreData();
+//                } else {
+                refreshLayout.getRefreshLayout().finishLoadMore();
+//                }
             }
         }, SystemConfig.DELAY_TIME_REFRESH_DATA);
     }

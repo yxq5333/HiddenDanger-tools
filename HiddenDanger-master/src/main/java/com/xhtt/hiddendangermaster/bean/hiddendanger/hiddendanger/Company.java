@@ -1,12 +1,12 @@
 package com.xhtt.hiddendangermaster.bean.hiddendanger.hiddendanger;
 
 import com.google.gson.annotations.SerializedName;
-import com.hg.hollowgoods.bean.CommonBean;
+import com.hg.zero.bean.ZCommonBean;
 
 /**
  * Created by Hollow Goods on 2019-04-08.
  */
-public class Company extends CommonBean<Company> {
+public class Company extends ZCommonBean<Company> {
 
     private long id;
 

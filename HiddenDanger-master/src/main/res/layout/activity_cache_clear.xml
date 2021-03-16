@@ -5,13 +5,13 @@
     android:background="@color/main_body_color"
     android:orientation="vertical">
 
-    <com.hg.hollowgoods.widget.commontitle.CommonTitleView
+    <com.hg.zero.widget.commontitle.ZCommonTitleView
         android:id="@+id/commonTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.hg.hollowgoods.widget.HGStatusLayout
-        android:id="@+id/hgStatusLayout"
+    <com.hg.zero.widget.statuslayout.ZStatusLayout
+        android:id="@+id/zStatusLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -30,7 +30,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <com.hg.widget.rotatebar.RotateBar
+            <com.hg.zero.widget.rotatebar.ZRotateBar
                 android:id="@+id/rotateBar"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
@@ -48,11 +48,11 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="@string/clear" />
+                android:text="立即清理" />
 
         </LinearLayout>
 
-        <com.hg.hollowgoods.widget.floatingsearchview.FloatingSearchView
+        <com.hg.zero.widget.floatingsearchview.ZFloatingSearchView
             android:id="@+id/floating_search_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,11 +62,11 @@
             app:floatingSearch_searchBarMarginLeft="16dp"
             app:floatingSearch_searchBarMarginRight="16dp"
             app:floatingSearch_searchBarMarginTop="16dp"
-            app:floatingSearch_searchHint="@string/search"
+            app:floatingSearch_searchHint="@string/z_search"
             app:floatingSearch_showSearchKey="true"
             app:floatingSearch_suggestionsListAnimDuration="250"
             app:floatingSearch_viewTextColor="#323232" />
 
-    </com.hg.hollowgoods.widget.HGStatusLayout>
+    </com.hg.zero.widget.statuslayout.ZStatusLayout>
 
 </LinearLayout>

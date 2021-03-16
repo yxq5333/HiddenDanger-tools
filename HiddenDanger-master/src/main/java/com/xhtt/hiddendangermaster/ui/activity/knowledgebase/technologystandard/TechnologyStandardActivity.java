@@ -6,9 +6,9 @@ import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.hg.hollowgoods.constant.HGCommonResource;
-import com.hg.hollowgoods.ui.base.BaseActivity;
+import com.hg.zero.config.ZCommonResource;
 import com.xhtt.hiddendangermaster.R;
+import com.xhtt.hiddendangermaster.ui.base.HDBaseActivity;
 import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.technologystandard.TechnologyStandardFragment;
 
 /**
@@ -17,7 +17,7 @@ import com.xhtt.hiddendangermaster.ui.fragment.knowledgebase.technologystandard.
  * @author HG
  */
 
-public class TechnologyStandardActivity extends BaseActivity {
+public class TechnologyStandardActivity extends HDBaseActivity {
 
     @Override
     public int bindLayout() {
@@ -27,7 +27,7 @@ public class TechnologyStandardActivity extends BaseActivity {
     @Override
     public void initView(View view, Bundle savedInstanceState) {
 
-        baseUI.setCommonTitleStyleAutoBackground(HGCommonResource.BACK_ICON, R.string.title_activity_technology_standard);
+        baseUI.setCommonTitleStyleAutoBackground(ZCommonResource.getBackIcon(), R.string.title_activity_technology_standard);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
