@@ -214,55 +214,56 @@ public class HiddenDangerListFragment extends HDBaseMVPFragment<HiddenDangerList
     @Override
     public void onEventUI(ZEvent item) {
         if (item.getEventActionCode() == EventActionCode.HIDDEN_DANGER_SUBMIT) {
-            HiddenDanger hiddenDanger = item.getObj(ParamKey.Company, null);
+            doRefresh();
+//            HiddenDanger hiddenDanger = item.getObj(ParamKey.Company, null);
 
-            if (hiddenDanger != null) {
-                WorkType workType = item.getObj(ParamKey.WorkType, null);
-
-                if (workType != null) {
-                    switch (workType) {
-                        case Add:
-                        case AddFreeTake:
-                            if (status == HiddenDanger.STATUS_UNCHANGED) {
-                                data.add(0, hiddenDanger);
-                                adapter.addData(data, 0, 1);
-                                new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
-
-                                baseUI.setStatus(ZStatusLayout.Status.Default);
-                            }
-                            break;
-                        case Edit:
-                            if (status == HiddenDanger.STATUS_UNCHANGED) {
-                                data.set(clickPosition, hiddenDanger);
-                                adapter.refreshData(data, clickPosition);
-                            }
-                            break;
-                        case Change:
-                            if (status == HiddenDanger.STATUS_UNCHANGED) {
-                                if (hiddenDanger.getStatus() == HiddenDanger.STATUS_UNCHANGED) {
-                                    data.get(clickPosition).setStatus(HiddenDanger.STATUS_UNCHANGED);
-                                    data.get(clickPosition).setAppChangePhotoList(hiddenDanger.getAppChangePhotoList());
-                                    data.get(clickPosition).setChangeDescribe(hiddenDanger.getChangeDescribe());
-                                    adapter.refreshData(data, clickPosition);
-                                } else {
-                                    data.remove(clickPosition);
-                                    adapter.removeData(data, clickPosition, 1);
-                                }
-                            }
-                            if (status == HiddenDanger.STATUS_CHANGED) {
-                                if (hiddenDanger.getStatus() == HiddenDanger.STATUS_CHANGED) {
-                                    baseUI.setStatus(ZStatusLayout.Status.Default);
-
-                                    hiddenDanger.setStatus(HiddenDanger.STATUS_CHANGED);
-                                    data.add(0, hiddenDanger);
-                                    adapter.addData(data, 0, 1);
-                                    new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
-                                }
-                            }
-                            break;
-                    }
-                }
-            }
+//            if (hiddenDanger != null) {
+//                WorkType workType = item.getObj(ParamKey.WorkType, null);
+//
+//                if (workType != null) {
+//                    switch (workType) {
+//                        case Add:
+//                        case AddFreeTake:
+//                            if (status == HiddenDanger.STATUS_UNCHANGED) {
+//                                data.add(0, hiddenDanger);
+//                                adapter.addData(data, 0, 1);
+//                                new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
+//
+//                                baseUI.setStatus(ZStatusLayout.Status.Default);
+//                            }
+//                            break;
+//                        case Edit:
+//                            if (status == HiddenDanger.STATUS_UNCHANGED) {
+//                                data.set(clickPosition, hiddenDanger);
+//                                adapter.refreshData(data, clickPosition);
+//                            }
+//                            break;
+//                        case Change:
+//                            if (status == HiddenDanger.STATUS_UNCHANGED) {
+//                                if (hiddenDanger.getStatus() == HiddenDanger.STATUS_UNCHANGED) {
+//                                    data.get(clickPosition).setStatus(HiddenDanger.STATUS_UNCHANGED);
+//                                    data.get(clickPosition).setAppChangePhotoList(hiddenDanger.getAppChangePhotoList());
+//                                    data.get(clickPosition).setChangeDescribe(hiddenDanger.getChangeDescribe());
+//                                    adapter.refreshData(data, clickPosition);
+//                                } else {
+//                                    data.remove(clickPosition);
+//                                    adapter.removeData(data, clickPosition, 1);
+//                                }
+//                            }
+//                            if (status == HiddenDanger.STATUS_CHANGED) {
+//                                if (hiddenDanger.getStatus() == HiddenDanger.STATUS_CHANGED) {
+//                                    baseUI.setStatus(ZStatusLayout.Status.Default);
+//
+//                                    hiddenDanger.setStatus(HiddenDanger.STATUS_CHANGED);
+//                                    data.add(0, hiddenDanger);
+//                                    adapter.addData(data, 0, 1);
+//                                    new Handler().postDelayed(() -> refreshLayout.getRecyclerView().smoothScrollToPosition(0), 500);
+//                                }
+//                            }
+//                            break;
+//                    }
+//                }
+//            }
         }
     }
 

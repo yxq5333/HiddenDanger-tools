@@ -93,7 +93,7 @@ public class ServiceSubmitActivity extends HDBaseMVPActivity<ServiceSubmitPresen
         changeTime = parentData.getCheckDate();
 
         data.add(new ZFastItem2.Builder(10, ZFastItem2.ITEM_TYPE_DATE)
-                .setLabel("检查时间")
+                .setLabel("提交时间")
                 .setContentHint("请选择")
                 .setContent(parentData.getCheckDate() + "")
                 .setDateFormatMode(ZDateTimeUtils.DateFormatMode.LINE_YMD)
